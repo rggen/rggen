@@ -1,4 +1,8 @@
-# Rggen
+[![Build Status](https://travis-ci.org/rggen/rggen.svg?branch=master)](https://travis-ci.org/rggen/rggen)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5ee2248300ec0517e597/maintainability)](https://codeclimate.com/github/rggen/rggen/maintainability)
+[![codecov](https://codecov.io/gh/rggen/rggen/branch/master/graph/badge.svg)](https://codecov.io/gh/rggen/rggen)
+
+# RgGen
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rggen`. To experiment with that code, run `bin/console` for an interactive prompt.
 
