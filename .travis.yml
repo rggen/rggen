@@ -1,7 +1,29 @@
----
-sudo: false
-language: ruby
-cache: bundler
-rvm:
-  - 2.5.3
-before_install: gem install bundler -v 2.0.1
+email:
+  false
+
+env:
+  global:
+    - secure: "Eyzt/cwvgACMENzu1TvGuQhiQ99/XAw9iMhxpiiKcPNND27WOI/tKV99hgtQMgnNWMAA0TSq6agI0vgdAuCyqCarLzoxQIYwSbg1QPXiuOEfqVVNDQHRBg6WXZH8KoyVRrLRgBwL64637wEKYKdmNO253TVpm2x6p6o5rn12OX72KOXiyaAhIBssqBviAuYlM+w7qezwbwjZjZDXuB0TaKJG4tjByp5NDGVkalTif+uhatf2D0w7TWea7t5Sm+T/lH5WIffT4Yu308qyLYYgBlRMAWKUqBQTpFHuXdP+1MVuJJXsT4DIe78CLpcWBHLwwa+1BQFOQmV/JSOq3NF3L1I36NyeFJlTw1uH3+DGk3vttD+P9PJnVbyBzCyD85VOsGao3k/iCX1tF2wnKfBGvuD8iF5PCCJx4Bcmy+LnFVMFt5nFILxfAbwnj0el8VhrfgwgKCGPGvIFb9ifIAvbfq2Kt3v0LA23yh6ypJKb0V1LFj8Tz0vR14PzHWaP7D6CB8ZlOYGRkkZhrg5aoW9An/i6tTXUQeUgntddRDNXEPoZybl2hfm3NkPNh9jnVhV6ouhdqqk6++Lx1uD9ckTp+eDRMJU5RnCKQH5NNjA656nbkmv8qsBx5AKkSC48nEfjwdb5fa/CULV5RfRDrW/LkRi/o4EDihIGJ2SXngyNggw="
+
+cache:
+  bundler
+
+language:
+  ruby
+
+matrix:
+  include:
+    - rvm: 2.3.8
+    - rvm: 2.4.6
+      env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
+    - rvm: 2.5.5
+      env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
+    - rvm: 2.6.2
+      env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
+
+before_install:
+  - "env -u RUBYOPT gem update --system"
+  - "env -u RUBYOPT gem install bundler"
+
+script:
+  - bundle exec rake coverage

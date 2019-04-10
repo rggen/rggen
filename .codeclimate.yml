@@ -1,0 +1,13 @@
+version: "2"
+plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby:
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+exclude_patterns:
+  - "spec/"
