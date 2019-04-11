@@ -6,7 +6,10 @@ source 'https://rubygems.org'
 gemspec
 
 [
-  'rggen-devtools', 'rggen-core', 'rggen-systemverilog', 'rggen-spreadsheet-loader'
+  'rggen-devtools',
+  'rggen-core',
+  'rggen-spreadsheet-loader',
+  'rggen-systemverilog'
 ].each do |rggen_library|
   library_path = File.expand_path("../#{rggen_library}", __dir__)
   if Dir.exist?(library_path) && !ENV['USE_GITHUB_REPOSITORY']
