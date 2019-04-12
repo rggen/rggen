@@ -10,8 +10,10 @@ RgGen.builder(builder)
 require 'rggen/systemverilog'
 require 'rggen/spreadsheet_loader'
 
+require 'support/shared_contexts'
+
 RSpec.configure do |config|
   RgGen::Devtools::SpecHelper.setup(config)
 end
 
-require 'rggen'
+require 'rggen/built_in'
