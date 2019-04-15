@@ -16,4 +16,4 @@ RSpec.configure do |config|
   RgGen::Devtools::SpecHelper.setup(config)
 end
 
-require 'rggen/built_in'
+require 'rggen'

@@ -1,3 +1,4 @@
 # frozen_string_literal: true
 
-require 'rggen/version'
+require_relative 'rggen/version'
+require_relative 'rggen/built_in'

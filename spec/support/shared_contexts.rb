@@ -26,12 +26,17 @@ RSpec.shared_context 'configuration common' do
         true
       end
 
+      attr_accessor :values
       attr_accessor :data_block
     end
 
     def load_file(_file)
-      data_block = self.class.data_block
-      input_data.__send__(:build_by_block, data_block)
+      if self.class.values.size.positive?
+        input_data.values(self.class.values)
+      end
+      if self.class.data_block
+        input_data.__send__(:build_by_block, self.class.data_block)
+      end
     end
   end
 
@@ -41,7 +46,8 @@ RSpec.shared_context 'configuration common' do
     factory
   end
 
-  def create_configuration(&data_block)
+  def create_configuration(**values, &data_block)
+    ConfigurationDummyLoader.values = values
     ConfigurationDummyLoader.data_block = data_block || proc {}
     @configuration_factory[0] ||= build_configuration_factory(RgGen.builder)
     @configuration_factory[0].create([''])
