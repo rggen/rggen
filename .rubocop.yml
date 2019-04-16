@@ -12,6 +12,9 @@ Layout/EndOfLine:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented_relative_to_receiver
 
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 

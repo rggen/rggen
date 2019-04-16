@@ -61,3 +61,45 @@ RSpec.shared_context 'configuration common' do
     @configuration_factory ||= []
   end
 end
+
+RSpec.shared_context 'register map common' do
+  include_context 'configuration common'
+
+  let(:default_configuration) do
+    create_configuration
+  end
+
+  class RegisterMapDummyLoader < RgGen::Core::RegisterMap::Loader
+    class << self
+      def support?(_file)
+        true
+      end
+
+      attr_accessor :data_block
+    end
+
+    def load_file(_file)
+      input_data.__send__(:build_by_block, self.class.data_block)
+    end
+  end
+
+  def build_register_map_factory(builder)
+    factory = builder.build_input_component_factory(:register_map)
+    factory.loaders([RegisterMapDummyLoader])
+    factory
+  end
+
+  def create_regiter_map(configuration = nil, &data_block)
+    RegisterMapDummyLoader.data_block = data_block || proc {}
+    @register_map_factory[0] ||= build_register_map_factory(RgGen.builder)
+    @register_map_factory[0].create(configuration || default_configuration, [''])
+  end
+
+  def raise_register_map_error(message, position = nil)
+    raise_rggen_error(RgGen::Core::RegisterMap::RegisterMapError, message, position)
+  end
+
+  before(:all) do
+    @register_map_factory ||= []
+  end
+end
