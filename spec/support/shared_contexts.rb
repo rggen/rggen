@@ -89,7 +89,7 @@ RSpec.shared_context 'register map common' do
     factory
   end
 
-  def create_regiter_map(configuration = nil, &data_block)
+  def create_register_map(configuration = nil, &data_block)
     RegisterMapDummyLoader.data_block = data_block || proc {}
     @register_map_factory[0] ||= build_register_map_factory(RgGen.builder)
     @register_map_factory[0].create(configuration || default_configuration, [''])

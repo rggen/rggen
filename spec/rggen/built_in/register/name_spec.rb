@@ -14,7 +14,7 @@ RSpec.describe 'register/name' do
     end
 
     let(:register_map) do
-      create_regiter_map do
+      create_register_map do
         register_block do
           register { name names[0] }
           register { name names[1] }
@@ -42,7 +42,7 @@ RSpec.describe 'register/name' do
           random_string(/[a-z_]\s+[a-z_]/i)
         ].each do |invalid_name|
           expect {
-            create_regiter_map do
+            create_register_map do
               register_block { register { name invalid_name } }
             end
           }.to raise_register_map_error("illegal input value for register name: #{invalid_name.inspect}")
@@ -53,7 +53,7 @@ RSpec.describe 'register/name' do
     context '同一レジスタブロック内でレジスタ名の重複がある場合' do
       it 'RegisterMapErrorを起こす' do
         expect {
-          create_regiter_map do
+          create_register_map do
             register_block do
               register { name 'foo' }
               register { name 'foo' }
@@ -66,7 +66,7 @@ RSpec.describe 'register/name' do
     context '異なるレジスタブロック間でレジスタ名の重複がある場合' do
       it 'RegisterMapErrorを起こさない' do
         expect {
-          create_regiter_map do
+          create_register_map do
             register_block { register { name 'foo' } }
             register_block { register { name 'foo' } }
           end
