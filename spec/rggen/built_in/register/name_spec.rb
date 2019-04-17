@@ -10,11 +10,11 @@ RSpec.describe 'register/name' do
 
   describe '#name' do
     let(:names) do
-      Array.new(4) { random_string(/[_a-z][_a-z0-9]/i) }
+      random_strings(/[_a-z][_a-z0-9]*/i, 4)
     end
 
-    it '入力されたレジスタ名を返す' do
-      register_map = create_regiter_map do
+    let(:register_map) do
+      create_regiter_map do
         register_block do
           register { name names[0] }
           register { name names[1] }
@@ -22,7 +22,9 @@ RSpec.describe 'register/name' do
           register { name names[3] }
         end
       end
+    end
 
+    it '入力されたレジスタ名を返す' do
       expect(register_map.registers[0]).to have_property(:name, names[0])
       expect(register_map.registers[1]).to have_property(:name, names[1])
       expect(register_map.registers[2]).to have_property(:name, names[2])
