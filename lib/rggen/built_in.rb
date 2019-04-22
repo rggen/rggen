@@ -7,4 +7,5 @@ require_relative 'built_in/register_block/name'
 
 require_relative 'built_in/register/name'
 
+require_relative 'built_in/bit_field/bit_assignment'
 require_relative 'built_in/bit_field/name'
