@@ -13,7 +13,7 @@ RgGen.define_simple_feature(:global, :address_width) do
         end
     end
 
-    verify_integration do
+    verify(:all) do
       if address_width < min_address_width
         error 'input address width is less than minimum address width: ' \
               "address width #{address_width} " \
