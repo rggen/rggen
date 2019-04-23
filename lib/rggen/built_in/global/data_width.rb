@@ -6,7 +6,12 @@ RgGen.define_simple_feature(:global, :data_width) do
     property :byte_width, body: -> { data_width / 8 }
 
     build do |value|
-      parse_data_width(value)
+      @data_width =
+        begin
+          Integer(value)
+        rescue ArgumentError, TypeError
+          error "cannot convert #{value.inspect} into data width"
+        end
     end
 
     verify do
@@ -20,12 +25,6 @@ RgGen.define_simple_feature(:global, :data_width) do
     end
 
     private
-
-    def parse_data_width(value)
-      @data_width = Integer(value)
-    rescue ArgumentError, TypeError
-      error "cannot convert #{value.inspect} into data width"
-    end
 
     def power_of_2?(value)
       value.positive? && (value & value.pred).zero?
