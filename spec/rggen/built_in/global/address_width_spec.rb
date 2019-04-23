@@ -64,7 +64,8 @@ RSpec.describe 'global/address_width' do
           [-1, 0, (min_address_width - 1)].each do |address_width|
             expect {
               create_configuration(data_width: data_width, address_width: address_width)
-            }.to raise_configuration_error "input address width is less than #{min_address_width}: #{address_width}"
+            }.to raise_configuration_error 'input address width is less than minimum address width: ' \
+                                           "address width #{address_width} minimum address width #{min_address_width}"
           end
         end
       end
