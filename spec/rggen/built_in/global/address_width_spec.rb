@@ -21,7 +21,7 @@ RSpec.describe 'global/address_width' do
         [32, 2],
         [64, 3]
       ].each do |data_width, min_address_width|
-        [min_address_width, 8, 16, 32, 64, rand(2..64)].each do |value|
+        [min_address_width, 8, 16, 32, 64, rand(min_address_width..64)].each do |value|
           input_value = value
           configuration = create_configuration(data_width: data_width, address_width: input_value)
           expect(configuration.address_width).to eq value
