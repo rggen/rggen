@@ -18,25 +18,24 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
         else
           error "illegal input value for bit assignment: #{value.inspect}"
         end
-      validate
     end
 
-    validate do
+    verify do
       error "lsb is larger than msb: msb #{msb} lsb #{lsb}" if lsb > msb
     end
 
-    validate do
+    verify do
       error "lsb is less than 0: lsb #{lsb}" if lsb.negative?
     end
 
-    validate do
+    verify do
       if msb >= data_width
         error 'msb is not less than data width: ' \
               "msb #{msb} data width #{data_width}"
       end
     end
 
-    validate do
+    verify do
       if overlapped_bit_assignment?
         error "overlapped bit assignment: msb #{msb} lsb #{lsb}"
       end

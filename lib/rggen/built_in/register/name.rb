@@ -14,9 +14,10 @@ RgGen.define_simple_feature(:register, :name) do
         else
           error "illegal input value for register name: #{value.inspect}"
         end
-      duplicated_name? && (
-        error "duplicated register name: #{name}"
-      )
+    end
+
+    verify do
+      error "duplicated register name: #{name}" if duplicated_name?
     end
 
     private

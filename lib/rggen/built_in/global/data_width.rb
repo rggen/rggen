@@ -7,7 +7,16 @@ RgGen.define_simple_feature(:global, :data_width) do
 
     build do |value|
       parse_data_width(value)
-      check_data_width_value(value)
+    end
+
+    verify do
+      error "input data width is less than 8: #{data_width}" if data_width < 8
+    end
+
+    verify do
+      unless power_of_2?(data_width)
+        error "input data width is not power of 2: #{data_width}"
+      end
     end
 
     private
@@ -16,15 +25,6 @@ RgGen.define_simple_feature(:global, :data_width) do
       @data_width = Integer(value)
     rescue ArgumentError, TypeError
       error "cannot convert #{value.inspect} into data width"
-    end
-
-    def check_data_width_value(value)
-      (data_width >= 8) || (
-        error "input data width is less than 8: #{value}"
-      )
-      power_of_2?(data_width) || (
-        error "input data width is not power of 2: #{value}"
-      )
     end
 
     def power_of_2?(value)

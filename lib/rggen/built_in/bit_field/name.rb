@@ -15,9 +15,10 @@ RgGen.define_simple_feature(:bit_field, :name) do
         else
           error "illegal input value for bit field name: #{value.inspect}"
         end
-      duplicated_name? && (
-        error "duplicated bit field name: #{name}"
-      )
+    end
+
+    verify do
+      error "duplicated bit field name: #{name}" if duplicated_name?
     end
 
     private
