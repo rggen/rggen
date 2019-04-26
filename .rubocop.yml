@@ -15,6 +15,12 @@ Layout/MultilineMethodCallIndentation:
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
+Metrics/BlockLength:
+  ExcludedMethods:
+    - configuration
+    - define_simple_feature
+    - register_map
+
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
