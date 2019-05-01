@@ -17,7 +17,7 @@ RgGen.define_simple_feature(:bit_field, :name) do
         end
     end
 
-    verify do
+    verify(:feature) do
       error "duplicated bit field name: #{name}" if duplicated_name?
     end
 

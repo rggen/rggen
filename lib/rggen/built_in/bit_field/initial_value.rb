@@ -14,7 +14,7 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
         end
     end
 
-    verify(:all) do
+    verify(:component) do
       if initial_value? && initial_value < min_initial_value
         error 'input initial value is less than minimum initial value: ' \
               "initial value #{initial_value} " \
@@ -22,7 +22,7 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
       end
     end
 
-    verify(:all) do
+    verify(:component) do
       if initial_value? && initial_value > max_initial_value
         error 'input initial value is greater than maximum initial value: ' \
               "initial value #{initial_value} " \

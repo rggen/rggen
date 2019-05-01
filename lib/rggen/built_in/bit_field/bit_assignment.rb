@@ -20,22 +20,22 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
         end
     end
 
-    verify do
+    verify(:feature) do
       error "lsb is larger than msb: msb #{msb} lsb #{lsb}" if lsb > msb
     end
 
-    verify do
+    verify(:feature) do
       error "lsb is less than 0: lsb #{lsb}" if lsb.negative?
     end
 
-    verify do
+    verify(:feature) do
       if msb >= data_width
         error 'msb is not less than data width: ' \
               "msb #{msb} data width #{data_width}"
       end
     end
 
-    verify do
+    verify(:feature) do
       if overlapped_bit_assignment?
         error "overlapped bit assignment: msb #{msb} lsb #{lsb}"
       end
