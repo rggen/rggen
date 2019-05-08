@@ -17,7 +17,7 @@ RSpec.describe 'bit_field/initial_value' do
         register do
           bit_field do
             initial_value input_value[0] unless input_value.empty?
-            bit_assignment "[#{width - 1}:0]"
+            bit_assignment lsb: 0, width: width
           end
         end
       end
