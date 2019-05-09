@@ -2,8 +2,8 @@
 
 RgGen.define_simple_feature(:bit_field, :bit_assignment) do
   register_map do
-    property :lsb, forward_to: :get_lsb
-    property :msb, forward_to: :get_msb
+    property :lsb, body: ->(index = 0) { msb_lsb_bit(index, @lsb) }
+    property :msb, body: ->(index = 0) { msb_lsb_bit(index, @lsb + width - 1) }
     property :width, body: -> { @width || 1 }
     property :sequence_size
     property :step, body: -> { @step || width }
@@ -20,7 +20,7 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     verify(:feature) do
-      error 'no lsb is given' unless lsb
+      error 'no lsb is given' unless @lsb
     end
 
     verify(:feature) do
@@ -37,7 +37,7 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
       end
     end
 
-    verify(:feature) do
+     verify(:feature) do
       error "step is less than 1: #{step}" if sequential? && step < 1
     end
 
@@ -50,9 +50,13 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     KEYS = [:lsb, :width, :sequence_size, :step].freeze
 
     def preprocess(values)
-      return split_match_data(match_data) if pattern_matched?
-      return values if values.is_a?(Hash)
-      error "invalid input value for bit assignment: #{values.inspect}"
+      if pattern_matched?
+        split_match_data(match_data)
+      elsif values.is_a?(Hash)
+        values
+      else
+        error "invalid input value for bit assignment: #{values.inspect}"
+      end
     end
 
     def split_match_data(match_data)
@@ -63,26 +67,22 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     def parse_value(input_values, key)
-      return unless input_values.key?(key)
-      Integer(input_values[key])
+      (input_values.key?(key) && Integer(input_values[key])) || nil
     rescue ArgumentError, TypeError
       error "cannot convert #{input_values[key].inspect} into " \
             "bit assignment(#{key.to_s.tr('_', ' ')})"
     end
 
-    def get_lsb(index = nil)
-      if index && sequential?
-        index.is_a?(Integer) ? step * index + lsb : "#{step}*#{index}+#{lsb}"
-      else
-        @lsb
-      end
+    def msb_lsb_bit(index, base)
+      index = 0 unless sequential?
+      calc_bit_position(index, base)
     end
 
-    def get_msb(index = nil)
-      if index && sequential?
-        index.is_a?(Integer) ? step * index + msb : "#{step}*#{index}+#{msb}"
+    def calc_bit_position(index, base)
+      if index.is_a?(Integer)
+        step * index + base
       else
-        lsb + width - 1
+        "#{step}*#{index}+#{base}"
       end
     end
 
