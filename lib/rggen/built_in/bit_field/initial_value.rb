@@ -15,18 +15,20 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
     end
 
     verify(:component) do
-      if initial_value? && initial_value < min_initial_value
-        error 'input initial value is less than minimum initial value: ' \
-              "initial value #{initial_value} " \
-              "minimum initial value #{min_initial_value}"
+      error_condition { initial_value? && initial_value < min_initial_value }
+      message do
+        'input initial value is less than minimum initial value: ' \
+        "initial value #{initial_value} " \
+        "minimum initial value #{min_initial_value}"
       end
     end
 
     verify(:component) do
-      if initial_value? && initial_value > max_initial_value
-        error 'input initial value is greater than maximum initial value: ' \
-              "initial value #{initial_value} " \
-              "maximum initial value #{max_initial_value}"
+      error_condition { initial_value? && initial_value > max_initial_value }
+      message do
+        'input initial value is greater than maximum initial value: ' \
+        "initial value #{initial_value} " \
+        "maximum initial value #{max_initial_value}"
       end
     end
 

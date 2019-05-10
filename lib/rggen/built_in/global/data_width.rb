@@ -15,13 +15,13 @@ RgGen.define_simple_feature(:global, :data_width) do
     end
 
     verify(:feature) do
-      error "input data width is less than 8: #{data_width}" if data_width < 8
+      error_condition { data_width < 8 }
+      message { "input data width is less than 8: #{data_width}" }
     end
 
     verify(:feature) do
-      unless power_of_2?(data_width)
-        error "input data width is not power of 2: #{data_width}"
-      end
+      error_condition { !power_of_2?(data_width) }
+      message { "input data width is not power of 2: #{data_width}" }
     end
 
     private

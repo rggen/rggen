@@ -17,7 +17,8 @@ RgGen.define_simple_feature(:register_block, :name) do
     end
 
     verify(:feature) do
-      error "duplicated register block name: #{name}" if duplicated_name?
+      error_condition { duplicated_name? }
+      message { "duplicated register block name: #{name}" }
     end
 
     private

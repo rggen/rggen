@@ -20,29 +20,33 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     verify(:feature) do
-      error 'no lsb is given' unless @lsb
+      error_condition { !@lsb }
+      message { 'no lsb is given' }
     end
 
     verify(:feature) do
-      error "lsb is less than 0: #{lsb}" if lsb.negative?
+      error_condition { lsb.negative? }
+      message { "lsb is less than 0: #{lsb}" }
     end
 
     verify(:feature) do
-      error "width is less than 1: #{width}" if width < 1
+      error_condition { width < 1 }
+      message { "width is less than 1: #{width}" }
     end
 
     verify(:feature) do
-      if sequential? && sequence_size < 1
-        error "sequence size is less than 1: #{sequence_size}"
-      end
-    end
-
-     verify(:feature) do
-      error "step is less than 1: #{step}" if sequential? && step < 1
+      error_condition { sequential? && sequence_size < 1 }
+      message { "sequence size is less than 1: #{sequence_size}" }
     end
 
     verify(:feature) do
-      error 'overlap with existing bit field(s)' if overlap?
+      error_condition { sequential? && step < 1 }
+      message { "step is less than 1: #{step}" }
+    end
+
+    verify(:feature) do
+      error_condition { overlap? }
+      message { 'overlap with existing bit field(s)' }
     end
 
     private
