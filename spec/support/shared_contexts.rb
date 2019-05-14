@@ -1,21 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.shared_context 'clean-up builder' do
-  def disable_all_features(builder)
-    categories =
-      builder
-        .instance_variable_get(:@categories)
-        .values
-    feature_registries = categories.flat_map do |category|
-      category.instance_variable_get(:@feature_registries).values
-    end
-    feature_registries.each do |registry|
-      registry.instance_exec { @enabled_features.clear }
-    end
-  end
-
   after(:all) do
-    disable_all_features(RgGen.builder)
+    RgGen.disable_all
   end
 end
 
