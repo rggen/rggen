@@ -86,6 +86,20 @@ RSpec.shared_context 'register map common' do
     raise_rggen_error(RgGen::Core::RegisterMap::RegisterMapError, message, position)
   end
 
+  def delete_register_map_facotry
+    @register_map_factory.clear
+  end
+
+  def match_access(access)
+    have_properties [
+      [:readable?, [:read_write, :read_only].include?(access)],
+      [:writable?, [:read_write, :write_only].include?(access)],
+      [:read_only?, access == :read_only],
+      [:write_only?, access == :write_only],
+      [:reserved?, access == :reserved]
+    ]
+  end
+
   before(:all) do
     @register_map_factory ||= []
   end
