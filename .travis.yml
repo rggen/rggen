@@ -1,6 +1,9 @@
 email:
   false
 
+dist:
+  trusty
+
 env:
   global:
     - secure: "Eyzt/cwvgACMENzu1TvGuQhiQ99/XAw9iMhxpiiKcPNND27WOI/tKV99hgtQMgnNWMAA0TSq6agI0vgdAuCyqCarLzoxQIYwSbg1QPXiuOEfqVVNDQHRBg6WXZH8KoyVRrLRgBwL64637wEKYKdmNO253TVpm2x6p6o5rn12OX72KOXiyaAhIBssqBviAuYlM+w7qezwbwjZjZDXuB0TaKJG4tjByp5NDGVkalTif+uhatf2D0w7TWea7t5Sm+T/lH5WIffT4Yu308qyLYYgBlRMAWKUqBQTpFHuXdP+1MVuJJXsT4DIe78CLpcWBHLwwa+1BQFOQmV/JSOq3NF3L1I36NyeFJlTw1uH3+DGk3vttD+P9PJnVbyBzCyD85VOsGao3k/iCX1tF2wnKfBGvuD8iF5PCCJx4Bcmy+LnFVMFt5nFILxfAbwnj0el8VhrfgwgKCGPGvIFb9ifIAvbfq2Kt3v0LA23yh6ypJKb0V1LFj8Tz0vR14PzHWaP7D6CB8ZlOYGRkkZhrg5aoW9An/i6tTXUQeUgntddRDNXEPoZybl2hfm3NkPNh9jnVhV6ouhdqqk6++Lx1uD9ckTp+eDRMJU5RnCKQH5NNjA656nbkmv8qsBx5AKkSC48nEfjwdb5fa/CULV5RfRDrW/LkRi/o4EDihIGJ2SXngyNggw="
@@ -21,9 +24,17 @@ matrix:
     - rvm: 2.6.2
       env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
 
+addons:
+  sonarcloud:
+    organization:
+      rggen
+    token:
+      secure: "IFBhSJ71IZHKUdkHfXMUtdxNN1QAKelxIrFOqmhLmNPkTHa8W0AFSKfmqeOqXcGdjUGhiYHXD+oB6ahzwwH3WOO8uqBqMQTATp7Px9tKQ1do9or4F9gtFmVzxua6Hoxm6XG60HMBg3g8FnctoiEwXjUvHpkAsrXQS8e7nNQnmV2GGOZhAHNUqNV77m849VRY6TFtZOsiTTKpWJX1h/O7F4bR5xl7two/tUVgwRMIxuG5zCon7iYYV2gj/35jjcu+bOVLeYkTiu6fHzdgXn4UXjbfn9aCnlFca49RsaLQscA+063+biHNV2Wci2de3vNdPqzQd/N2pv/V2tpsawtyPOF0uSyTjABUoyYPOGjRbE8XMUM+DdxWjZhFGFRsTTn3Mo8UMSi3AKngdoWr7l1Uo+8V0fTrk64jnRLXpvuhlMWGMy8HeG6E6txBQqFSYZHAWwgVnj73+Nz3qF3ouZFe25e8gN73YpB86N8tKjv0xO9p5tSu35iVo0CtTIDAJDVyN52FGQkkNjFGZ5XNmk7nSF82EjVZb6QzuVSKw1UxhJ60UTS3mUZ4biXGlew0nxWPLt+u91eAG5A7h3221zU94ovbmLupIh5wbblT12ts9psu3vkaV8b9/SYjkHYO+fkcwsN3xFYgkPe8NYiqghC/15voXQwhhtkeG+q7dG+H2Aw="
+
 before_install:
   - "env -u RUBYOPT gem update --system"
   - "env -u RUBYOPT gem install bundler"
 
 script:
   - bundle exec rake coverage
+  - sonar-scanner
