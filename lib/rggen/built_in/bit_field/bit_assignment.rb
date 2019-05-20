@@ -11,12 +11,13 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     property :bit_map, body: -> { @bit_map ||= calc_bit_map }
 
     ignore_empty_value false
-    input_pattern /#{integer}(?::#{integer}){0,3}/
+    input_pattern /#{integer}(?::#{integer}){0,3}/,
+                  match_automatically: false
 
-    build do |values|
-      input_values = preprocess(values)
+    build do |value|
+      input_value = preprocess(value)
       @lsb, @width, @sequence_size, @step =
-        KEYS.map { |key| parse_value(input_values, key) }
+        KEYS.map { |key| parse_value(input_value, key) }
     end
 
     verify(:feature) do
@@ -53,13 +54,13 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
 
     KEYS = [:lsb, :width, :sequence_size, :step].freeze
 
-    def preprocess(values)
-      if pattern_matched?
+    def preprocess(value)
+      if value.is_a?(Hash)
+        value
+      elsif match_pattern(value)
         split_match_data(match_data)
-      elsif values.is_a?(Hash)
-        values
       else
-        error "invalid input value for bit assignment: #{values.inspect}"
+        error "invalid input value for bit assignment: #{value.inspect}"
       end
     end
 
@@ -70,10 +71,10 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
         .to_h
     end
 
-    def parse_value(input_values, key)
-      (input_values.key?(key) && Integer(input_values[key])) || nil
+    def parse_value(input_value, key)
+      (input_value.key?(key) && Integer(input_value[key])) || nil
     rescue ArgumentError, TypeError
-      error "cannot convert #{input_values[key].inspect} into " \
+      error "cannot convert #{input_value[key].inspect} into " \
             "bit assignment(#{key.to_s.tr('_', ' ')})"
     end
 
