@@ -60,7 +60,7 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
       elsif match_pattern(value)
         split_match_data(match_data)
       else
-        error "invalid input value for bit assignment: #{value.inspect}"
+        error "illegal input value for bit assignment: #{value.inspect}"
       end
     end
 

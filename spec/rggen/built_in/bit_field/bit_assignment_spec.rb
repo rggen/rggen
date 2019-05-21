@@ -259,20 +259,20 @@ RSpec.describe 'bit_field/bit_assignment' do
   describe 'エラーチェック' do
     context '入力がHashではない場合' do
       it 'RegisterMapErrorを起こす' do
-        [nil, true, false, :foo, Object.new].each do |invalid_value|
+        [nil, true, false, :foo, Object.new].each do |value|
           expect {
-            create_bit_field(invalid_value)
-          }.to raise_register_map_error "invalid input value for bit assignment: #{invalid_value.inspect}"
+            create_bit_field(value)
+          }.to raise_register_map_error "illegal input value for bit assignment: #{value.inspect}"
         end
       end
     end
 
     context '入力文字列がパターンに一致しなかった場合' do
       it 'RegisterMapErrorを起こす' do
-        ['', 'foo', '1:foo', '1:1:foo', '1:1:1:foo', '1:1:1:1:1', '1:1::1:1'].each do |invalid_value|
+        ['', 'foo', '1:foo', '1:1:foo', '1:1:1:foo', '1:1:1:1:1', '1:1::1:1'].each do |value|
           expect {
-            create_bit_field(invalid_value)
-          }.to raise_register_map_error "invalid input value for bit assignment: #{invalid_value.inspect}"
+            create_bit_field(value)
+          }.to raise_register_map_error "illegal input value for bit assignment: #{value.inspect}"
         end
       end
     end
