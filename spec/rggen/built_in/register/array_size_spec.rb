@@ -78,7 +78,6 @@ RSpec.describe 'register/array_size' do
     context '入力文字列がパターンに一致しなかった場合' do
       it 'RegisterMapErrorを起こす' do
         [
-          ' ',
           'foo',
           '0xef_gh',
           '[1',

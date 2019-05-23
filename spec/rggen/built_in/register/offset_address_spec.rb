@@ -88,7 +88,7 @@ RSpec.describe 'register/offset_address' do
 
     context '入力値が整数に変換できない場合' do
       it 'RegisterMapErrorを起こす' do
-        [true, false, ' ', 'foo', '0xef_gh', Object.new].each do |value|
+        [true, false, 'foo', '0xef_gh', Object.new].each do |value|
           expect {
             create_registers([16, 32, 64].sample) do
               register { offset_address value }
