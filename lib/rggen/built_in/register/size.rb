@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-RgGen.define_simple_feature(:register, :array_size) do
+RgGen.define_simple_feature(:register, :size) do
   register_map do
-    property :array_size, body: -> { @array_size || [] }
-    property :array?, body: -> { !@array_size.nil? }
+    property :size
 
     input_pattern [
       /(#{integer}(,:?#{integer})*)/,
@@ -11,13 +10,13 @@ RgGen.define_simple_feature(:register, :array_size) do
     ], match_automatically: false
 
     build do |values|
-      @array_size = parse_values(values)
+      @size = parse_values(values)
     end
 
     verify(:feature) do
-      error_condition { array? && !array_size.all?(&:positive?) }
+      error_condition { size && !size.all?(&:positive?) }
       message do
-        "non positive value(s) are not allowed for array size: #{array_size}"
+        "non positive value(s) are not allowed for register size: #{size}"
       end
     end
 
@@ -33,7 +32,7 @@ RgGen.define_simple_feature(:register, :array_size) do
       if match_pattern(values)
         split_match_data(match_data)
       else
-        error "illegal input value for array size: #{values.inspect}"
+        error "illegal input value for register size: #{values.inspect}"
       end
     end
 
@@ -44,7 +43,7 @@ RgGen.define_simple_feature(:register, :array_size) do
     def convert_value(value)
       Integer(value)
     rescue ArgumentError, TypeError
-      error "cannot convert #{value.inspect} into array size"
+      error "cannot convert #{value.inspect} into register size"
     end
   end
 end
