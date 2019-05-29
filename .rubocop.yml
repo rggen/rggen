@@ -22,6 +22,7 @@ Metrics/BlockLength:
     - define_helpers
     - define_list_feature
     - define_simple_feature
+    - factory
     - register_map
 
 Style/Alias:

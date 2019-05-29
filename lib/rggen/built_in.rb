@@ -9,6 +9,7 @@ require_relative 'built_in/register_block/name'
 require_relative 'built_in/register/name'
 require_relative 'built_in/register/offset_address'
 require_relative 'built_in/register/size'
+require_relative 'built_in/register/type'
 require_relative 'built_in/register/word_size'
 
 require_relative 'built_in/bit_field/bit_assignment'
