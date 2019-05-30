@@ -158,12 +158,12 @@ RgGen.define_list_feature(:register, :type) do
       end
 
       def split_string_value(value)
-        type, options = split_string(value, ':')
-        [type, split_string(options, /[,\n]/)]
+        type, options = split_string(value, ':', 2)
+        [type, split_string(options, /[,\n]/, 0)]
       end
 
-      def split_string(value, separator)
-        value&.split(separator)&.map(&:strip)
+      def split_string(value, separator, limit)
+        value&.split(separator, limit)&.map(&:strip)
       end
 
       def find_type(type)

@@ -733,20 +733,20 @@ RSpec.describe 'register/type' do
           end
 
           register do
-            type ' foo : option_1'
+            type ' foo : option_1:fizz'
             bit_field { bit_assignment lsb: 0;type :foo }
           end
 
           register do
-            type ' foo : option_1, option_2'
+            type ' foo : option_1:fizz, option_2:buzz'
             bit_field { bit_assignment lsb: 0;type :foo }
           end
 
           register do
             type <<~'TYPE'
               foo:
-              option_1, option_2
-              option_3
+              option_1:fizz, option_2:buzz
+              option_3:fizzbuzz
             TYPE
             bit_field { bit_assignment lsb: 0;type :foo }
           end
@@ -759,13 +759,13 @@ RSpec.describe 'register/type' do
         expect(registers[1].input_options).to match([:option_1, :option_2])
 
         expect(registers[2].type).to eq :foo
-        expect(registers[2].input_options).to match(['option_1'])
+        expect(registers[2].input_options).to match(['option_1:fizz'])
 
         expect(registers[3].type).to eq :foo
-        expect(registers[3].input_options).to match(['option_1', 'option_2'])
+        expect(registers[3].input_options).to match(['option_1:fizz', 'option_2:buzz'])
 
         expect(registers[4].type).to eq :foo
-        expect(registers[4].input_options).to match(['option_1', 'option_2', 'option_3'])
+        expect(registers[4].input_options).to match(['option_1:fizz', 'option_2:buzz', 'option_3:fizzbuzz'])
       end
 
       context 'オプションが未指定の場合' do
