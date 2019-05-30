@@ -5,8 +5,8 @@ RgGen.define_simple_feature(:register, :size) do
     property :size
 
     input_pattern [
-      /(#{integer}(,:?#{integer})*)/,
-      /\[(#{integer}(,:?#{integer})*)\]/
+      /(#{integer}(:?,#{integer})*)/,
+      /\[(#{integer}(:?,#{integer})*)\]/
     ], match_automatically: false
 
     build do |values|
