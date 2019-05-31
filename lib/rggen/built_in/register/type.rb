@@ -35,6 +35,14 @@ RgGen.define_list_feature(:register, :type) do
           @byte_size = block if block_given?
           @byte_size
         end
+
+        def support_overlapped_address
+          @support_overlapped_address = true
+        end
+
+        def support_overlapped_address?
+          @support_overlapped_address || false
+        end
       end
 
       property :type, body: -> { @type || :default }
@@ -46,6 +54,8 @@ RgGen.define_list_feature(:register, :type) do
       property :array_size, body: -> { (array? && register.size) || nil }
       property :count, body: -> { @count ||= calc_count }
       property :byte_size, body: -> { @byte_size ||= calc_byte_size }
+      property :match_type?, body: ->(register) { register.type == type }
+      property :support_overlapped_address?, forward_to_helper: true
 
       build do |value|
         @type = value[:type]
