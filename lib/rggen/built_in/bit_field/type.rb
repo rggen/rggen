@@ -83,19 +83,21 @@ RgGen.define_list_feature(:bit_field, :type) do
       private
 
       def no_initial_value_given?
-        return false unless helper.need_initial_value?
-        !bit_field.initial_value?
+        helper.need_initial_value? && !bit_field.initial_value?
       end
 
       def no_reference_bit_field_given?
-        return false unless helper.use_reference?
-        helper.reference_options[:required] && !bit_field.reference?
+        helper.use_reference? && (
+          helper.reference_options[:required] &&
+          !bit_field.reference?
+        )
       end
 
       def invalid_reference_width?
-        return false unless helper.use_reference?
-        return false unless bit_field.reference?
-        bit_field.reference.width != reference_width
+        helper.use_reference? && (
+          bit_field.reference? &&
+          bit_field.reference.width != reference_width
+        )
       end
 
       def reference_width
