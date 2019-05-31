@@ -4,16 +4,20 @@ RgGen.define_simple_feature(:register_block, :name) do
   register_map do
     property :name
 
-    ignore_empty_value false
-    input_pattern /(?<name>#{variable_name})/
+    input_pattern variable_name
 
     build do |value|
       @name =
         if pattern_matched?
-          match_data[:name]
+          match_data.to_s
         else
           error "illegal input value for register block name: #{value.inspect}"
         end
+    end
+
+    verify(:feature) do
+      error_condition { !name }
+      message { 'no register block name is given' }
     end
 
     verify(:feature) do

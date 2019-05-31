@@ -33,10 +33,31 @@ RSpec.describe 'register/name' do
   end
 
   describe 'エラーチェック' do
-    context 'レジスタ名に不適格な入力の場合' do
+    context 'レジスタ名が未入力の場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_register_map do
+            register_block { register {} }
+          end
+        }.to raise_register_map_error 'no register name is given'
+
+        expect {
+          create_register_map do
+            register_block { register { name nil } }
+          end
+        }.to raise_register_map_error 'no register name is given'
+
+        expect {
+          create_register_map do
+            register_block { register { name '' } }
+          end
+        }.to raise_register_map_error 'no register name is given'
+      end
+    end
+
+    context 'レジスタ名が入力パターンに合致しない場合' do
       it 'RegisterMapErrorを起こす' do
         [
-          '',
           random_string(/[0-9][a-z_]/i),
           random_string(/[a-z_][[:punct:]&&[^_]][0-9a-z_]/i),
           random_string(/[a-z_]\s+[a-z_]/i)

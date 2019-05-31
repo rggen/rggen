@@ -10,7 +10,6 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     property :sequential?, body: -> { !@sequence_size.nil? }
     property :bit_map, body: -> { @bit_map ||= calc_bit_map }
 
-    ignore_empty_value false
     input_pattern /#{integer}(?::#{integer}){0,3}/,
                   match_automatically: false
 
@@ -18,6 +17,11 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
       input_value = preprocess(value)
       @lsb, @width, @sequence_size, @step =
         KEYS.map { |key| parse_value(input_value, key) }
+    end
+
+    verify(:feature) do
+      error_condition { [@lsb, @width, @sequence_size, @step].none? }
+      message { 'no bit assignment is given' }
     end
 
     verify(:feature) do
@@ -65,7 +69,8 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     def split_match_data(match_data)
-      match_data[0]
+      match_data
+        .to_s
         .split(':')
         .map.with_index { |value, i| [KEYS[i], value] }
         .to_h
@@ -79,8 +84,7 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     def msb_lsb_bit(index, base)
-      index = 0 unless sequential?
-      calc_bit_position(index, base)
+      calc_bit_position((sequential? && index) || 0, base)
     end
 
     def calc_bit_position(index, base)

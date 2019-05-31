@@ -5,16 +5,20 @@ RgGen.define_simple_feature(:bit_field, :name) do
     property :name
     property :full_name, forward_to: :get_full_name
 
-    ignore_empty_value false
-    input_pattern /(?<name>#{variable_name})/
+    input_pattern variable_name
 
     build do |value|
       @name =
         if pattern_matched?
-          match_data[:name]
+          match_data.to_s
         else
           error "illegal input value for bit field name: #{value.inspect}"
         end
+    end
+
+    verify(:feature) do
+      error_condition { !name }
+      message { 'no bit field name is given' }
     end
 
     verify(:feature) do

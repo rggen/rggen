@@ -68,10 +68,47 @@ RSpec.describe 'bit_field/name' do
   end
 
   describe 'エラーチェック' do
-    context 'ビットフィールド名に不適格な入力の場合' do
+    context 'ビットフィールド名が未入力の場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_register_map do
+            register_block do
+              register do
+                name :register_0
+                bit_field {}
+              end
+            end
+          end
+        }.to raise_register_map_error 'no bit field name is given'
+
+        expect {
+          create_register_map do
+            register_block do
+              register do
+                name :register_0
+                bit_field { name nil }
+              end
+            end
+          end
+        }.to raise_register_map_error 'no bit field name is given'
+
+        expect {
+          create_register_map do
+            register_block do
+              register do
+                name :register_0
+                bit_field { name '' }
+              end
+            end
+          end
+        }.to raise_register_map_error 'no bit field name is given'
+
+      end
+    end
+
+    context 'ビットフィールド名が入力パターンに合致しない場合' do
       it 'RegisterMapErrorを起こす' do
         [
-          '',
           random_string(/[0-9][_a-z0-9]*/i),
           random_string(/[_a-z][[:punct:]&&[^_]][_a-z0-9]/i),
           random_string(/[_a-z]\s+[_a-z]/i)

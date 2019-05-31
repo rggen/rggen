@@ -31,10 +31,31 @@ RSpec.describe 'register_block/name' do
   end
 
   describe 'エラーチェック' do
-    context 'レジスタブロック名に不適格な入力の場合' do
+    context 'レジスタブロック名が未入力の場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_register_map do
+            register_block {}
+          end
+        }.to raise_register_map_error 'no register block name is given'
+
+        expect {
+          create_register_map do
+            register_block { name nil }
+          end
+        }.to raise_register_map_error 'no register block name is given'
+
+        expect {
+          create_register_map do
+            register_block { name '' }
+          end
+        }.to raise_register_map_error 'no register block name is given'
+      end
+    end
+
+    context 'レジスタブロック名が入力パターンに合致しない場合' do
       it 'RegisterMapErrorを起こす' do
         [
-          '',
           random_string(/[0-9][a-z_]/i),
           random_string(/[a-z_][[:punct:]&&[^_]][0-9a-z_]/i),
           random_string(/[a-z_]\s+[a-z_]/i)

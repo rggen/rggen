@@ -14,7 +14,7 @@ RgGen.define_simple_feature(:register_block, :byte_size) do
     end
 
     verify(:feature) do
-      error_condition { byte_size.nil? }
+      error_condition { !byte_size }
       message { 'no byte size is given' }
     end
 

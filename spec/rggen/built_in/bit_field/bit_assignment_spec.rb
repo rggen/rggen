@@ -8,16 +8,18 @@ RSpec.describe 'bit_field/bit_assignment' do
     RgGen.enable(:bit_field, :bit_assignment)
   end
 
-  def create_bit_field(input_values)
+  def create_bit_field(*input_values)
     register_map = create_register_map do
       register_block do
         register do
-          if input_values.is_a?(Array)
-            input_values.each do |input_value|
+          if input_values.size.zero?
+            bit_field {}
+          elsif input_values[0].is_a?(Array)
+            input_values[0].each do |input_value|
               bit_field { bit_assignment input_value }
             end
           else
-            bit_field { bit_assignment input_values }
+            bit_field { bit_assignment input_values[0] }
           end
         end
       end
@@ -257,9 +259,29 @@ RSpec.describe 'bit_field/bit_assignment' do
   end
 
   describe 'エラーチェック' do
+    context 'ビット割当が未入力の場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_bit_field
+        }.to raise_register_map_error 'no bit assignment is given'
+
+        expect {
+          create_bit_field(nil)
+        }.to raise_register_map_error 'no bit assignment is given'
+
+        expect {
+          create_bit_field('')
+        }.to raise_register_map_error 'no bit assignment is given'
+
+        expect {
+          create_bit_field({})
+        }.to raise_register_map_error 'no bit assignment is given'
+      end
+    end
+
     context '入力がHashではない場合' do
       it 'RegisterMapErrorを起こす' do
-        [nil, true, false, :foo, Object.new].each do |value|
+        [true, false, :foo, Object.new].each do |value|
           expect {
             create_bit_field(value)
           }.to raise_register_map_error "illegal input value for bit assignment: #{value.inspect}"
@@ -269,7 +291,7 @@ RSpec.describe 'bit_field/bit_assignment' do
 
     context '入力文字列がパターンに一致しなかった場合' do
       it 'RegisterMapErrorを起こす' do
-        ['', 'foo', '1:foo', '1:1:foo', '1:1:1:foo', '1:1:1:1:1', '1:1::1:1'].each do |value|
+        ['foo', '1:foo', '1:1:foo', '1:1:1:foo', '1:1:1:1:1', '1:1::1:1'].each do |value|
           expect {
             create_bit_field(value)
           }.to raise_register_map_error "illegal input value for bit assignment: #{value.inspect}"
