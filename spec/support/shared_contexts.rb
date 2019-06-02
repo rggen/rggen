@@ -82,7 +82,7 @@ RSpec.shared_context 'register map common' do
     @register_map_factory[0].create(configuration || default_configuration, [''])
   end
 
-  def raise_register_map_error(message, position = nil)
+  def raise_register_map_error(message = nil, position = nil)
     raise_rggen_error(RgGen::Core::RegisterMap::RegisterMapError, message, position)
   end
 
