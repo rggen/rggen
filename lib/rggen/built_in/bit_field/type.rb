@@ -32,21 +32,14 @@ RgGen.define_list_feature(:bit_field, :type) do
           @writable.nil? || @writable
         end
 
-        def need_initial_value
-          @need_initial_value = true
+        def need_initial_value(**options)
+          @initial_value_options = options.merge(needed: true)
         end
 
-        def need_initial_value?
-          @need_initial_value
-        end
+        attr_reader :initial_value_options
 
         def use_reference(**options)
-          @use_reference = true
-          @reference_options = options
-        end
-
-        def use_reference?
-          @use_reference
+          @reference_options = options.merge(usable: true)
         end
 
         attr_reader :reference_options
@@ -67,6 +60,16 @@ RgGen.define_list_feature(:bit_field, :type) do
       end
 
       verify(:component) do
+        error_condition do
+          bit_field.initial_value? && not_match_initial_value?
+        end
+        message do
+          "value 0x#{required_initial_value.to_s(16)} is only allowed for " \
+          "initial value: 0x#{bit_field.initial_value.to_s(16)}"
+        end
+      end
+
+      verify(:component) do
         error_condition { no_reference_bit_field_given? }
         message { 'no reference bit field is given' }
       end
@@ -83,25 +86,42 @@ RgGen.define_list_feature(:bit_field, :type) do
       private
 
       def no_initial_value_given?
-        helper.need_initial_value? && !bit_field.initial_value?
+        helper.initial_value_options&.key?(:needed) &&
+          !bit_field.initial_value?
+      end
+
+      def not_match_initial_value?
+        helper.initial_value_options&.key?(:value) &&
+          bit_field.initial_value != required_initial_value
+      end
+
+      def required_initial_value
+        value = helper.initial_value_options[:value]
+        if value.is_a?(Proc)
+          instance_exec(&value)
+        else
+          value
+        end
       end
 
       def no_reference_bit_field_given?
-        helper.use_reference? && (
+        use_reference? &&
           helper.reference_options[:required] &&
           !bit_field.reference?
-        )
       end
 
       def invalid_reference_width?
-        helper.use_reference? && (
+        use_reference? &&
           bit_field.reference? &&
           bit_field.reference.width != reference_width
-        )
+      end
+
+      def use_reference?
+        helper.reference_options&.key?(:usable)
       end
 
       def reference_width
-        helper.reference_options.fetch(:width) { bit_field.width }
+        helper.reference_options[:width] || bit_field.width
       end
     end
 

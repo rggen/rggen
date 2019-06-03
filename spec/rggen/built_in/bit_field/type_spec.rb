@@ -167,11 +167,19 @@ RSpec.describe 'bit_field/type' do
         RgGen.define_list_item_feature(:bit_field, :type, :bar) do
           register_map {}
         end
+        RgGen.define_list_item_feature(:bit_field, :type, :baz) do
+          register_map { need_initial_value value: 1 }
+        end
+        RgGen.define_list_item_feature(:bit_field, :type, :qux) do
+          register_map { need_initial_value value: -> { 2**bit_field.width - 1 } }
+        end
+        RgGen.enable(:bit_field, :type, :qux)
       end
 
       after(:all) do
         delete_register_map_facotry
-        RgGen.delete(:bit_field, :type, [:foo, :bar])
+        RgGen.delete(:bit_field, :type, [:foo, :bar, :baz, :qux])
+        RgGen.disable(:bit_field, :type, :qux)
       end
 
       context '.need_initial_valueが指定された場合' do
@@ -215,6 +223,72 @@ RSpec.describe 'bit_field/type' do
               end
             end
           }.not_to raise_error
+        end
+      end
+
+      describe 'valueオプション' do
+        it '適用可能な初期値の値を指定する' do
+          expect {
+            create_bit_fields do
+              register do
+                name 'baz'
+                bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 1; type :baz; initial_value 1 }
+                bit_field { name 'baz_1'; bit_assignment lsb: 1, width: 2; type :baz; initial_value 1 }
+              end
+            end
+          }.not_to raise_error
+
+          expect {
+            create_bit_fields do
+              register do
+                name 'baz'
+                bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 1; type :baz; initial_value 0 }
+              end
+            end
+          }.to raise_register_map_error 'value 0x1 is only allowed for initial value: 0x0'
+
+          value = [0, 2, 3].sample
+          expect {
+            create_bit_fields do
+              register do
+                name 'baz'
+                bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 2; type :baz; initial_value value }
+              end
+            end
+          }.to raise_register_map_error "value 0x1 is only allowed for initial value: 0x#{value.to_s(16)}"
+        end
+
+        context 'ブロックが与えられた場合' do
+          specify 'ブロックの評価結果が適用可能な初期値の値' do
+            expect {
+              create_bit_fields do
+                register do
+                  name 'baz'
+                  bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 1; type :qux; initial_value 1 }
+                  bit_field { name 'baz_1'; bit_assignment lsb: 1, width: 2; type :qux; initial_value 3 }
+                end
+              end
+            }.not_to raise_error
+
+            expect {
+              create_bit_fields do
+                register do
+                  name 'baz'
+                  bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 1; type :qux; initial_value 0 }
+                end
+              end
+            }.to raise_register_map_error 'value 0x1 is only allowed for initial value: 0x0'
+
+            value = [0, 1, 2].sample
+            expect {
+              create_bit_fields do
+                register do
+                  name 'baz'
+                  bit_field { name 'baz_0'; bit_assignment lsb: 0, width: 2; type :qux; initial_value value }
+                end
+              end
+            }.to raise_register_map_error "value 0x3 is only allowed for initial value: 0x#{value.to_s(16)}"
+          end
         end
       end
     end
