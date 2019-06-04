@@ -35,13 +35,13 @@ RSpec.describe 'bit_field/type/rc' do
       expect(bit_fields[0]).to match_access(:read_only)
     end
 
-    specify '初期値 0 の指定が必要' do
+    specify '初期値の指定が必要' do
       expect {
         create_bit_fields do
           register do
             name :foo
             bit_field { name :foo_0; bit_assignment lsb: 0, width: 1; type :rc; initial_value 0 }
-            bit_field { name :foo_1; bit_assignment lsb: 1, width: 2; type :rc; initial_value 0 }
+            bit_field { name :foo_1; bit_assignment lsb: 1, width: 2; type :rc; initial_value 1 }
           end
         end
       }.not_to raise_error
@@ -50,25 +50,7 @@ RSpec.describe 'bit_field/type/rc' do
         create_bit_fields do
           register do
             name :foo
-            bit_field { name :foo_0; bit_assignment lsb: 0, width: 1; type :rc; initial_value 1 }
-          end
-        end
-      }.to raise_register_map_error
-
-      expect {
-        create_bit_fields do
-          register do
-            name :foo
-            bit_field { name :foo_0; bit_assignment lsb: 0, width: 2; type :rc; initial_value [1, 2, 3].sample }
-          end
-        end
-      }.to raise_register_map_error
-
-      expect {
-        create_bit_fields do
-          register do
-            name :foo
-            bit_field { name :foo_0; bit_assignment lsb: 0, width: 1; type :rc}
+            bit_field { name :foo_0; bit_assignment lsb: 0, width: 1; type :rc }
           end
         end
       }.to raise_register_map_error
