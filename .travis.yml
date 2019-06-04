@@ -4,6 +4,10 @@ email:
 dist:
   trusty
 
+git:
+  depth:
+    false
+
 env:
   global:
     - secure: "Eyzt/cwvgACMENzu1TvGuQhiQ99/XAw9iMhxpiiKcPNND27WOI/tKV99hgtQMgnNWMAA0TSq6agI0vgdAuCyqCarLzoxQIYwSbg1QPXiuOEfqVVNDQHRBg6WXZH8KoyVRrLRgBwL64637wEKYKdmNO253TVpm2x6p6o5rn12OX72KOXiyaAhIBssqBviAuYlM+w7qezwbwjZjZDXuB0TaKJG4tjByp5NDGVkalTif+uhatf2D0w7TWea7t5Sm+T/lH5WIffT4Yu308qyLYYgBlRMAWKUqBQTpFHuXdP+1MVuJJXsT4DIe78CLpcWBHLwwa+1BQFOQmV/JSOq3NF3L1I36NyeFJlTw1uH3+DGk3vttD+P9PJnVbyBzCyD85VOsGao3k/iCX1tF2wnKfBGvuD8iF5PCCJx4Bcmy+LnFVMFt5nFILxfAbwnj0el8VhrfgwgKCGPGvIFb9ifIAvbfq2Kt3v0LA23yh6ypJKb0V1LFj8Tz0vR14PzHWaP7D6CB8ZlOYGRkkZhrg5aoW9An/i6tTXUQeUgntddRDNXEPoZybl2hfm3NkPNh9jnVhV6ouhdqqk6++Lx1uD9ckTp+eDRMJU5RnCKQH5NNjA656nbkmv8qsBx5AKkSC48nEfjwdb5fa/CULV5RfRDrW/LkRi/o4EDihIGJ2SXngyNggw="
@@ -37,5 +41,4 @@ before_install:
 
 script:
   - bundle exec rake coverage
-  - git fetch --unshallow --quiet
   - sonar-scanner
