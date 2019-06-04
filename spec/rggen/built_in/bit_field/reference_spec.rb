@@ -5,6 +5,18 @@ RSpec.describe 'bit_field/reference' do
   include_context 'register map common'
 
   before(:all) do
+    RgGen.define_simple_feature(:register, :array) do
+      register_map do
+        property :array?, default: false
+        build { |value| @array = value }
+      end
+    end
+    RgGen.define_simple_feature(:bit_field, :sequential) do
+      register_map do
+        property :sequential?, default: false
+        build { |value| @sequential = value }
+      end
+    end
     RgGen.define_simple_feature(:bit_field, :reserved) do
       register_map do
         property :reserved?, default: false
@@ -14,12 +26,13 @@ RSpec.describe 'bit_field/reference' do
   end
 
   before(:all) do
-    RgGen.enable(:register, :name)
-    RgGen.enable(:bit_field, [:name, :reference, :reserved])
+    RgGen.enable(:register, [:name, :array])
+    RgGen.enable(:bit_field, [:name, :reference, :sequential, :reserved])
   end
 
   after(:all) do
-    RgGen.delete(:bit_field, :reserved)
+    RgGen.delete(:bit_field, :array)
+    RgGen.delete(:bit_field, [:sequential, :reserved])
   end
 
   def create_bit_fields(&block)
@@ -183,6 +196,41 @@ RSpec.describe 'bit_field/reference' do
             end
           end
         }.to raise_register_map_error 'no such bit field found: foo_3.foo_3_0'
+      end
+    end
+
+    context '配列レジスタを参照している場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              array true
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.to raise_register_map_error 'bit field of array register is not allowed for reference bit field: foo_1.foo_1_0'
+      end
+    end
+
+    context '連番ビットフィールドを参照している場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              bit_field { name 'foo_1_0'; sequential true }
+            end
+          end
+        }.to raise_register_map_error 'sequential bit field is not allowed for reference bit field: foo_1.foo_1_0'
       end
     end
 

@@ -5,7 +5,7 @@ RSpec.describe 'bit_field/type/rw' do
   include_context 'register map common'
 
   before(:all) do
-    RgGen.enable(:register, :name)
+    RgGen.enable(:register, [:name, :size, :type])
     RgGen.enable(:bit_field, [:name, :bit_assignment, :initial_value, :reference, :type])
     RgGen.enable(:bit_field, :type, [:rw])
   end
