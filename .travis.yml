@@ -37,4 +37,5 @@ before_install:
 
 script:
   - bundle exec rake coverage
+  - git fetch --unshallow --quiet
   - sonar-scanner
