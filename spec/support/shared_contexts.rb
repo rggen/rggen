@@ -44,6 +44,10 @@ RSpec.shared_context 'configuration common' do
     raise_rggen_error(RgGen::Core::Configuration::ConfigurationError, message, position)
   end
 
+  def delete_configuration_facotry
+    @configuration_factory.clear
+  end
+
   before(:all) do
     @configuration_factory ||= []
   end
