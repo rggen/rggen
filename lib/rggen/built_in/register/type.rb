@@ -178,7 +178,7 @@ RgGen.define_list_feature(:register, :type) do
 
       def find_type(type)
         types = target_features.keys
-        types.find { |t| t.casecmp?(type.to_sym) } || type
+        types.find(&type.to_sym.method(:casecmp?)) || type
       end
     end
   end
