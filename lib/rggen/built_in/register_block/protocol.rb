@@ -19,34 +19,42 @@ RgGen.define_list_feature(:register_block, :protocol, shared_context: true) do
   end
 
   configuration do
-    default_feature do
-      property :protocol, body: -> { @host_protocol ||= default_protocol }
+    base_feature do
+      property :protocol
+      build { |protocol| @protocol = protocol }
+    end
 
-      build do |value|
-        @host_protocol = find_protocol(value)
+    default_feature do
+    end
+
+    factory do
+      convert_value do |value, position|
+        protocol = find_protocol(value)
+        protocol ||
+          (error "unknown protocol: #{value.inspect}", position)
       end
 
-      verify(:feature) do
-        error_condition { available_protocols.empty? }
-        message { 'no protocols are available' }
+      default_value do |position|
+        default_protocol ||
+          (error 'no protocols are available', position)
+      end
+
+      def select_feature(data)
+        target_features[data.value]
       end
 
       private
 
       def find_protocol(value)
-        protocol =
-          available_protocols.find(&value.to_sym.method(:casecmp?))
-        protocol || (
-          error "unknown protocol: #{value.inspect}"
-        )
-      end
-
-      def available_protocols
-        @available_protocols ||= shared_context.available_protocols
+        available_protocols.find(&value.to_sym.method(:casecmp?))
       end
 
       def default_protocol
         available_protocols.first
+      end
+
+      def available_protocols
+        @available_protocols ||= shared_context.available_protocols
       end
     end
   end
