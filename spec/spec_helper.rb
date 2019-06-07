@@ -13,4 +13,6 @@ RSpec.configure do |config|
   RgGen::Devtools::SpecHelper.setup(config)
 end
 
+require 'rggen/systemverilog'
+require 'rggen/spreadsheet_loader'
 require 'rggen'

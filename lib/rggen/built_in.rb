@@ -1,30 +1,49 @@
 # frozen_string_literal: true
 
-require_relative 'built_in/global/address_width'
-require_relative 'built_in/global/data_width'
+module RgGen
+  module BuiltIn
+    BUILT_IN_FILES = [
+      'built_in/global/address_width',
+      'built_in/global/data_width',
+      'built_in/register_block/byte_size',
+      'built_in/register_block/name',
+      'built_in/register_block/protocol',
+      'built_in/register_block/protocol/apb',
+      'built_in/register/name',
+      'built_in/register/offset_address',
+      'built_in/register/size',
+      'built_in/register/type',
+      'built_in/register/type/external',
+      'built_in/bit_field/bit_assignment',
+      'built_in/bit_field/comment',
+      'built_in/bit_field/initial_value',
+      'built_in/bit_field/name',
+      'built_in/bit_field/reference',
+      'built_in/bit_field/type',
+      'built_in/bit_field/type/rc',
+      'built_in/bit_field/type/reserved',
+      'built_in/bit_field/type/ro',
+      'built_in/bit_field/type/rs',
+      'built_in/bit_field/type/rw',
+      'built_in/bit_field/type/rwe_rwl',
+      'built_in/bit_field/type/w0c_w1c',
+      'built_in/bit_field/type/w0s_w1s'
+    ].freeze
 
-require_relative 'built_in/register_block/byte_size'
-require_relative 'built_in/register_block/name'
-require_relative 'built_in/register_block/protocol'
-require_relative 'built_in/register_block/protocol/apb'
+    class << self
+      def load_built_in
+        BUILT_IN_FILES.each { |file| require_relative file }
+      end
 
-require_relative 'built_in/register/name'
-require_relative 'built_in/register/offset_address'
-require_relative 'built_in/register/size'
-require_relative 'built_in/register/type'
-require_relative 'built_in/register/type/external'
+      def setup(_builder)
+        load_built_in
+      end
 
-require_relative 'built_in/bit_field/bit_assignment'
-require_relative 'built_in/bit_field/comment'
-require_relative 'built_in/bit_field/initial_value'
-require_relative 'built_in/bit_field/name'
-require_relative 'built_in/bit_field/reference'
-require_relative 'built_in/bit_field/type'
-require_relative 'built_in/bit_field/type/rc'
-require_relative 'built_in/bit_field/type/reserved'
-require_relative 'built_in/bit_field/type/ro'
-require_relative 'built_in/bit_field/type/rs'
-require_relative 'built_in/bit_field/type/rw'
-require_relative 'built_in/bit_field/type/rwe_rwl'
-require_relative 'built_in/bit_field/type/w0c_w1c'
-require_relative 'built_in/bit_field/type/w0s_w1s'
+      def version
+        VERSION
+      end
+    end
+  end
+
+  setup :'built-in', BuiltIn
+end
