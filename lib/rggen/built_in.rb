@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'built_in/version'
+
 module RgGen
   module BuiltIn
     BUILT_IN_FILES = [
@@ -30,18 +32,12 @@ module RgGen
       'built_in/bit_field/type/w0s_w1s'
     ].freeze
 
-    class << self
-      def load_built_in
-        BUILT_IN_FILES.each { |file| require_relative file }
-      end
+    def self.load_built_in
+      BUILT_IN_FILES.each { |file| require_relative file }
+    end
 
-      def setup(_builder)
-        load_built_in
-      end
-
-      def version
-        VERSION
-      end
+    def self.setup(_builder)
+      load_built_in
     end
   end
 
