@@ -11,6 +11,7 @@ module RgGen
       'built_in/register_block/name',
       'built_in/register_block/protocol',
       'built_in/register_block/protocol/apb',
+      'built_in/register_block/protocol/axi4lite',
       'built_in/register/name',
       'built_in/register/offset_address',
       'built_in/register/size',
