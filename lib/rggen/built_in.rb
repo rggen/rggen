@@ -16,6 +16,7 @@ module RgGen
       'built_in/register/size',
       'built_in/register/type',
       'built_in/register/type/external',
+      'built_in/register/type/indirect',
       'built_in/bit_field/bit_assignment',
       'built_in/bit_field/comment',
       'built_in/bit_field/initial_value',

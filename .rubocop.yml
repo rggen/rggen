@@ -21,6 +21,7 @@ Metrics/BlockLength:
     - configuration
     - define_helpers
     - define_list_feature
+    - define_list_item_feature
     - define_simple_feature
     - factory
     - register_map

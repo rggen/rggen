@@ -4,6 +4,7 @@ RgGen.define_simple_feature(:register, :offset_address) do
   register_map do
     property :offset_address
     property :address_range, body: -> { start_address..end_address }
+    property :overlap?, forward_to: :overlap_range?
 
     build do |value|
       @offset_address =
