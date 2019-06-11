@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/rggen/rggen'
   spec.license = 'MIT'
 
-  spec.files = `git ls-files lib LICENSE.txt CODE_OF_CONDUCT.md README.md`.split($RS)
+  spec.files = `git ls-files lib sample LICENSE.txt CODE_OF_CONDUCT.md README.md`.split($RS)
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.3'
