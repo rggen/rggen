@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RgGen.define_list_feature(:register_block, :protocol, shared_context: true) do
+RgGen.define_list_feature(:register_block, :protocol) do
   shared_context do
     def feature_registry(registry = nil)
       @registry = registry if registry
