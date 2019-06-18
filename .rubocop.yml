@@ -25,9 +25,13 @@ Metrics/BlockLength:
     - define_simple_feature
     - factory
     - register_map
+    - sv_rtl
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
+
+Style/BracesAroundHashParameters:
+  Enabled: false
 
 Style/EmptyMethod:
   EnforcedStyle: expanded

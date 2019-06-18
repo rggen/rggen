@@ -41,6 +41,19 @@ RSpec.describe 'register_block/byte_size' do
     end
   end
 
+  describe '#local_address_width' do
+    let(:data_width) { 32 }
+
+    it 'レジスタブロック側で必要なアドレス幅を返す' do
+      configuration = create_configuration(data_width: data_width)
+
+      { 4 => 2, 8 => 3, 12 => 4, 16 => 4, 256 => 8 }.each do |size, address_width|
+        register_block = create_regsiter_block(configuration) { byte_size size }
+        expect(register_block).to have_property(:local_address_width, address_width)
+      end
+    end
+  end
+
   describe 'エラーチェック' do
     context 'バイトサイズが未指定の場合' do
       it 'RegisterMapErrorを起こす' do
