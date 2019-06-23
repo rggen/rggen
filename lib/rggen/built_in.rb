@@ -16,6 +16,7 @@ module RgGen
       'built_in/register/name',
       'built_in/register/offset_address',
       'built_in/register/size',
+      'built_in/register/sv_rtl_top',
       'built_in/register/type',
       'built_in/register/type/external',
       'built_in/register/type/indirect',
