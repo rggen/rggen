@@ -46,7 +46,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
         .to have_interface :register_block, :register_if, {
           name: 'register_if',
           interface_type: 'rggen_register_if',
-          parameter_values: [address_width, data_width],
+          parameter_values: [address_width, data_width, 1 * data_width],
           array_size: [1]
         }
 
@@ -64,8 +64,34 @@ RSpec.describe 'register_block/sv_rtl_top' do
         .to have_interface :register_block, :register_if, {
           name: 'register_if',
           interface_type: 'rggen_register_if',
-          parameter_values: [address_width, data_width],
+          parameter_values: [address_width, data_width, 1 * data_width],
           array_size: [8]
+        }
+      register_block = create_register_block do
+        name 'block_0'
+        byte_size 256
+        register do
+          name 'register_0'
+          offset_address 0x00
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+        end
+        register do
+          name 'register_1'
+          offset_address 0x10
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 32; type :rw; initial_value 0 }
+        end
+        register do
+          name 'register_2'
+          offset_address 0x20
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 64; type :rw; initial_value 0 }
+        end
+      end
+      expect(register_block)
+        .to have_interface :register_block, :register_if, {
+          name: 'register_if',
+          interface_type: 'rggen_register_if',
+          parameter_values: [address_width, data_width, 3 * data_width],
+          array_size: [3]
         }
     end
 
