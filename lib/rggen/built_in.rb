@@ -25,6 +25,7 @@ module RgGen
       'built_in/bit_field/initial_value',
       'built_in/bit_field/name',
       'built_in/bit_field/reference',
+      'built_in/bit_field/sv_rtl_top',
       'built_in/bit_field/type',
       'built_in/bit_field/type/rc',
       'built_in/bit_field/type/reserved',

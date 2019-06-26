@@ -89,9 +89,9 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
 
     def calc_bit_position(index, base)
       if index.is_a?(Integer)
-        step * index + base
+        base + step * index
       else
-        "#{step}*#{index}+#{base}"
+        "#{base}+#{step}*#{index}"
       end
     end
 

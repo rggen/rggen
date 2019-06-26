@@ -51,7 +51,7 @@ RSpec.describe 'bit_field/bit_assignment' do
         expect(bit_field.lsb(index)).to eq(step * index + lsb)
 
         index = 'i'
-        expect(bit_field.lsb(index)).to eq "#{step}*i+#{lsb}"
+        expect(bit_field.lsb(index)).to eq "#{lsb}+#{step}*i"
       end
     end
 
@@ -102,7 +102,7 @@ RSpec.describe 'bit_field/bit_assignment' do
         expect(bit_field.msb(index)).to eq(index * width + lsb + width - 1)
 
         index = 'i'
-        expect(bit_field.msb(index)).to eq "#{width}*i+#{lsb + width - 1}"
+        expect(bit_field.msb(index)).to eq "#{lsb + width - 1}+#{width}*i"
 
         bit_field = create_bit_field(lsb: lsb, width: width, sequence_size: sequence_size, step: step)
 
@@ -110,7 +110,7 @@ RSpec.describe 'bit_field/bit_assignment' do
         expect(bit_field.msb(index)).to eq(index * step + lsb + width - 1)
 
         index = 'i'
-        expect(bit_field.msb(index)).to eq "#{step}*i+#{lsb + width - 1}"
+        expect(bit_field.msb(index)).to eq "#{lsb + width - 1}+#{step}*i"
       end
     end
 
