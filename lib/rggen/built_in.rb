@@ -6,6 +6,7 @@ module RgGen
   module BuiltIn
     BUILT_IN_FILES = [
       'built_in/global/address_width',
+      'built_in/global/array_port_format',
       'built_in/global/data_width',
       'built_in/register_block/byte_size',
       'built_in/register_block/name',
