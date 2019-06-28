@@ -45,11 +45,11 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
 
     def local_index_coefficients
       coefficients = []
-      register.array_size.reverse.inject(0) do |total, size|
-        coefficients << (total.zero? ? nil : total)
-        total.zero? ? size : total * size
+      register.array_size.reverse.inject(1) do |total, size|
+        coefficients.unshift(coefficients.size.zero? ? nil : total)
+        total * size
       end
-      coefficients.reverse
+      coefficients
     end
   end
 end

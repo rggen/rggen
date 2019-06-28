@@ -16,15 +16,12 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
 
     def local_index
       (bit_field.sequential? || nil) &&
-        begin
-          index_name =
-            if register.array?
-              register.loop_variables.last.to_s.succ
-            else
-              loop_index(1)
-            end
-          create_identifier(index_name)
-        end
+        create_identifier(index_name)
+    end
+
+    def index_name
+      depth = (register.loop_variables&.size || 0) + 1
+      loop_index(depth)
     end
 
     def loop_variables
