@@ -5,12 +5,14 @@ RSpec.describe 'register_block/sv_rtl_top' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width])
+    RgGen.enable(:global, [:data_width, :address_width, :array_port_format])
     RgGen.enable(:register_block, [:name, :byte_size])
     RgGen.enable(:register, [:name, :offset_address, :size, :type])
     RgGen.enable(:bit_field, [:name, :bit_assignment, :type, :initial_value, :reference])
     RgGen.enable(:bit_field, :type, :rw)
     RgGen.enable(:register_block, :sv_rtl_top)
+    RgGen.enable(:register, :sv_rtl_top)
+    RgGen.enable(:bit_field, :sv_rtl_top)
   end
 
   def create_register_block(&body)

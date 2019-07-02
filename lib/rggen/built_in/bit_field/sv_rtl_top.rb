@@ -4,6 +4,7 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
   sv_rtl do
     export :local_index
     export :loop_variables
+    export :array_size
     export :value
 
     build do
@@ -27,6 +28,11 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
     def loop_variables
       (inside_loop? || nil) &&
         [*register.loop_variables, local_index].compact
+    end
+
+    def array_size
+      (inside_loop? || nil) &&
+        [*register.array_size, bit_field.sequence_size].compact
     end
 
     def value

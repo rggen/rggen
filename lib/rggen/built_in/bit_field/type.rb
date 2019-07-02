@@ -148,4 +148,28 @@ RgGen.define_list_feature(:bit_field, :type) do
       end
     end
   end
+
+  sv_rtl do
+    base_feature do
+      private
+
+      def array_port_format
+        configuration.array_port_format
+      end
+
+      def full_name
+        bit_field.full_name('_')
+      end
+
+      def initial_value
+        hex(bit_field.initial_value, bit_field.width)
+      end
+    end
+
+    factory do
+      def select_feature(_configuration, bit_field)
+        target_features[bit_field.type]
+      end
+    end
+  end
 end
