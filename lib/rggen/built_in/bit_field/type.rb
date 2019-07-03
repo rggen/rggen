@@ -164,6 +164,17 @@ RgGen.define_list_feature(:bit_field, :type) do
       def initial_value
         hex(bit_field.initial_value, bit_field.width)
       end
+
+      def reference_bit_field
+        (bit_field.reference? || nil) &&
+          begin
+            reference = bit_field.reference.full_name
+            register_block
+              .bit_fields
+              .find { |bit_field| bit_field.full_name == reference }
+              .value
+          end
+      end
     end
 
     factory do

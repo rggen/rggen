@@ -1,0 +1,9 @@
+rggen_bit_field_ro #(
+  .WIDTH  (<%= bit_field.width %>)
+) u_bit_field (
+  .i_clk        (<%= register_block.clock %>),
+  .i_rst_n      (<%= register_block.reset %>),
+  .bit_field_if (<%= bit_field.bit_field_sub_if %>),
+  .i_mask       (<%= mask %>),
+  .i_value      (<%= value_in[bit_field.loop_variables] %>)
+);
