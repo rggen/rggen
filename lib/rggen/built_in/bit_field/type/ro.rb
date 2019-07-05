@@ -18,12 +18,5 @@ RgGen.define_list_item_feature(:bit_field, :type, :ro) do
     end
 
     main_code :bit_field, from_template: true
-
-    private
-
-    def mask
-      reference_bit_field ||
-        hex(2**bit_field.width - 1, bit_field.width)
-    end
   end
 end

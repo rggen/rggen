@@ -165,6 +165,11 @@ RgGen.define_list_feature(:bit_field, :type) do
         hex(bit_field.initial_value, bit_field.width)
       end
 
+      def mask
+        reference_bit_field ||
+          hex(2**bit_field.width - 1, bit_field.width)
+      end
+
       def reference_bit_field
         (bit_field.reference? || nil) &&
           begin
