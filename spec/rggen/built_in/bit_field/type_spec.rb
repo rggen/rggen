@@ -23,7 +23,7 @@ RSpec.describe 'bit_field/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:bit_field, :type, [:foo, :bar, :qux])
       end
 
@@ -121,7 +121,7 @@ RSpec.describe 'bit_field/type' do
       end
 
       after do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:bit_field, :type, :foo)
       end
 
@@ -177,7 +177,7 @@ RSpec.describe 'bit_field/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:bit_field, :type, [:foo, :bar, :baz, :qux])
         RgGen.disable(:bit_field, :type, :qux)
       end
@@ -305,7 +305,7 @@ RSpec.describe 'bit_field/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:bit_field, :type, [:foo, :bar])
         end
 
@@ -402,7 +402,7 @@ RSpec.describe 'bit_field/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:bit_field, :type, [:foo, :bar])
         end
 
@@ -465,7 +465,7 @@ RSpec.describe 'bit_field/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:bit_field, :type, [:foo, :bar])
         end
 
@@ -506,7 +506,7 @@ RSpec.describe 'bit_field/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:bit_field, :type, [:foo, :bar])
         end
 

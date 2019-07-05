@@ -13,7 +13,7 @@ RSpec.describe 'bit_field/type/rw' do
   describe 'register_map' do
     before(:all) do
       delete_configuration_facotry
-      delete_register_map_facotry
+      delete_register_map_factory
     end
 
     def create_bit_fields(&block)
@@ -72,7 +72,7 @@ RSpec.describe 'bit_field/type/rw' do
 
     before(:all) do
       delete_configuration_facotry
-      delete_register_map_facotry
+      delete_register_map_factory
     end
 
     before(:all) do

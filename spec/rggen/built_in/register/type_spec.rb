@@ -46,7 +46,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, [:foo, :bar, :qux])
       end
 
@@ -128,7 +128,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, [:foo, :bar])
       end
 
@@ -181,7 +181,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, [:foo, :bar])
       end
 
@@ -259,7 +259,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, [:foo, :bar])
       end
 
@@ -350,7 +350,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, [:foo, :bar])
       end
 
@@ -532,7 +532,7 @@ RSpec.describe 'register/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:register, :type, [:foo, :bar, :baz])
         end
 
@@ -655,7 +655,7 @@ RSpec.describe 'register/type' do
         end
 
         after(:all) do
-          delete_register_map_facotry
+          delete_register_map_factory
           RgGen.delete(:register, :type, :foo)
         end
 
@@ -716,7 +716,7 @@ RSpec.describe 'register/type' do
       end
 
       after(:all) do
-        delete_register_map_facotry
+        delete_register_map_factory
         RgGen.delete(:register, :type, :foo)
       end
 
