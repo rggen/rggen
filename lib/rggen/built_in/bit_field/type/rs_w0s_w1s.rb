@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
+RgGen.define_list_item_feature(:bit_field, :type, :rs) do
+  register_map do
+    read_only
+    need_initial_value
+  end
+end
+
 RgGen.define_list_item_feature(:bit_field, :type, [:w0s, :w1s]) do
   register_map do
     read_write
     need_initial_value
   end
+end
 
+RgGen.define_list_item_feature(:bit_field, :type, [:rs, :w0s, :w1s]) do
   sv_rtl do
     build do
       output :register_block, :value_out, {
@@ -24,9 +33,14 @@ RgGen.define_list_item_feature(:bit_field, :type, [:w0s, :w1s]) do
       }
     end
 
-    main_code :bit_field, from_template: true
+    main_code(:bit_field) { process_template(template_path) }
 
     private
+
+    def template_path
+      erb = (bit_field.type == :rs) ? 'rs.erb' : 'w01s.erb'
+      File.join(__dir__, erb)
+    end
 
     def set_value
       bin({ w0s: 0, w1s: 1 }[bit_field.type], 1)

@@ -32,10 +32,9 @@ module RgGen
       'built_in/bit_field/type/rc_w0c_w1c',
       'built_in/bit_field/type/reserved',
       'built_in/bit_field/type/ro',
-      'built_in/bit_field/type/rs',
+      'built_in/bit_field/type/rs_w0s_w1s',
       'built_in/bit_field/type/rw',
-      'built_in/bit_field/type/rwe_rwl',
-      'built_in/bit_field/type/w0s_w1s'
+      'built_in/bit_field/type/rwe_rwl'
     ].freeze
 
     def self.load_built_in
