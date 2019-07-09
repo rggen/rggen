@@ -29,13 +29,12 @@ module RgGen
       'built_in/bit_field/reference',
       'built_in/bit_field/sv_rtl_top',
       'built_in/bit_field/type',
-      'built_in/bit_field/type/rc',
+      'built_in/bit_field/type/rc_w0c_w1c',
       'built_in/bit_field/type/reserved',
       'built_in/bit_field/type/ro',
       'built_in/bit_field/type/rs',
       'built_in/bit_field/type/rw',
       'built_in/bit_field/type/rwe_rwl',
-      'built_in/bit_field/type/w0c_w1c',
       'built_in/bit_field/type/w0s_w1s'
     ].freeze
 
