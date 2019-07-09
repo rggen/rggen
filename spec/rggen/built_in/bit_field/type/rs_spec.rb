@@ -108,7 +108,7 @@ RSpec.describe 'bit_field/type/rs' do
       [:packed, :unpacked, :vectorized].sample
     end
 
-    it '出力ポート#value_outを持つ' do
+    it '出力ポート#value_out.入力ポート#clearを持つ' do
       bit_fields = create_bit_fields do
         name 'block_0'
         byte_size 256
@@ -149,6 +149,14 @@ RSpec.describe 'bit_field/type/rs' do
           data_type: :logic,
           width: 1
         }
+      expect(bit_fields[0])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_0_bit_field_0_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 1
+        }
+
       expect(bit_fields[1])
         .to have_port :register_block, :value_out, {
           name: 'o_register_0_bit_field_1',
@@ -156,10 +164,27 @@ RSpec.describe 'bit_field/type/rs' do
           data_type: :logic,
           width: 2
         }
+      expect(bit_fields[1])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_0_bit_field_1_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 2
+        }
+
       expect(bit_fields[2])
         .to have_port :register_block, :value_out, {
           name: 'o_register_0_bit_field_2',
           direction: :output,
+          data_type: :logic,
+          width: 4,
+          array_size: [2],
+          array_format: array_port_format
+        }
+      expect(bit_fields[2])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_0_bit_field_2_clear',
+          direction: :input,
           data_type: :logic,
           width: 4,
           array_size: [2],
@@ -173,6 +198,13 @@ RSpec.describe 'bit_field/type/rs' do
           data_type: :logic,
           width: 64
         }
+      expect(bit_fields[3])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_1_bit_field_0_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 64
+        }
 
       expect(bit_fields[4])
         .to have_port :register_block, :value_out, {
@@ -183,6 +215,16 @@ RSpec.describe 'bit_field/type/rs' do
           array_size: [4],
           array_format: array_port_format
         }
+      expect(bit_fields[4])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_2_bit_field_0_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 1,
+          array_size: [4],
+          array_format: array_port_format
+        }
+
       expect(bit_fields[5])
         .to have_port :register_block, :value_out, {
           name: 'o_register_2_bit_field_1',
@@ -192,10 +234,29 @@ RSpec.describe 'bit_field/type/rs' do
           array_size: [4],
           array_format: array_port_format
         }
+      expect(bit_fields[5])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_2_bit_field_1_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 2,
+          array_size: [4],
+          array_format: array_port_format
+        }
+
       expect(bit_fields[6])
         .to have_port :register_block, :value_out, {
           name: 'o_register_2_bit_field_2',
           direction: :output,
+          data_type: :logic,
+          width: 4,
+          array_size: [4, 2],
+          array_format: array_port_format
+        }
+      expect(bit_fields[6])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_2_bit_field_2_clear',
+          direction: :input,
           data_type: :logic,
           width: 4,
           array_size: [4, 2],
@@ -211,6 +272,16 @@ RSpec.describe 'bit_field/type/rs' do
           array_size: [2, 2],
           array_format: array_port_format
         }
+      expect(bit_fields[7])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_3_bit_field_0_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 1,
+          array_size: [2, 2],
+          array_format: array_port_format
+        }
+
       expect(bit_fields[8])
         .to have_port :register_block, :value_out, {
           name: 'o_register_3_bit_field_1',
@@ -220,10 +291,29 @@ RSpec.describe 'bit_field/type/rs' do
           array_size: [2, 2],
           array_format: array_port_format
         }
+      expect(bit_fields[8])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_3_bit_field_1_clear',
+          direction: :input,
+          data_type: :logic,
+          width: 2,
+          array_size: [2, 2],
+          array_format: array_port_format
+        }
+
       expect(bit_fields[9])
         .to have_port :register_block, :value_out, {
           name: 'o_register_3_bit_field_2',
           direction: :output,
+          data_type: :logic,
+          width: 4,
+          array_size: [2, 2, 2],
+          array_format: array_port_format
+        }
+      expect(bit_fields[9])
+        .to have_port :register_block, :clear, {
+          name: 'i_register_3_bit_field_2_clear',
+          direction: :input,
           data_type: :logic,
           width: 4,
           array_size: [2, 2, 2],
@@ -276,6 +366,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_0_bit_field_0_clear),
             .o_value      (o_register_0_bit_field_0)
           );
         CODE
@@ -288,6 +379,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_0_bit_field_1_clear),
             .o_value      (o_register_0_bit_field_1)
           );
         CODE
@@ -300,6 +392,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_1_bit_field_0_clear),
             .o_value      (o_register_1_bit_field_0)
           );
         CODE
@@ -312,6 +405,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_2_bit_field_0_clear[i]),
             .o_value      (o_register_2_bit_field_0[i])
           );
         CODE
@@ -324,6 +418,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_3_bit_field_0_clear[i][j]),
             .o_value      (o_register_3_bit_field_0[i][j])
           );
         CODE
@@ -336,6 +431,7 @@ RSpec.describe 'bit_field/type/rs' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
+            .i_clear      (i_register_4_bit_field_0_clear[i][j][k]),
             .o_value      (o_register_4_bit_field_0[i][j][k])
           );
         CODE

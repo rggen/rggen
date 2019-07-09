@@ -5,5 +5,6 @@ rggen_bit_field_rs #(
   .i_clk        (<%= register_block.clock %>),
   .i_rst_n      (<%= register_block.reset %>),
   .bit_field_if (<%= bit_field.bit_field_sub_if %>),
+  .i_clear      (<%= clear[bit_field.loop_variables] %>),
   .o_value      (<%= value_out[bit_field.loop_variables] %>)
 );
