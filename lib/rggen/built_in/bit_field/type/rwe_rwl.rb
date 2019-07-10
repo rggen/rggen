@@ -7,7 +7,7 @@ RgGen.define_list_item_feature(:bit_field, :type, [:rwe, :rwl]) do
     use_reference required: true, width: 1
   end
 
-  sv_rtl do |type|
+  sv_rtl do
     build do
       output :register_block, :value_out, {
         name: "o_#{full_name}",
@@ -18,6 +18,6 @@ RgGen.define_list_item_feature(:bit_field, :type, [:rwe, :rwl]) do
       }
     end
 
-    main_code :bit_field, from_template: File.join(__dir__, "#{type}.erb")
+    main_code :bit_field, from_template: true
   end
 end

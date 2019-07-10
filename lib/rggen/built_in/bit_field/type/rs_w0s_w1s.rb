@@ -33,13 +33,16 @@ RgGen.define_list_item_feature(:bit_field, :type, [:rs, :w0s, :w1s]) do
       }
     end
 
-    main_code(:bit_field) { process_template(template_path) }
+    main_code :bit_field, from_template: true
 
     private
 
-    def template_path
-      erb = (bit_field.type == :rs) ? 'rs.erb' : 'w01s.erb'
-      File.join(__dir__, erb)
+    def module_name
+      if bit_field.type == :rs
+        'rggen_bit_field_rs'
+      else
+        'rggen_bit_field_w01s'
+      end
     end
 
     def set_value
