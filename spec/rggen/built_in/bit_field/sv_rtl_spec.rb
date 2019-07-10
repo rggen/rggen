@@ -265,4 +265,312 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       expect(bit_fields[14].value).to match_identifier('register_if[5+2*i+j].value[24+4*k+:2]')
     end
   end
+
+  describe '#generate_code' do
+    it '各ビットフィールドの最上位階層のコードを出力する' do
+      bit_fields = create_bit_fields do
+        name 'block_0'
+        byte_size 256
+
+        register do
+          name 'register_0'
+          offset_address 0x00
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 8; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_2'; bit_assignment lsb: 16, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 20, width: 2, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_4'; bit_assignment lsb: 24, width: 2, sequence_size: 2, step: 4; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_1'
+          offset_address 0x10
+          size [4]
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 8; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_2'; bit_assignment lsb: 16, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 20, width: 2, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_4'; bit_assignment lsb: 24, width: 2, sequence_size: 2, step: 4; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_2'
+          offset_address 0x20
+          size [2, 2]
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 8; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_2'; bit_assignment lsb: 16, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 20, width: 2, sequence_size: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_4'; bit_assignment lsb: 24, width: 2, sequence_size: 2, step: 4; type :rw; initial_value 0 }
+        end
+      end
+
+      expect(bit_fields[0]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_0_bit_field_0
+          rggen_bit_field_if #(1) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+          rggen_bit_field_rw #(
+            .WIDTH          (1),
+            .INITIAL_VALUE  (1'h0)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_0_bit_field_0)
+          );
+        end
+      CODE
+
+      expect(bit_fields[1]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_0_bit_field_1
+          rggen_bit_field_if #(8) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
+          rggen_bit_field_rw #(
+            .WIDTH          (8),
+            .INITIAL_VALUE  (8'h00)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_0_bit_field_1)
+          );
+        end
+      CODE
+
+      expect(bit_fields[2]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_0_bit_field_2
+          genvar i;
+          for (i = 0;i < 2;++i) begin : g
+            rggen_bit_field_if #(1) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16+1*i, 1)
+            rggen_bit_field_rw #(
+              .WIDTH          (1),
+              .INITIAL_VALUE  (1'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_0_bit_field_2[i])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[3]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_0_bit_field_3
+          genvar i;
+          for (i = 0;i < 2;++i) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 20+2*i, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_0_bit_field_3[i])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[4]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_0_bit_field_4
+          genvar i;
+          for (i = 0;i < 2;++i) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 24+4*i, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_0_bit_field_4[i])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[5]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_1_bit_field_0
+          rggen_bit_field_if #(1) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+          rggen_bit_field_rw #(
+            .WIDTH          (1),
+            .INITIAL_VALUE  (1'h0)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_1_bit_field_0[i])
+          );
+        end
+      CODE
+
+      expect(bit_fields[6]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_1_bit_field_1
+          rggen_bit_field_if #(8) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
+          rggen_bit_field_rw #(
+            .WIDTH          (8),
+            .INITIAL_VALUE  (8'h00)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_1_bit_field_1[i])
+          );
+        end
+      CODE
+
+      expect(bit_fields[7]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_1_bit_field_2
+          genvar j;
+          for (j = 0;j < 2;++j) begin : g
+            rggen_bit_field_if #(1) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16+1*j, 1)
+            rggen_bit_field_rw #(
+              .WIDTH          (1),
+              .INITIAL_VALUE  (1'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_1_bit_field_2[i][j])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[8]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_1_bit_field_3
+          genvar j;
+          for (j = 0;j < 2;++j) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 20+2*j, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_1_bit_field_3[i][j])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[9]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_1_bit_field_4
+          genvar j;
+          for (j = 0;j < 2;++j) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 24+4*j, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_1_bit_field_4[i][j])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[10]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_2_bit_field_0
+          rggen_bit_field_if #(1) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+          rggen_bit_field_rw #(
+            .WIDTH          (1),
+            .INITIAL_VALUE  (1'h0)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_2_bit_field_0[i][j])
+          );
+        end
+      CODE
+
+      expect(bit_fields[11]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_2_bit_field_1
+          rggen_bit_field_if #(8) bit_field_sub_if();
+          `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
+          rggen_bit_field_rw #(
+            .WIDTH          (8),
+            .INITIAL_VALUE  (8'h00)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .o_value      (o_register_2_bit_field_1[i][j])
+          );
+        end
+      CODE
+
+      expect(bit_fields[12]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_2_bit_field_2
+          genvar k;
+          for (k = 0;k < 2;++k) begin : g
+            rggen_bit_field_if #(1) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16+1*k, 1)
+            rggen_bit_field_rw #(
+              .WIDTH          (1),
+              .INITIAL_VALUE  (1'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_2_bit_field_2[i][j][k])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[13]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_2_bit_field_3
+          genvar k;
+          for (k = 0;k < 2;++k) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 20+2*k, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_2_bit_field_3[i][j][k])
+            );
+          end
+        end
+      CODE
+
+      expect(bit_fields[14]).to generate_code(:register, :top_down, <<~'CODE')
+        if (1) begin : g_register_2_bit_field_4
+          genvar k;
+          for (k = 0;k < 2;++k) begin : g
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 24+4*k, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_2_bit_field_4[i][j][k])
+            );
+          end
+        end
+      CODE
+    end
+  end
 end
