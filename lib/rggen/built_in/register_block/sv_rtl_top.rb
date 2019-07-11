@@ -16,7 +16,7 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
       interface :register_block, :register_if, {
         name: 'register_if',
         interface_type: 'rggen_register_if',
-        parameter_values: [address_width, data_width, value_width],
+        parameter_values: [address_width, bus_width, value_width],
         array_size: [total_registers],
         variables: ['value']
       }
@@ -28,8 +28,8 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
       register_block.local_address_width
     end
 
-    def data_width
-      configuration.data_width
+    def bus_width
+      configuration.bus_width
     end
 
     def value_width

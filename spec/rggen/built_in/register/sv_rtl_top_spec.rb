@@ -5,7 +5,7 @@ RSpec.describe 'register/sv_rtl_top' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width, :array_port_format])
+    RgGen.enable(:global, [:bus_width, :address_width, :array_port_format])
     RgGen.enable(:register_block, [:name, :byte_size])
     RgGen.enable(:register, [:name, :offset_address, :size, :type])
     RgGen.enable(:register, :type, :external)
@@ -19,8 +19,7 @@ RSpec.describe 'register/sv_rtl_top' do
     create_sv_rtl(&body).registers
   end
 
-  let(:data_width) { default_configuration.data_width }
-
+  let(:bus_width) { default_configuration.bus_width }
 
   describe 'bit_field_if' do
     context 'レジスタがビットフィールドを持つ場合' do

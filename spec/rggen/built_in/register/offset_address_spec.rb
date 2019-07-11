@@ -42,7 +42,7 @@ RSpec.describe 'register/offset_address' do
       end
     end
 
-    RgGen.enable(:global, [:data_width, :address_width])
+    RgGen.enable(:global, [:bus_width, :address_width])
     RgGen.enable(:register_block, :byte_size)
     RgGen.enable(:register, [:offset_address, :size, :type])
     RgGen.enable(:register, :type, [:foo, :bar, :baz, :qux])
@@ -56,9 +56,9 @@ RSpec.describe 'register/offset_address' do
 
   let(:block_byte_size) { 256 }
 
-  def create_registers(data_width, &block)
+  def create_registers(bus_width, &block)
     configuration =
-      create_configuration(data_width: data_width, address_width: address_width)
+      create_configuration(bus_width: bus_width, address_width: address_width)
     register_map = create_register_map(configuration) do
       register_block do
         byte_size block_byte_size
@@ -164,14 +164,14 @@ RSpec.describe 'register/offset_address' do
       end
     end
 
-    context 'データ幅に揃っていない場合' do
+    context 'バス幅に揃っていない場合' do
       it 'RegisterMapErrorを起こす' do
         [1, 3, 7, 9, 15, 17].each do |value|
           expect {
             create_registers(16) do
               register { offset_address value }
             end
-          }.to raise_register_map_error "offset address is not aligned with data width(16): 0x#{value.to_s(16)}"
+          }.to raise_register_map_error "offset address is not aligned with bus width(16): 0x#{value.to_s(16)}"
         end
 
         [1, 2, 3, 5, 15, 17].each do |value|
@@ -179,7 +179,7 @@ RSpec.describe 'register/offset_address' do
             create_registers(32) do
               register { offset_address value }
             end
-          }.to raise_register_map_error "offset address is not aligned with data width(32): 0x#{value.to_s(16)}"
+          }.to raise_register_map_error "offset address is not aligned with bus width(32): 0x#{value.to_s(16)}"
         end
 
         [1, 2, 3, 4, 5, 6, 7, 9, 15, 17].each do |value|
@@ -187,7 +187,7 @@ RSpec.describe 'register/offset_address' do
             create_registers(64) do
               register { offset_address value }
             end
-          }.to raise_register_map_error "offset address is not aligned with data width(64): 0x#{value.to_s(16)}"
+          }.to raise_register_map_error "offset address is not aligned with bus width(64): 0x#{value.to_s(16)}"
         end
       end
     end

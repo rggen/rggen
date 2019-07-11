@@ -6,7 +6,7 @@ RSpec.describe 'register/type/indirect' do
 
   describe 'register map' do
     before(:all) do
-      RgGen.enable(:global, [:data_width, :address_width])
+      RgGen.enable(:global, [:bus_width, :address_width])
       RgGen.enable(:register_block, [:byte_size])
       RgGen.enable(:register, [:name, :offset_address, :size, :type])
       RgGen.enable(:register, :type, [:indirect])

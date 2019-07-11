@@ -84,14 +84,14 @@ RSpec.describe 'bit_field/type/reserved' do
     end
 
     before(:all) do
-      RgGen.enable(:global, [:data_width, :address_width, :array_port_format])
+      RgGen.enable(:global, [:bus_width, :address_width, :array_port_format])
       RgGen.enable(:register_block, [:name, :byte_size])
       RgGen.enable(:register, :sv_rtl_top)
       RgGen.enable(:bit_field, :sv_rtl_top)
     end
 
     after(:all) do
-      RgGen.disable(:global, [:data_width, :address_width, :array_port_format])
+      RgGen.disable(:global, [:bus_width, :address_width, :array_port_format])
       RgGen.disable(:register_block, [:name, :byte_size])
     end
 

@@ -5,7 +5,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width, :array_port_format])
+    RgGen.enable(:global, [:bus_width, :address_width, :array_port_format])
     RgGen.enable(:register_block, [:name, :byte_size])
     RgGen.enable(:register, [:name, :offset_address, :size, :type])
     RgGen.enable(:bit_field, [:name, :bit_assignment, :type, :initial_value, :reference])
@@ -19,7 +19,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
     create_sv_rtl(&body).register_blocks.first
   end
 
-  let(:data_width) { default_configuration.data_width }
+  let(:bus_width) { default_configuration.bus_width }
 
   let(:address_width) { 8 }
 
@@ -48,7 +48,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
         .to have_interface :register_block, :register_if, {
           name: 'register_if',
           interface_type: 'rggen_register_if',
-          parameter_values: [address_width, data_width, 1 * data_width],
+          parameter_values: [address_width, bus_width, 1 * bus_width],
           array_size: [1]
         }
 
@@ -66,7 +66,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
         .to have_interface :register_block, :register_if, {
           name: 'register_if',
           interface_type: 'rggen_register_if',
-          parameter_values: [address_width, data_width, 1 * data_width],
+          parameter_values: [address_width, bus_width, 1 * bus_width],
           array_size: [8]
         }
       register_block = create_register_block do
@@ -92,7 +92,7 @@ RSpec.describe 'register_block/sv_rtl_top' do
         .to have_interface :register_block, :register_if, {
           name: 'register_if',
           interface_type: 'rggen_register_if',
-          parameter_values: [address_width, data_width, 3 * data_width],
+          parameter_values: [address_width, bus_width, 3 * bus_width],
           array_size: [3]
         }
     end

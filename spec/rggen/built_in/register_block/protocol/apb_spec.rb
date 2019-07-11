@@ -5,7 +5,7 @@ RSpec.describe 'register_block/protocol/apb' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width])
+    RgGen.enable(:global, [:bus_width, :address_width])
     RgGen.enable(:register_block, :protocol)
     RgGen.enable(:register_block, :protocol, [:apb])
   end
@@ -16,17 +16,17 @@ RSpec.describe 'register_block/protocol/apb' do
       expect(configuration).to have_property(:protocol, :apb)
     end
 
-    it '32ビットを超えるデータ幅に対応しない' do
-      [8, 16, 32].each do |data_width|
+    it '32ビットを超えるバス幅に対応しない' do
+      [8, 16, 32].each do |bus_width|
         expect {
-          create_configuration(data_width: data_width, protocol: :apb)
+          create_configuration(bus_width: bus_width, protocol: :apb)
         }.not_to raise_error
       end
 
-      [64, 128, 256].each do |data_width|
+      [64, 128, 256].each do |bus_width|
         expect {
-          create_configuration(data_width: data_width, protocol: :apb)
-        }.to raise_configuration_error "data width over 32 bit is not supported: #{data_width}"
+          create_configuration(bus_width: bus_width, protocol: :apb)
+        }.to raise_configuration_error "bus width over 32 bit is not supported: #{bus_width}"
       end
     end
 

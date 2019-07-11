@@ -5,7 +5,7 @@ RSpec.describe 'global/address_width' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width])
+    RgGen.enable(:global, [:bus_width, :address_width])
   end
 
   describe '#address_width' do
@@ -20,22 +20,22 @@ RSpec.describe 'global/address_width' do
         [16, 1],
         [32, 2],
         [64, 3]
-      ].each do |data_width, min_address_width|
+      ].each do |bus_width, min_address_width|
         [min_address_width, 8, 16, 32, 64, rand(min_address_width..64)].each do |value|
           input_value = value
-          configuration = create_configuration(data_width: data_width, address_width: input_value)
+          configuration = create_configuration(bus_width: bus_width, address_width: input_value)
           expect(configuration.address_width).to eq value
 
           input_value = value.to_f
-          configuration = create_configuration(data_width: data_width, address_width: input_value)
+          configuration = create_configuration(bus_width: bus_width, address_width: input_value)
           expect(configuration.address_width).to eq value
 
           input_value = value.to_s
-          configuration = create_configuration(data_width: data_width, address_width: input_value)
+          configuration = create_configuration(bus_width: bus_width, address_width: input_value)
           expect(configuration.address_width).to eq value
 
           input_value = format('0x%x', value)
-          configuration = create_configuration(data_width: data_width, address_width: input_value)
+          configuration = create_configuration(bus_width: bus_width, address_width: input_value)
           expect(configuration.address_width).to eq value
         end
       end
@@ -53,17 +53,17 @@ RSpec.describe 'global/address_width' do
       end
     end
 
-    context 'データ幅から求まる最小値に満たない場合' do
+    context 'バス幅から求まる最小値に満たない場合' do
       it 'ConfigurationErrorを起こす' do
         [
           [8, 1],
           [16, 1],
           [32, 2],
           [64, 3]
-        ].each do |data_width, min_address_width|
+        ].each do |bus_width, min_address_width|
           [-1, 0, (min_address_width - 1)].each do |address_width|
             expect {
-              create_configuration(data_width: data_width, address_width: address_width)
+              create_configuration(bus_width: bus_width, address_width: address_width)
             }.to raise_configuration_error 'input address width is less than minimum address width: ' \
                                            "address width #{address_width} minimum address width #{min_address_width}"
           end

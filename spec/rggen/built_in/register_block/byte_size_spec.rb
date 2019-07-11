@@ -5,7 +5,7 @@ RSpec.describe 'register_block/byte_size' do
   include_context 'register map common'
 
   before(:all) do
-    RgGen.enable(:global, [:data_width, :address_width])
+    RgGen.enable(:global, [:bus_width, :address_width])
     RgGen.enable(:register_block, :byte_size)
   end
 
@@ -20,20 +20,20 @@ RSpec.describe 'register_block/byte_size' do
     let(:max_byte_size) { 2**(address_width - 3) }
 
     it '入力されたバイトサイズを返す' do
-      [16, 32, 64].each do |data_width|
-        configuration = create_configuration(data_width: data_width, address_width: address_width)
+      [16, 32, 64].each do |bus_width|
+        configuration = create_configuration(bus_width: bus_width, address_width: address_width)
 
-        register_block = create_regsiter_block(configuration) { byte_size data_width / 8 }
-        expect(register_block).to have_property(:byte_size, data_width / 8)
+        register_block = create_regsiter_block(configuration) { byte_size bus_width / 8 }
+        expect(register_block).to have_property(:byte_size, bus_width / 8)
 
-        register_block = create_regsiter_block(configuration) { byte_size 2 * (data_width / 8) }
-        expect(register_block).to have_property(:byte_size, 2 * (data_width / 8))
+        register_block = create_regsiter_block(configuration) { byte_size 2 * (bus_width / 8) }
+        expect(register_block).to have_property(:byte_size, 2 * (bus_width / 8))
 
         register_block = create_regsiter_block(configuration) { byte_size max_byte_size / 2 }
         expect(register_block).to have_property(:byte_size, max_byte_size / 2)
 
-        register_block = create_regsiter_block(configuration) { byte_size max_byte_size - data_width / 8}
-        expect(register_block).to have_property(:byte_size, max_byte_size - data_width / 8)
+        register_block = create_regsiter_block(configuration) { byte_size max_byte_size - bus_width / 8}
+        expect(register_block).to have_property(:byte_size, max_byte_size - bus_width / 8)
 
         register_block = create_regsiter_block(configuration) { byte_size max_byte_size }
         expect(register_block).to have_property(:byte_size, max_byte_size)
@@ -42,10 +42,10 @@ RSpec.describe 'register_block/byte_size' do
   end
 
   describe '#local_address_width' do
-    let(:data_width) { 32 }
+    let(:bus_width) { 32 }
 
     it 'レジスタブロック側で必要なアドレス幅を返す' do
-      configuration = create_configuration(data_width: data_width)
+      configuration = create_configuration(bus_width: bus_width)
 
       { 4 => 2, 8 => 3, 12 => 4, 16 => 4, 256 => 8 }.each do |size, address_width|
         register_block = create_regsiter_block(configuration) { byte_size size }
@@ -106,7 +106,7 @@ RSpec.describe 'register_block/byte_size' do
       end
     end
 
-    context '入力値がデータ幅に揃っていない場合' do
+    context '入力値がバス幅に揃っていない場合' do
       let(:address_width) { 10 }
 
       it 'RegisterMapErrorを起こす' do
@@ -114,12 +114,12 @@ RSpec.describe 'register_block/byte_size' do
           16 => [1,    3,    5,    7, 9, 127, 1023],
           32 => [1, 2, 3,    5, 6, 7, 9, 127, 1023],
           64 => [1, 2, 3, 4, 5, 6, 7, 9, 127, 1023]
-        }.each do |data_width, values|
-          configuration = create_configuration(address_width: address_width, data_width: data_width)
+        }.each do |bus_width, values|
+          configuration = create_configuration(address_width: address_width, bus_width: bus_width)
           values.each do |value|
             expect {
               create_regsiter_block(configuration) { byte_size value }
-            }.to raise_register_map_error "byte size is not aligned with data width(#{data_width}): #{value}"
+            }.to raise_register_map_error "byte size is not aligned with bus width(#{bus_width}): #{value}"
           end
         end
       end

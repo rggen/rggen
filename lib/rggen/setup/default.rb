@@ -4,7 +4,7 @@ require 'rggen/systemverilog'
 require 'rggen/built_in'
 require 'rggen/spreadsheet_loader'
 
-RgGen.enable :global, [:data_width, :address_width]
+RgGen.enable :global, [:bus_width, :address_width]
 
 RgGen.enable :register_block, [:name, :byte_size, :protocol]
 RgGen.enable :register_block, :protocol, [:apb, :axi4lite]

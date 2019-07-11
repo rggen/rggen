@@ -1,7 +1,7 @@
 rggen_default_register #(
   .ADDRESS_WIDTH  (<%= address_width %>),
   .OFFSET_ADDRESS (<%= offset_address %>),
-  .BUS_WIDTH      (<%= bus_width %>),
+  .BUS_WIDTH      (<%= configuration.bus_width %>),
   .DATA_WIDTH     (<%= register.width %>),
   .VALID_BITS     (<%= valid_bits %>),
   .REGISTER_INDEX (<%= register_index %>)

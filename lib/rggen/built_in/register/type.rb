@@ -102,11 +102,11 @@ RgGen.define_list_feature(:register, :type) do
       end
 
       def calc_width
-        data_width = configuration.data_width
+        bus_width = configuration.bus_width
         if helper.need_bit_fields?
-          ((collect_msb.max + data_width) / data_width) * data_width
+          ((collect_msb.max + bus_width) / bus_width) * bus_width
         else
-          data_width
+          bus_width
         end
       end
 
@@ -193,10 +193,6 @@ RgGen.define_list_feature(:register, :type) do
 
       def offset_address
         hex(register.offset_address, address_width)
-      end
-
-      def bus_width
-        configuration.data_width
       end
 
       def valid_bits

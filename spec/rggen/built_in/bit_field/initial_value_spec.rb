@@ -5,11 +5,9 @@ RSpec.describe 'bit_field/initial_value' do
   include_context 'register map common'
 
   before(:all) do
-    RgGen.enable(:global, :data_width)
+    RgGen.enable(:global, :bus_width)
     RgGen.enable(:bit_field, [:bit_assignment, :initial_value].shuffle)
   end
-
-  let(:data_width) { default_configuration.data_width }
 
   def create_bit_field(width, *input_value)
     register_map = create_register_map do

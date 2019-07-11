@@ -28,7 +28,7 @@ RgGen.define_simple_feature(:register, :offset_address) do
     verify(:feature) do
       error_condition { (offset_address % byte_width).positive? }
       message do
-        "offset address is not aligned with data width(#{data_width}): "\
+        "offset address is not aligned with bus width(#{bus_width}): "\
         "0x#{offset_address.to_s(16)}"
       end
     end
@@ -57,8 +57,8 @@ RgGen.define_simple_feature(:register, :offset_address) do
 
     private
 
-    def data_width
-      configuration.data_width
+    def bus_width
+      configuration.bus_width
     end
 
     def byte_width

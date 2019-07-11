@@ -6,14 +6,14 @@ RSpec.describe 'register/type/external' do
 
   describe 'register map' do
     before(:all) do
-      RgGen.enable(:global, [:data_width, :address_width])
+      RgGen.enable(:global, [:bus_width, :address_width])
       RgGen.enable(:register, [:type, :size])
       RgGen.enable(:register, :type, :external)
       RgGen.enable(:bit_field, :name)
     end
 
     def create_registers(&block)
-      configuration = create_configuration(data_width: 32, address_width: 16)
+      configuration = create_configuration(bus_width: 32, address_width: 16)
       register_map = create_register_map(configuration) do
         register_block(&block)
       end

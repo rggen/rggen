@@ -38,7 +38,7 @@ RgGen.define_simple_feature(:register_block, :byte_size) do
     verify(:feature) do
       error_condition { (byte_size % byte_width).positive? }
       message do
-        "byte size is not aligned with data width(#{data_width}): #{byte_size}"
+        "byte size is not aligned with bus width(#{bus_width}): #{byte_size}"
       end
     end
 
@@ -52,8 +52,8 @@ RgGen.define_simple_feature(:register_block, :byte_size) do
       configuration.byte_width
     end
 
-    def data_width
-      configuration.data_width
+    def bus_width
+      configuration.bus_width
     end
   end
 end

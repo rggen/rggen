@@ -6,7 +6,7 @@ RSpec.describe 'register/type/default' do
     include_context 'sv rtl common'
 
     before(:all) do
-      RgGen.enable(:global, [:data_width, :address_width, :array_port_format])
+      RgGen.enable(:global, [:bus_width, :address_width, :array_port_format])
       RgGen.enable(:register_block, [:name, :byte_size])
       RgGen.enable(:register, [:name, :offset_address, :size, :type])
       RgGen.enable(:bit_field, [:name, :bit_assignment, :type, :initial_value, :reference])

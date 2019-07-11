@@ -41,7 +41,7 @@ RSpec.describe RgGen do
       expect(builder).to receive(:setup).with(:'built-in', equal(RgGen::BuiltIn))
       expect(builder).to receive(:setup).with(:'spreadsheet-loader', equal(RgGen::SpreadsheetLoader))
 
-      expect(builder).to receive(:enable).with(:global, match([:data_width, :address_width])).and_call_original
+      expect(builder).to receive(:enable).with(:global, match([:bus_width, :address_width])).and_call_original
 
       expect(builder).to receive(:enable).with(:register_block, match([:name, :byte_size, :protocol])).and_call_original
       expect(builder).to receive(:enable).with(:register_block, :protocol, match([:apb, :axi4lite])).and_call_original

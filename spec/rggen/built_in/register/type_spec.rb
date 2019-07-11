@@ -19,7 +19,7 @@ RSpec.describe 'register/type' do
         register_map { reserved }
       end
 
-      RgGen.enable(:global, [:data_width, :address_width])
+      RgGen.enable(:global, [:bus_width, :address_width])
       RgGen.enable(:register, [:type, :size])
       RgGen.enable(:register, :type, [:foo, :bar, :baz])
       RgGen.enable(:bit_field, [:bit_assignment, :initial_value, :reference, :type])
@@ -31,7 +31,7 @@ RSpec.describe 'register/type' do
     end
 
     def create_registers(&block)
-      configuration = create_configuration(data_width: 32, address_width: 16)
+      configuration = create_configuration(bus_width: 32, address_width: 16)
       register_map = create_register_map(configuration) do
         register_block(&block)
       end
@@ -264,7 +264,7 @@ RSpec.describe 'register/type' do
       end
 
       context 'ビットフィールドを持つ場合' do
-        specify 'レジスタ幅はビットフィールドの最大MSBをデータ幅に切り上げた値' do
+        specify 'レジスタ幅はビットフィールドの最大MSBをバス幅に切り上げた値' do
           registers = create_registers do
             register do
               type :foo
@@ -328,7 +328,7 @@ RSpec.describe 'register/type' do
       end
 
       context 'ビットフィールドを持たない場合' do
-        specify 'レジスタ幅はデータ幅と同じ' do
+        specify 'レジスタ幅はバス幅と同じ' do
           registers = create_registers do
             register do
               type :bar
