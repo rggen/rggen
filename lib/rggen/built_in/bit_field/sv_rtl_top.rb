@@ -58,7 +58,7 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
     end
 
     def block_name
-      "g_#{bit_field.full_name('_')}"
+      "g_#{bit_field.name}"
     end
 
     def loop_size

@@ -306,7 +306,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       end
 
       expect(bit_fields[0]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_0_bit_field_0
+        if (1) begin : g_bit_field_0
           rggen_bit_field_if #(1) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
           rggen_bit_field_rw #(
@@ -322,7 +322,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[1]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_0_bit_field_1
+        if (1) begin : g_bit_field_1
           rggen_bit_field_if #(8) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
           rggen_bit_field_rw #(
@@ -338,7 +338,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[2]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_0_bit_field_2
+        if (1) begin : g_bit_field_2
           genvar i;
           for (i = 0;i < 2;++i) begin : g
             rggen_bit_field_if #(1) bit_field_sub_if();
@@ -357,7 +357,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[3]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_0_bit_field_3
+        if (1) begin : g_bit_field_3
           genvar i;
           for (i = 0;i < 2;++i) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
@@ -376,7 +376,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[4]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_0_bit_field_4
+        if (1) begin : g_bit_field_4
           genvar i;
           for (i = 0;i < 2;++i) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
@@ -395,7 +395,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[5]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_1_bit_field_0
+        if (1) begin : g_bit_field_0
           rggen_bit_field_if #(1) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
           rggen_bit_field_rw #(
@@ -411,7 +411,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[6]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_1_bit_field_1
+        if (1) begin : g_bit_field_1
           rggen_bit_field_if #(8) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
           rggen_bit_field_rw #(
@@ -427,7 +427,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[7]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_1_bit_field_2
+        if (1) begin : g_bit_field_2
           genvar j;
           for (j = 0;j < 2;++j) begin : g
             rggen_bit_field_if #(1) bit_field_sub_if();
@@ -446,7 +446,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[8]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_1_bit_field_3
+        if (1) begin : g_bit_field_3
           genvar j;
           for (j = 0;j < 2;++j) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
@@ -465,7 +465,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[9]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_1_bit_field_4
+        if (1) begin : g_bit_field_4
           genvar j;
           for (j = 0;j < 2;++j) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
@@ -484,7 +484,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[10]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_2_bit_field_0
+        if (1) begin : g_bit_field_0
           rggen_bit_field_if #(1) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
           rggen_bit_field_rw #(
@@ -500,7 +500,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[11]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_2_bit_field_1
+        if (1) begin : g_bit_field_1
           rggen_bit_field_if #(8) bit_field_sub_if();
           `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 8)
           rggen_bit_field_rw #(
@@ -516,7 +516,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[12]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_2_bit_field_2
+        if (1) begin : g_bit_field_2
           genvar k;
           for (k = 0;k < 2;++k) begin : g
             rggen_bit_field_if #(1) bit_field_sub_if();
@@ -535,7 +535,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[13]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_2_bit_field_3
+        if (1) begin : g_bit_field_3
           genvar k;
           for (k = 0;k < 2;++k) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
@@ -554,7 +554,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
       CODE
 
       expect(bit_fields[14]).to generate_code(:register, :top_down, <<~'CODE')
-        if (1) begin : g_register_2_bit_field_4
+        if (1) begin : g_bit_field_4
           genvar k;
           for (k = 0;k < 2;++k) begin : g
             rggen_bit_field_if #(2) bit_field_sub_if();
