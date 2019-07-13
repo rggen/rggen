@@ -540,15 +540,15 @@ RSpec.describe 'register/type/indirect' do
         end
       end
 
-      describe 'インデックスの重複' do
-        context 'インデックスが他のレジスタと重複しない場合' do
+      describe 'インデックスの区別' do
+        context 'インデックスが他のレジスタと区別できる場合' do
           it 'エラーを起こさない' do
             expect {
               create_registers do
                 register do
                   name :foo
                   offset_address 0x4
-                  type [:indirect, ['bar.bar_0', 0]]
+                  type [:indirect, ['baz.baz_0', 0]]
                   bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
                 end
                 register do
@@ -572,15 +572,15 @@ RSpec.describe 'register/type/indirect' do
                 register do
                   name :foo
                   offset_address 0x4
-                  size 2
-                  type [:indirect, 'baz.baz_0']
+                  size [2]
+                  type [:indirect, 'baz.baz_0', ['baz.baz_2', 0]]
                   bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
                 end
                 register do
                   name :bar
                   offset_address 0x0
-                  size 2
-                  type [:indirect, 'baz.baz_1']
+                  size [2]
+                  type [:indirect, 'baz.baz_0', ['baz.baz_2', 1]]
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -598,41 +598,15 @@ RSpec.describe 'register/type/indirect' do
                 register do
                   name :foo
                   offset_address 0x4
-                  size [2, 2]
-                  type [:indirect, 'baz.baz_0', 'baz.baz_1']
+                  size [2]
+                  type [:indirect, 'baz.baz_0', ['baz.baz_2', 0]]
                   bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
                 end
                 register do
                   name :bar
                   offset_address 0x0
                   size [2, 2]
-                  type [:indirect, 'baz.baz_0', 'baz.baz_2']
-                  bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
-                end
-                register do
-                  name :baz
-                  offset_address 0x8
-                  bit_field { name :baz_0; bit_assignment lsb: 0, width: 4; type :rw; initial_value 0 }
-                  bit_field { name :baz_1; bit_assignment lsb: 4, width: 4; type :rw; initial_value 0 }
-                  bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
-                end
-              end
-            }.not_to raise_error
-
-            expect {
-              create_registers do
-                register do
-                  name :foo
-                  offset_address 0x4
-                  size [2, 2]
-                  type [:indirect, 'baz.baz_0', 'baz.baz_2']
-                  bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
-                end
-                register do
-                  name :bar
-                  offset_address 0x0
-                  size [2, 2]
-                  type [:indirect, 'baz.baz_1', 'baz.baz_2']
+                  type [:indirect, 'baz.baz_0', 'baz.baz_1', ['baz.baz_2', 1]]
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -673,7 +647,7 @@ RSpec.describe 'register/type/indirect' do
           end
         end
 
-        context 'インデックスが他のレジスタと重複する場合' do
+        context 'インデックスが他のレジスタと区別できない場合' do
           it 'エラーを起こさない' do
             expect {
               create_registers do
@@ -697,7 +671,31 @@ RSpec.describe 'register/type/indirect' do
                   bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
                 end
               end
-            }.to raise_register_map_error 'indirect indices overlap with indirect indices of other register'
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
+
+            expect {
+              create_registers do
+                register do
+                  name :foo
+                  offset_address 0x4
+                  type [:indirect, ['baz.baz_0', 0]]
+                  bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
+                end
+                register do
+                  name :bar
+                  offset_address 0x0
+                  type [:indirect, ['baz.baz_1', 0]]
+                  bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
+                end
+                register do
+                  name :baz
+                  offset_address 0x8
+                  bit_field { name :baz_0; bit_assignment lsb: 0, width: 4; type :rw; initial_value 0 }
+                  bit_field { name :baz_1; bit_assignment lsb: 4, width: 4; type :rw; initial_value 0 }
+                  bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
+                end
+              end
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
 
             expect {
               create_registers do
@@ -712,7 +710,7 @@ RSpec.describe 'register/type/indirect' do
                   name :bar
                   offset_address 0x0
                   size 2
-                  type [:indirect, 'baz.baz_0']
+                  type [:indirect, 'baz.baz_1']
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -723,7 +721,7 @@ RSpec.describe 'register/type/indirect' do
                   bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
                 end
               end
-            }.to raise_register_map_error 'indirect indices overlap with indirect indices of other register'
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
 
             expect {
               create_registers do
@@ -738,7 +736,7 @@ RSpec.describe 'register/type/indirect' do
                   name :bar
                   offset_address 0x0
                   size [2, 2]
-                  type [:indirect, 'baz.baz_0', 'baz.baz_1']
+                  type [:indirect, 'baz.baz_0', 'baz.baz_2']
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -749,7 +747,7 @@ RSpec.describe 'register/type/indirect' do
                   bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
                 end
               end
-            }.to raise_register_map_error 'indirect indices overlap with indirect indices of other register'
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
 
             expect {
               create_registers do
@@ -764,7 +762,7 @@ RSpec.describe 'register/type/indirect' do
                   name :bar
                   offset_address 0x0
                   size [2, 2]
-                  type [:indirect, 'baz.baz_0', 'baz.baz_1', ['baz.baz_2', 0]]
+                  type [:indirect, 'baz.baz_0', 'baz.baz_2', ['baz.baz_2', 0]]
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -775,7 +773,7 @@ RSpec.describe 'register/type/indirect' do
                   bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
                 end
               end
-            }.to raise_register_map_error 'indirect indices overlap with indirect indices of other register'
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
 
             expect {
               create_registers do
@@ -790,7 +788,7 @@ RSpec.describe 'register/type/indirect' do
                   name :bar
                   offset_address 0x0
                   size [2, 2]
-                  type [:indirect, 'baz.baz_2', 'baz.baz_1', ['baz.baz_0', 1]]
+                  type [:indirect, 'baz.baz_0', 'baz.baz_2', ['baz.baz_0', 1]]
                   bit_field { name :bar_0; bit_assignment lsb: 32; type :rw; initial_value 0 }
                 end
                 register do
@@ -801,7 +799,7 @@ RSpec.describe 'register/type/indirect' do
                   bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
                 end
               end
-            }.to raise_register_map_error 'indirect indices overlap with indirect indices of other register'
+            }.to raise_register_map_error 'cannot be distinguished from other registers'
           end
         end
       end

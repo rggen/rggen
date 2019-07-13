@@ -40,13 +40,17 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
     end
 
     define_struct :index_entry, [:name, :value] do
+      def value_index?
+        !array_index?
+      end
+
       def array_index?
         value.nil?
       end
 
-      def ==(other)
-        name == other.name &&
-          ([self, other].any?(&:array_index?) || value == other.value)
+      def distinguishable?(other)
+        name == other.name && value != other.value &&
+          [self, other].all?(&:value_index?)
       end
     end
 
@@ -159,10 +163,8 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
     end
 
     verify(:all) do
-      error_condition { !unique_indices? }
-      message do
-        'indirect indices overlap with indirect indices of other register'
-      end
+      error_condition { !distinguishable? }
+      message { 'cannot be distinguished from other registers' }
     end
 
     private
@@ -233,18 +235,20 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
       @array_index_values[index.name]
     end
 
-    def unique_indices?
+    def distinguishable?
       register_block
         .registers.select { |other| share_same_range?(other) }
-        .none? { |other| overlap_indices?(other.index_entries) }
+        .all? { |other| distinguishable_indices?(other.index_entries) }
     end
 
     def share_same_range?(other)
       register.name != other.name && register.overlap?(other)
     end
 
-    def overlap_indices?(other)
-      index_entries.all? { |entry| other.include?(entry) }
+    def distinguishable_indices?(other_entries)
+      index_entries.any? do |entry|
+        other_entries.any?(&entry.method(:distinguishable?))
+      end
     end
   end
 end
