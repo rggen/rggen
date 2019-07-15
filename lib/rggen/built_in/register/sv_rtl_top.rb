@@ -21,6 +21,13 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
       end
     end
 
+    main_code :register_block do
+      local_scope(block_name, loop_size: loop_size, variables: variables) do
+        top_scope
+        body { |code| register.generate_code(:register, :top_down, code) }
+      end
+    end
+
     def index
       register.array? ? "#{@base_index}+#{local_index}" : @base_index
     end
@@ -49,6 +56,19 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
         total * size
       end
       coefficients
+    end
+
+    def block_name
+      "g_#{register.name}"
+    end
+
+    def loop_size
+      (register.array? || nil) &&
+        loop_variables.zip(register.array_size).to_h
+    end
+
+    def variables
+      register.declarations(:register, :variable)
     end
   end
 end
