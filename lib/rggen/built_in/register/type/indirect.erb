@@ -1,0 +1,15 @@
+rggen_indirect_register #(
+  .ADDRESS_WIDTH        (<%= address_width %>),
+  .OFFSET_ADDRESS       (<%= offset_address %>),
+  .BUS_WIDTH            (<%= configuration.bus_width %>),
+  .DATA_WIDTH           (<%= register.width %>),
+  .VALID_BITS           (<%= valid_bits %>),
+  .INDIRECT_INDEX_WIDTH (<%= index_width %>),
+  .INDIRECT_INDEX_VALUE (<%= concat(index_values) %>)
+) u_register (
+  .i_clk            (<%= register_block.clock %>),
+  .i_rst_n          (<%= register_block.reset %>),
+  .register_if      (<%= register_if %>),
+  .i_indirect_index (<%= indirect_index %>),
+  .bit_field_if     (<%= register.bit_field_if %>)
+);

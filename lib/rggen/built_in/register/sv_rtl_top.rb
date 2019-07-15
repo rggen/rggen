@@ -35,10 +35,9 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
 
     def loop_variables
       (register.array? || nil) &&
-        @loop_variables ||=
-          Array.new(register.array_size.size) do |i|
-            create_identifier(loop_index(i + 1))
-          end
+        Array.new(register.array_size.size) do |i|
+          create_identifier(loop_index(i + 1))
+        end
     end
 
     private

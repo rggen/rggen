@@ -251,4 +251,49 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
       end
     end
   end
+
+  sv_rtl do
+    build do
+      logic :register, :indirect_index, {
+        width: index_width
+      }
+    end
+
+    main_code :register do |code|
+      code << indirect_index_assignment << nl
+      code << process_template
+    end
+
+    private
+
+    def index_fields
+      @index_fields ||=
+        register.index_entries.map(&method(:find_index_field))
+    end
+
+    def find_index_field(entry)
+      register_block
+        .bit_fields
+        .find { |bit_field| bit_field.full_name == entry.name }
+    end
+
+    def index_width
+      @index_width ||= index_fields.map(&:width).inject(:+)
+    end
+
+    def index_values
+      loop_variables = register.loop_variables
+      register.index_entries.zip(index_fields).map do |entry, field|
+        if entry.array_index?
+          loop_variables.shift[0, field.width]
+        else
+          hex(entry.value, field.width)
+        end
+      end
+    end
+
+    def indirect_index_assignment
+      assign(indirect_index, concat(index_fields.map(&:value)))
+    end
+  end
 end

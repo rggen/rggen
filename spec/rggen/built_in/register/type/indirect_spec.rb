@@ -4,14 +4,19 @@ RSpec.describe 'register/type/indirect' do
   include_context 'clean-up builder'
   include_context 'register map common'
 
+  before(:all) do
+    RgGen.enable(:global, [:bus_width, :address_width])
+    RgGen.enable(:register_block, [:byte_size])
+    RgGen.enable(:register, [:name, :offset_address, :size, :type])
+    RgGen.enable(:register, :type, [:indirect])
+    RgGen.enable(:bit_field, [:name, :bit_assignment, :initial_value, :type])
+    RgGen.enable(:bit_field, :type, [:rw, :reserved])
+  end
+
   describe 'register map' do
     before(:all) do
-      RgGen.enable(:global, [:bus_width, :address_width])
-      RgGen.enable(:register_block, [:byte_size])
-      RgGen.enable(:register, [:name, :offset_address, :size, :type])
-      RgGen.enable(:register, :type, [:indirect])
-      RgGen.enable(:bit_field, [:name, :bit_assignment, :initial_value, :type])
-      RgGen.enable(:bit_field, :type, [:rw, :reserved])
+      delete_configuration_facotry
+      delete_register_map_factory
     end
 
     def create_registers(&block)
@@ -802,6 +807,233 @@ RSpec.describe 'register/type/indirect' do
             }.to raise_register_map_error 'cannot be distinguished from other registers'
           end
         end
+      end
+    end
+  end
+
+  describe 'sv rtl' do
+    include_context 'sv rtl common'
+
+    before(:all) do
+      delete_configuration_facotry
+      delete_register_map_factory
+    end
+
+    before(:all) do
+      RgGen.enable(:global, :array_port_format)
+      RgGen.enable(:register_block, :name)
+      RgGen.enable(:register_block, :sv_rtl_top)
+      RgGen.enable(:register, :sv_rtl_top)
+      RgGen.enable(:bit_field, :sv_rtl_top)
+    end
+
+    after(:all) do
+      RgGen.disable(:global, :array_port_format)
+      RgGen.disable(:register_block, :name)
+      RgGen.disable(:register_block, :sv_rtl_top)
+      RgGen.disable(:register, :sv_rtl_top)
+      RgGen.disable(:bit_field, :sv_rtl_top)
+    end
+
+    def create_registers(&body)
+      create_sv_rtl(&body).registers
+    end
+
+    it 'logic変数#indirect_indexを持つ' do
+      registers = create_registers do
+        name 'block_0'
+        byte_size 256
+
+        register do
+          name 'register_0'
+          offset_address 0x00
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 2; type :rw; initial_value 0 }
+          bit_field { name 'bit_field_2'; bit_assignment lsb: 16, width: 4; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_1'
+          offset_address 0x10
+          type [:indirect, ['register_0.bit_field_0', 1]]
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_2'
+          offset_address 0x14
+          size [2]
+          type [:indirect, 'register_0.bit_field_1']
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_3'
+          offset_address 0x18
+          size [2, 4]
+          type [:indirect, 'register_0.bit_field_1', 'register_0.bit_field_2']
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_4'
+          offset_address 0x1c
+          size [2, 4]
+          type [:indirect, ['register_0.bit_field_0', 1], 'register_0.bit_field_1', 'register_0.bit_field_2']
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+        end
+      end
+
+      expect(registers[1])
+        .to have_variable :register, :indirect_index, {
+          name: 'indirect_index',
+          data_type: :logic,
+          width: 1
+        }
+
+      expect(registers[2])
+        .to have_variable :register, :indirect_index, {
+          name: 'indirect_index',
+          data_type: :logic,
+          width: 2
+        }
+
+      expect(registers[3])
+        .to have_variable :register, :indirect_index, {
+          name: 'indirect_index',
+          data_type: :logic,
+          width: 6
+        }
+
+      expect(registers[4])
+        .to have_variable :register, :indirect_index, {
+          name: 'indirect_index',
+          data_type: :logic,
+          width: 7
+        }
+    end
+
+    describe '#generate_code' do
+      it 'rggen_indirect_registerをインスタンスするコードを出力する' do
+        registers = create_registers do
+          name 'block_0'
+          byte_size 256
+
+          register do
+            name 'register_0'
+            offset_address 0x00
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+            bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 2; type :rw; initial_value 0 }
+            bit_field { name 'bit_field_2'; bit_assignment lsb: 16, width: 4; type :rw; initial_value 0 }
+          end
+
+          register do
+            name 'register_1'
+            offset_address 0x10
+            type [:indirect, ['register_0.bit_field_0', 1]]
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+          end
+
+          register do
+            name 'register_2'
+            offset_address 0x14
+            size [2]
+            type [:indirect, 'register_0.bit_field_1']
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+          end
+
+          register do
+            name 'register_3'
+            offset_address 0x18
+            size [2, 4]
+            type [:indirect, 'register_0.bit_field_1', 'register_0.bit_field_2']
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+          end
+
+          register do
+            name 'register_4'
+            offset_address 0x1c
+            size [2, 4]
+            type [:indirect, ['register_0.bit_field_0', 0], 'register_0.bit_field_1', 'register_0.bit_field_2']
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
+          end
+        end
+
+        expect(registers[1]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[0+:1]};
+          rggen_indirect_register #(
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h10),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (1),
+            .INDIRECT_INDEX_VALUE ({1'h1})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[1]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[2]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[8+:2]};
+          rggen_indirect_register #(
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h14),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (2),
+            .INDIRECT_INDEX_VALUE ({i[0+:2]})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[2+i]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[3]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[8+:2], register_if[0].value[16+:4]};
+          rggen_indirect_register #(
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h18),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (6),
+            .INDIRECT_INDEX_VALUE ({i[0+:2], j[0+:4]})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[4+4*i+j]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[4]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[0+:1], register_if[0].value[8+:2], register_if[0].value[16+:4]};
+          rggen_indirect_register #(
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h1c),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (7),
+            .INDIRECT_INDEX_VALUE ({1'h0, i[0+:2], j[0+:4]})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[12+4*i+j]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
       end
     end
   end
