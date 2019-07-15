@@ -5,7 +5,16 @@ RgGen.define_list_item_feature(:bit_field, :type, :rw) do
     read_write
     need_initial_value
   end
+end
 
+RgGen.define_list_item_feature(:bit_field, :type, :wo) do
+  register_map do
+    write_only
+    need_initial_value
+  end
+end
+
+RgGen.define_list_item_feature(:bit_field, :type, [:rw, :wo]) do
   sv_rtl do
     build do
       output :register_block, :value_out, {

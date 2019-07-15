@@ -1,4 +1,4 @@
-rggen_bit_field_rw #(
+rggen_bit_field_<%= bit_field.type %> #(
   .WIDTH          (<%= bit_field.width %>),
   .INITIAL_VALUE  (<%= initial_value %>)
 ) u_bit_field (

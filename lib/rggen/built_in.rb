@@ -33,7 +33,8 @@ module RgGen
       'built_in/bit_field/type/reserved',
       'built_in/bit_field/type/ro',
       'built_in/bit_field/type/rs_w0s_w1s',
-      'built_in/bit_field/type/rw',
+      'built_in/bit_field/type/rw_wo',
+      'built_in/bit_field/type/rwe_rwl',
       'built_in/bit_field/type/rwe_rwl'
     ].freeze
 
