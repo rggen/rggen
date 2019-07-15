@@ -10,7 +10,7 @@ RSpec.describe 'register/type/default' do
       RgGen.enable(:register_block, [:name, :byte_size])
       RgGen.enable(:register, [:name, :offset_address, :size, :type])
       RgGen.enable(:bit_field, [:name, :bit_assignment, :type, :initial_value, :reference])
-      RgGen.enable(:bit_field, :type, :rw)
+      RgGen.enable(:bit_field, :type, [:rw, :ro, :wo])
       RgGen.enable(:register_block, :sv_rtl_top)
       RgGen.enable(:register, :sv_rtl_top)
       RgGen.enable(:bit_field, :sv_rtl_top)
@@ -69,10 +69,24 @@ RSpec.describe 'register/type/default' do
             offset_address 0x60
             bit_field { name 'bit_field_0'; bit_assignment lsb: 4, width: 4, sequence_size: 8, step: 8; type :rw; initial_value 0 }
           end
+
+          register do
+            name 'register_7'
+            offset_address 0x70
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :ro }
+          end
+
+          register do
+            name 'register_8'
+            offset_address 0x80
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :wo; initial_value 0 }
+          end
         end
 
         expect(registers[0]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h00),
             .BUS_WIDTH      (32),
@@ -89,6 +103,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[1]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h10),
             .BUS_WIDTH      (32),
@@ -105,6 +121,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[2]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h20),
             .BUS_WIDTH      (32),
@@ -121,6 +139,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[3]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h30),
             .BUS_WIDTH      (32),
@@ -137,6 +157,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[4]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h40),
             .BUS_WIDTH      (32),
@@ -153,6 +175,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[5]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h50),
             .BUS_WIDTH      (32),
@@ -169,6 +193,8 @@ RSpec.describe 'register/type/default' do
 
         expect(registers[6]).to generate_code(:register, :top_down, <<~'CODE')
           rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
             .ADDRESS_WIDTH  (8),
             .OFFSET_ADDRESS (8'h60),
             .BUS_WIDTH      (32),
@@ -179,6 +205,42 @@ RSpec.describe 'register/type/default' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .register_if  (register_if[12]),
+            .bit_field_if (bit_field_if)
+          );
+        CODE
+
+        expect(registers[7]).to generate_code(:register, :top_down, <<~'CODE')
+          rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (0),
+            .ADDRESS_WIDTH  (8),
+            .OFFSET_ADDRESS (8'h70),
+            .BUS_WIDTH      (32),
+            .DATA_WIDTH     (32),
+            .VALID_BITS     (32'h00000001),
+            .REGISTER_INDEX (0)
+          ) u_register (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .register_if  (register_if[13]),
+            .bit_field_if (bit_field_if)
+          );
+        CODE
+
+        expect(registers[8]).to generate_code(:register, :top_down, <<~'CODE')
+          rggen_default_register #(
+            .READABLE       (0),
+            .WRITABLE       (1),
+            .ADDRESS_WIDTH  (8),
+            .OFFSET_ADDRESS (8'h80),
+            .BUS_WIDTH      (32),
+            .DATA_WIDTH     (32),
+            .VALID_BITS     (32'h00000001),
+            .REGISTER_INDEX (0)
+          ) u_register (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .register_if  (register_if[14]),
             .bit_field_if (bit_field_if)
           );
         CODE

@@ -187,6 +187,14 @@ RgGen.define_list_feature(:register, :type) do
     base_feature do
       private
 
+      def readable
+        register.readable? && 1 || 0
+      end
+
+      def writable
+        register.writable? && 1 || 0
+      end
+
       def address_width
         register_block.local_address_width
       end

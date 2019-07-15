@@ -9,8 +9,8 @@ RSpec.describe 'register/type/indirect' do
     RgGen.enable(:register_block, [:byte_size])
     RgGen.enable(:register, [:name, :offset_address, :size, :type])
     RgGen.enable(:register, :type, [:indirect])
-    RgGen.enable(:bit_field, [:name, :bit_assignment, :initial_value, :type])
-    RgGen.enable(:bit_field, :type, [:rw, :reserved])
+    RgGen.enable(:bit_field, [:name, :bit_assignment, :initial_value, :reference, :type])
+    RgGen.enable(:bit_field, :type, [:ro, :rw, :wo, :reserved])
   end
 
   describe 'register map' do
@@ -957,11 +957,27 @@ RSpec.describe 'register/type/indirect' do
             type [:indirect, ['register_0.bit_field_0', 0], 'register_0.bit_field_1', 'register_0.bit_field_2']
             bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
           end
+
+          register do
+            name 'register_5'
+            offset_address 0x20
+            type [:indirect, ['register_0.bit_field_0', 0]]
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :ro }
+          end
+
+          register do
+            name 'register_6'
+            offset_address 0x24
+            type [:indirect, ['register_0.bit_field_0', 0]]
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :wo; initial_value 0 }
+          end
         end
 
         expect(registers[1]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1]};
           rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (1),
             .ADDRESS_WIDTH        (8),
             .OFFSET_ADDRESS       (8'h10),
             .BUS_WIDTH            (32),
@@ -981,6 +997,8 @@ RSpec.describe 'register/type/indirect' do
         expect(registers[2]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[8+:2]};
           rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (1),
             .ADDRESS_WIDTH        (8),
             .OFFSET_ADDRESS       (8'h14),
             .BUS_WIDTH            (32),
@@ -1000,6 +1018,8 @@ RSpec.describe 'register/type/indirect' do
         expect(registers[3]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[8+:2], register_if[0].value[16+:4]};
           rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (1),
             .ADDRESS_WIDTH        (8),
             .OFFSET_ADDRESS       (8'h18),
             .BUS_WIDTH            (32),
@@ -1019,6 +1039,8 @@ RSpec.describe 'register/type/indirect' do
         expect(registers[4]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1], register_if[0].value[8+:2], register_if[0].value[16+:4]};
           rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (1),
             .ADDRESS_WIDTH        (8),
             .OFFSET_ADDRESS       (8'h1c),
             .BUS_WIDTH            (32),
@@ -1030,6 +1052,48 @@ RSpec.describe 'register/type/indirect' do
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
             .register_if      (register_if[12+4*i+j]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[5]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[0+:1]};
+          rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (0),
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h20),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (1),
+            .INDIRECT_INDEX_VALUE ({1'h0})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[20]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[6]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[0].value[0+:1]};
+          rggen_indirect_register #(
+            .READABLE             (0),
+            .WRITABLE             (1),
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h24),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (1),
+            .INDIRECT_INDEX_VALUE ({1'h0})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[21]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );

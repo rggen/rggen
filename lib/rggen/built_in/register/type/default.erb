@@ -1,4 +1,6 @@
 rggen_default_register #(
+  .READABLE       (<%= readable %>),
+  .WRITABLE       (<%= writable %>),
   .ADDRESS_WIDTH  (<%= address_width %>),
   .OFFSET_ADDRESS (<%= offset_address %>),
   .BUS_WIDTH      (<%= configuration.bus_width %>),
