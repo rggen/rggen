@@ -267,7 +267,7 @@ RSpec.describe 'bit_field/sv_rtl_top' do
   end
 
   describe '#generate_code' do
-    it '各ビットフィールドの最上位階層のコードを出力する' do
+    it 'ビットフィールド階層のコードを出力する' do
       bit_fields = create_bit_fields do
         name 'block_0'
         byte_size 256
