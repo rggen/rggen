@@ -576,6 +576,30 @@ RSpec.describe 'register/type/indirect' do
               create_registers do
                 register do
                   name :foo
+                  offset_address 0x0
+                  type [:indirect, ['baz.baz_0', 0]]
+                  bit_field { name :foo_0; bit_assignment lsb: 0; type :ro }
+                end
+                register do
+                  name :bar
+                  offset_address 0x0
+                  type [:indirect, ['baz.baz_0', 0]]
+                  bit_field { name :bar_0; bit_assignment lsb: 0; type :wo; initial_value 0 }
+                end
+                register do
+                  name :baz
+                  offset_address 0x4
+                  bit_field { name :baz_0; bit_assignment lsb: 0, width: 4; type :rw; initial_value 0 }
+                  bit_field { name :baz_1; bit_assignment lsb: 4, width: 4; type :rw; initial_value 0 }
+                  bit_field { name :baz_2; bit_assignment lsb: 8, width: 4; type :rw; initial_value 0 }
+                end
+              end
+            }.not_to raise_error
+
+            expect {
+              create_registers do
+                register do
+                  name :foo
                   offset_address 0x4
                   size [2]
                   type [:indirect, 'baz.baz_0', ['baz.baz_2', 0]]
