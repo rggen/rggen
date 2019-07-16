@@ -61,5 +61,11 @@ RgGen.define_list_feature(:register_block, :protocol) do
 
   sv_rtl do
     shared_context.feature_registry(registry)
+
+    factory do
+      def select_feature(configuration, _register_block)
+        target_features[configuration.protocol]
+      end
+    end
   end
 end

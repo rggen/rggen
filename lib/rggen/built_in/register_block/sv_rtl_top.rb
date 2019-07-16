@@ -2,6 +2,8 @@
 
 RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
   sv_rtl do
+    export :total_registers
+
     build do
       input :register_block, :clock, {
         name: 'i_clk',
@@ -22,6 +24,13 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
       }
     end
 
+    def total_registers
+      register_block
+        .registers
+        .map(&:count)
+        .inject(:+)
+    end
+
     private
 
     def address_width
@@ -34,13 +43,6 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
 
     def value_width
       register_block.registers.map(&:width).max
-    end
-
-    def total_registers
-      register_block
-        .registers
-        .map(&:count)
-        .inject(:+)
     end
   end
 end
