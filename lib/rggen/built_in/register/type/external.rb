@@ -75,9 +75,20 @@ RgGen.define_list_item_feature(:register, :type, :external) do
       end
     end
 
+    main_code :register, from_template: true
     main_code :register do |code|
-      code << process_template
-      bus_if_connections(code) unless configuration.fold_sv_interface_port?
+      unless configuration.fold_sv_interface_port?
+        [
+          [valid, bus_if.valid],
+          [address, bus_if.address],
+          [write, bus_if.write],
+          [write_data, bus_if.write_data],
+          [strobe, bus_if.strobe],
+          [bus_if.ready, ready],
+          [bus_if.status, "rggen_status'(#{status})"],
+          [bus_if.read_data, read_data]
+        ].map { |lhs, rhs| code << assign(lhs, rhs) << nl }
+      end
     end
 
     private
@@ -101,17 +112,6 @@ RgGen.define_list_item_feature(:register, :type, :external) do
     def end_address
       address = register.offset_address + register.byte_size - 1
       hex(address, address_width)
-    end
-
-    def bus_if_connections(code)
-      code << assign(valid, bus_if.valid) << nl
-      code << assign(address, bus_if.address) << nl
-      code << assign(write, bus_if.write) << nl
-      code << assign(write_data, bus_if.write_data) << nl
-      code << assign(strobe, bus_if.strobe) << nl
-      code << assign(bus_if.ready, ready) << nl
-      code << assign(bus_if.status, "rggen_status'(#{status})") << nl
-      code << assign(bus_if.read_data, read_data) << nl
     end
   end
 end

@@ -92,24 +92,22 @@ RgGen.define_list_item_feature(:register_block, :protocol, :apb) do
       end
     end
 
+    main_code :register_block, from_template: true
     main_code :register_block do |code|
-      code << process_template
-      apb_if_connections(code) unless configuration.fold_sv_interface_port?
-    end
-
-    private
-
-    def apb_if_connections(code)
-      code << assign(apb_if.psel, psel) << nl
-      code << assign(apb_if.penable, penable) << nl
-      code << assign(apb_if.paddr, paddr) << nl
-      code << assign(apb_if.pprot, pprot) << nl
-      code << assign(apb_if.pwrite, pwrite) << nl
-      code << assign(apb_if.pstrb, pstrb) << nl
-      code << assign(apb_if.pwdata, pwdata) << nl
-      code << assign(pready, apb_if.pready) << nl
-      code << assign(prdata, apb_if.prdata) << nl
-      code << assign(pslverr, apb_if.pslverr) << nl
+      unless configuration.fold_sv_interface_port?
+        [
+          [apb_if.psel, psel],
+          [apb_if.penable, penable],
+          [apb_if.paddr, paddr],
+          [apb_if.pprot, pprot],
+          [apb_if.pwrite, pwrite],
+          [apb_if.pstrb, pstrb],
+          [apb_if.pwdata, pwdata],
+          [pready, apb_if.pready],
+          [prdata, apb_if.prdata],
+          [pslverr, apb_if.pslverr]
+        ].map { |lhs, rhs| code << assign(lhs, rhs) << nl }
+      end
     end
   end
 end
