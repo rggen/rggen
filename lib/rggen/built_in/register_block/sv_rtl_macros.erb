@@ -1,0 +1,9 @@
+`ifndef rggen_connect_bit_field_if
+  `define rggen_connect_bit_field_if(RIF, FIF, LSB, WIDTH) \
+  assign  FIF.valid                 = RIF.valid; \
+  assign  FIF.read_mask             = RIF.read_mask[LSB+:WIDTH]; \
+  assign  FIF.write_mask            = RIF.write_mask[LSB+:WIDTH]; \
+  assign  FIF.write_data            = RIF.write_data[LSB+:WIDTH]; \
+  assign  RIF.read_data[LSB+:WIDTH] = FIF.read_data; \
+  assign  RIF.value[LSB+:WIDTH]     = FIF.value;
+`endif

@@ -5,12 +5,14 @@ RSpec.describe 'register_block/sv_rtl_top' do
   include_context 'clean-up builder'
 
   before(:all) do
-    RgGen.enable(:global, [:bus_width, :address_width, :array_port_format])
+    RgGen.enable(:global, [:bus_width, :address_width, :array_port_format, :fold_sv_interface_port])
     RgGen.enable(:register_block, [:name, :byte_size])
     RgGen.enable(:register, [:name, :offset_address, :size, :type])
+    RgGen.enable(:register, :type, [:external, :indirect])
     RgGen.enable(:bit_field, [:name, :bit_assignment, :type, :initial_value, :reference])
-    RgGen.enable(:bit_field, :type, :rw)
-    RgGen.enable(:register_block, :sv_rtl_top)
+    RgGen.enable(:bit_field, :type, [:rc, :ro, :rs, :rw, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :wo])
+    RgGen.enable(:register_block, [:sv_rtl_top, :protocol])
+    RgGen.enable(:register_block, :protocol, :apb)
     RgGen.enable(:register, :sv_rtl_top)
     RgGen.enable(:bit_field, :sv_rtl_top)
   end
@@ -108,6 +110,39 @@ RSpec.describe 'register_block/sv_rtl_top' do
         end
       end
       expect(register_block.register_if[0].value).to match_identifier('register_if[0].value')
+    end
+  end
+
+  describe '#write_file' do
+    before do
+      allow(FileUtils).to receive(:mkpath)
+    end
+
+    let(:configuration) do
+      file = ['config.yml', 'config.json'].sample
+      path = File.join(RGGEN_ROOT, 'sample', file)
+      build_configuration_factory(RgGen.builder, false).create([path])
+    end
+
+    let(:register_map) do
+      file = ['block_0.rb', 'block_0.xlsx', 'block_0.yml'].sample
+      path = File.join(RGGEN_ROOT, 'sample', file)
+      build_register_map_factory(RgGen.builder, false).create(configuration, [path])
+    end
+
+    let(:sv_rtl) do
+      build_sv_rtl_factory(RgGen.builder).create(configuration, register_map).register_blocks[0]
+    end
+
+    let(:expected_code) do
+      path = File.join(RGGEN_ROOT, 'sample', 'block_0.sv')
+      File.binread(path)
+    end
+
+    it 'RTLのソースファイルを書き出す' do
+      expect {
+        sv_rtl.write_file('foo')
+      }.to write_file match_string('foo/block_0.sv'), expected_code
     end
   end
 end

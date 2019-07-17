@@ -24,6 +24,10 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
       }
     end
 
+    write_file '<%= register_block.name %>.sv' do |file|
+      file.body(&method(:body_code))
+    end
+
     def total_registers
       register_block
         .registers
@@ -43,6 +47,41 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
 
     def value_width
       register_block.registers.map(&:width).max
+    end
+
+    def body_code(code)
+      macro_definition(code)
+      sv_module_definition(code)
+    end
+
+    def macro_definition(code)
+      code << process_template(File.join(__dir__, 'sv_rtl_macros.erb'))
+    end
+
+    def sv_module_definition(code)
+      code << module_definition(register_block.name) do |sv_module|
+        sv_module.package_imports [:rggen_rtl_pkg]
+        sv_module.parameters parameters
+        sv_module.ports ports
+        sv_module.variables variables
+        sv_module.body(&method(:sv_module_body))
+      end
+    end
+
+    def parameters
+      register_block.declarations(:register_block, :parameter)
+    end
+
+    def ports
+      register_block.declarations(:register_block, :port)
+    end
+
+    def variables
+      register_block.declarations(:register_block, :variable)
+    end
+
+    def sv_module_body(code)
+      register_block.generate_code(:register_block, :top_down, code)
     end
   end
 end
