@@ -16,8 +16,10 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
     end
 
     main_code :register do
-      local_scope(block_name, loop_size: loop_size, variables: variables) do
-        body { |code| bit_field.generate_code(:bit_field, :top_down, code) }
+      local_scope("g_#{bit_field.name}") do |scope|
+        scope.loop_size loop_size
+        scope.variables variables
+        scope.body(&method(:body_code))
       end
     end
 
@@ -57,10 +59,6 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
       register.array? || bit_field.sequential?
     end
 
-    def block_name
-      "g_#{bit_field.name}"
-    end
-
     def loop_size
       (bit_field.sequential? || nil) &&
         { index_name => bit_field.sequence_size }
@@ -68,6 +66,10 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
 
     def variables
       bit_field.declarations(:bit_field, :variable)
+    end
+
+    def body_code(code)
+      bit_field.generate_code(:bit_field, :top_down, code)
     end
 
     def bit_field_if_connection

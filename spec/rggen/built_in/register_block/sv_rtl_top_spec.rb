@@ -27,9 +27,9 @@ RSpec.describe 'register_block/sv_rtl_top' do
     it 'clock/resetを持つ' do
       register_block = create_register_block { name 'block_0'; byte_size 256 }
       expect(register_block)
-        .to have_port(:register_block, :clock) { name 'i_clk'; direction :input; data_type :logic; width 1; }
+        .to have_port(:register_block, :clock) { |p| p.name 'i_clk'; p.direction :input; p.data_type :logic; p.width 1; }
       expect(register_block)
-        .to have_port(:register_block, :reset) { name 'i_rst_n'; direction :input; data_type :logic; width 1; }
+        .to have_port(:register_block, :reset) { |p| p.name 'i_rst_n'; p.direction :input; p.data_type :logic; p.width 1; }
     end
   end
 
