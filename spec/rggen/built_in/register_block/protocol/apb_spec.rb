@@ -57,12 +57,12 @@ RSpec.describe 'register_block/protocol/apb' do
 
     let(:address_width) { 16 }
 
-    let(:data_width) { 32 }
+    let(:bus_width) { 32 }
 
     def create_register_block(fold_sv_interface_port, &body)
       configuration = create_configuration(
         address_width: address_width,
-        data_width: data_width,
+        bus_width: bus_width,
         fold_sv_interface_port: fold_sv_interface_port,
         protocol: :apb
       )
@@ -128,14 +128,14 @@ RSpec.describe 'register_block/protocol/apb' do
             name: 'i_pstrb',
             direction: :input,
             data_type: :logic,
-            width: data_width / 8
+            width: bus_width / 8
           }
         expect(register_block)
           .to not_have_port :register_block, :pwdata, {
             name: 'i_pwdata',
             direction: :input,
             data_type: :logic,
-            width: data_width
+            width: bus_width
           }
         expect(register_block)
           .to not_have_port :register_block, :pready, {
@@ -149,7 +149,7 @@ RSpec.describe 'register_block/protocol/apb' do
             name: 'o_prdata',
             direction: :output,
             data_type: :logic,
-            width: data_width
+            width: bus_width
           }
         expect(register_block)
           .to not_have_port :register_block, :pslverr, {
@@ -211,14 +211,14 @@ RSpec.describe 'register_block/protocol/apb' do
             name: 'i_pstrb',
             direction: :input,
             data_type: :logic,
-            width: data_width / 8
+            width: bus_width / 8
           }
         expect(register_block)
           .to have_port :register_block, :pwdata, {
             name: 'i_pwdata',
             direction: :input,
             data_type: :logic,
-            width: data_width
+            width: bus_width
           }
         expect(register_block)
           .to have_port :register_block, :pready, {
@@ -232,7 +232,7 @@ RSpec.describe 'register_block/protocol/apb' do
             name: 'o_prdata',
             direction: :output,
             data_type: :logic,
-            width: data_width
+            width: bus_width
           }
         expect(register_block)
           .to have_port :register_block, :pslverr, {
@@ -248,7 +248,7 @@ RSpec.describe 'register_block/protocol/apb' do
           .to have_interface :register_block, :apb_if, {
             name: 'apb_if',
             interface_type: 'rggen_apb_if',
-            parameter_values: [address_width, data_width]
+            parameter_values: [address_width, bus_width]
           }
       end
     end
