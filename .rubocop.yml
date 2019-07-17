@@ -1,6 +1,7 @@
 AllCops:
   TargetRubyVersion: 2.3
   Exclude:
+    - sample/**/*
     - spec/**/*
 
 Layout/EmptyLineAfterGuardClause:
@@ -18,6 +19,7 @@ Lint/AmbiguousRegexpLiteral:
 Metrics/BlockLength:
   ExcludedMethods:
     - base_feature
+    - build
     - configuration
     - define_helpers
     - define_list_feature
