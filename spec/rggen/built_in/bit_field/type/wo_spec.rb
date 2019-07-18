@@ -31,6 +31,16 @@ RSpec.describe 'bit_field/type/wo' do
       expect(bit_fields[0]).to have_property(:type, :wo)
     end
 
+    it '不揮発性ビットフィールドである' do
+      bit_fields = create_bit_fields do
+        register do
+          name :foo
+          bit_field { name :foo; bit_assignment lsb: 0; type :wo; initial_value 0 }
+        end
+      end
+      expect(bit_fields[0]).to have_property(:volatile?, false)
+    end
+
     specify 'アクセス属性は書き込みのみ可' do
       bit_fields = create_bit_fields do
         register do

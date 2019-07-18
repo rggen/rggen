@@ -3,6 +3,7 @@
 RgGen.define_list_item_feature(:bit_field, :type, :rw) do
   register_map do
     read_write
+    non_volatile
     need_initial_value
   end
 end
@@ -10,6 +11,7 @@ end
 RgGen.define_list_item_feature(:bit_field, :type, :wo) do
   register_map do
     write_only
+    non_volatile
     need_initial_value
   end
 end
