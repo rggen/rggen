@@ -208,7 +208,7 @@ RgGen.define_list_feature(:bit_field, :type) do
         attr_setter :access
 
         def model_name(name = nil, &block)
-          @model_name = name || block if name || block_given?
+          @model_name = name || block || @model_name
           @model_name
         end
       end
@@ -233,51 +233,30 @@ RgGen.define_list_feature(:bit_field, :type) do
       def model_name
         if helper.model_name&.is_a?(Proc)
           instance_eval(&helper.model_name)
-        elsif helper.model_name
-          helper.model_name
         else
-          :rggen_ral_field
+          helper.model_name || :rggen_ral_field
         end
       end
 
       def constructor(code)
-        foreach_header(code) if bit_field.sequential?
-        code << macro_call(:rggen_ral_create_field_model, arguments) << nl
-        foreach_footer(code) if bit_field.sequential?
+        (bit_field.sequence_size&.times || [nil]).each do |index|
+          code << [
+            macro_call(:rggen_ral_create_field_model, arguments(index)), nl
+          ]
+        end
       end
 
       private
 
       def array_size
-        (bit_field.sequential? || nil) && [bit_field.sequence_size]
+        Array(bit_field.sequence_size)
       end
 
-      def foreach_header(code)
-        code << "foreach (#{field_model}[#{loop_variable}]) begin" << nl
-        code.indent += 2
-      end
-
-      def foreach_footer(code)
-        code.indent -= 2
-        code << 'end' << nl
-      end
-
-      def loop_variable
-        (bit_field.sequential? || nil) &&
-          @loop_variable ||= create_identifier(loop_index(1))
-      end
-
-      def arguments
+      def arguments(index)
         [
-          handle_name, string(field_model), array(loop_variable),
-          bit_field.lsb(loop_variable), bit_field.width,
-          string(access), volatile,
-          reset_value, bit_field.initial_value? && 1 || 0
+          field_model[index], bit_field.lsb(index), bit_field.width,
+          string(access), volatile, reset_value, valid_reset
         ]
-      end
-
-      def handle_name
-        field_model[loop_variable]
       end
 
       def volatile
@@ -286,6 +265,10 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       def reset_value
         hex(bit_field.initial_value, bit_field.width)
+      end
+
+      def valid_reset
+        bit_field.initial_value? && 1 || 0
       end
     end
 

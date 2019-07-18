@@ -832,18 +832,20 @@ RSpec.describe 'bit_field/type' do
         bit_fields.each { |bit_field| bit_field.constructor(code_block) }
 
         expect(code_block).to match_string(<<~'CODE')
-          `rggen_ral_create_field_model(bit_field_0, "bit_field_0", '{}, 0, 1, "FOO", 1, 1'h0, 0)
-          `rggen_ral_create_field_model(bit_field_1, "bit_field_1", '{}, 8, 8, "FOO", 1, 8'h00, 0)
-          `rggen_ral_create_field_model(bit_field_2, "bit_field_2", '{}, 16, 1, "FOO", 1, 1'h0, 1)
-          `rggen_ral_create_field_model(bit_field_3, "bit_field_3", '{}, 24, 8, "FOO", 1, 8'hab, 1)
-          `rggen_ral_create_field_model(bit_field_0, "bit_field_0", '{}, 0, 1, "BAR", 0, 1'h0, 0)
-          `rggen_ral_create_field_model(bit_field_1, "bit_field_1", '{}, 1, 1, "RW", 1, 1'h0, 0)
-          foreach (bit_field_0[i]) begin
-            `rggen_ral_create_field_model(bit_field_0[i], "bit_field_0", '{i}, 0+8*i, 4, "FOO", 1, 4'h0, 0)
-          end
-          foreach (bit_field_1[i]) begin
-            `rggen_ral_create_field_model(bit_field_1[i], "bit_field_1", '{i}, 4+8*i, 4, "FOO", 1, 4'h0, 0)
-          end
+          `rggen_ral_create_field_model(bit_field_0, 0, 1, "FOO", 1, 1'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1, 8, 8, "FOO", 1, 8'h00, 0)
+          `rggen_ral_create_field_model(bit_field_2, 16, 1, "FOO", 1, 1'h0, 1)
+          `rggen_ral_create_field_model(bit_field_3, 24, 8, "FOO", 1, 8'hab, 1)
+          `rggen_ral_create_field_model(bit_field_0, 0, 1, "BAR", 0, 1'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1, 1, 1, "RW", 1, 1'h0, 0)
+          `rggen_ral_create_field_model(bit_field_0[0], 0, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_0[1], 8, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_0[2], 16, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_0[3], 24, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1[0], 4, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1[1], 12, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1[2], 20, 4, "FOO", 1, 4'h0, 0)
+          `rggen_ral_create_field_model(bit_field_1[3], 28, 4, "FOO", 1, 4'h0, 0)
         CODE
       end
     end
