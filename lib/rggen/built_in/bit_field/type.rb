@@ -32,6 +32,18 @@ RgGen.define_list_feature(:bit_field, :type) do
           @writable.nil? || @writable
         end
 
+        def volatile
+          @volatile = true
+        end
+
+        def non_volatile
+          @volatile = false
+        end
+
+        def volatile?
+          @volatile.nil? || @volatile
+        end
+
         def need_initial_value(**options)
           @initial_value_options = options.merge(needed: true)
         end
@@ -51,6 +63,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       property :read_only?, body: -> { readable? && !writable? }
       property :write_only?, body: -> { writable? && !readable? }
       property :reserved?, body: -> { !(readable? || writable?) }
+      property :volatile?, forward_to_helper: true
 
       build { |value| @type = value }
 
@@ -179,6 +192,100 @@ RgGen.define_list_feature(:bit_field, :type) do
               .find { |bit_field| bit_field.full_name == reference }
               .value
           end
+      end
+    end
+
+    factory do
+      def select_feature(_configuration, bit_field)
+        target_features[bit_field.type]
+      end
+    end
+  end
+
+  sv_ral do
+    base_feature do
+      define_helpers do
+        attr_setter :access
+
+        def model_name(name = nil, &block)
+          @model_name = name || block if name || block_given?
+          @model_name
+        end
+      end
+
+      export :access
+      export :model_name
+      export :constructor
+
+      build do
+        variable :register, :field_model, {
+          name: bit_field.name,
+          data_type: model_name,
+          array_size: array_size,
+          random: true
+        }
+      end
+
+      def access
+        (helper.access || bit_field.type).to_s.upcase
+      end
+
+      def model_name
+        if helper.model_name&.is_a?(Proc)
+          instance_eval(&helper.model_name)
+        elsif helper.model_name
+          helper.model_name
+        else
+          :rggen_ral_field
+        end
+      end
+
+      def constructor(code)
+        foreach_header(code) if bit_field.sequential?
+        code << macro_call(:rggen_ral_create_field_model, arguments) << nl
+        foreach_footer(code) if bit_field.sequential?
+      end
+
+      private
+
+      def array_size
+        (bit_field.sequential? || nil) && [bit_field.sequence_size]
+      end
+
+      def foreach_header(code)
+        code << "foreach (#{field_model}[#{loop_variable}]) begin" << nl
+        code.indent += 2
+      end
+
+      def foreach_footer(code)
+        code.indent -= 2
+        code << 'end' << nl
+      end
+
+      def loop_variable
+        (bit_field.sequential? || nil) &&
+          @loop_variable ||= create_identifier(loop_index(1))
+      end
+
+      def arguments
+        [
+          handle_name, string(field_model), array(loop_variable),
+          bit_field.lsb(loop_variable), bit_field.width,
+          string(access), volatile,
+          reset_value, bit_field.initial_value? && 1 || 0
+        ]
+      end
+
+      def handle_name
+        field_model[loop_variable]
+      end
+
+      def volatile
+        bit_field.volatile? && 1 || 0
+      end
+
+      def reset_value
+        hex(bit_field.initial_value, bit_field.width)
       end
     end
 
