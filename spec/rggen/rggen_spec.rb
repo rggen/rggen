@@ -44,19 +44,17 @@ RSpec.describe RgGen do
       expect(builder).to receive(:enable).with(:global, match([:bus_width, :address_width, :array_port_format, :fold_sv_interface_port])).and_call_original
 
       expect(builder).to receive(:enable).with(:register_block, match([:name, :byte_size])).and_call_original
-
       expect(builder).to receive(:enable).with(:register, match([:name, :offset_address, :size, :type])).and_call_original
       expect(builder).to receive(:enable).with(:register, :type, match([:external, :indirect])).and_call_original
-
       expect(builder).to receive(:enable).with(:bit_field, match([:name, :bit_assignment, :type, :initial_value, :reference, :comment])).and_call_original
       expect(builder).to receive(:enable).with(:bit_field, :type, match([:rc, :reserved, :ro, :rs, :rw, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :wo])).and_call_original
 
       expect(builder).to receive(:enable).with(:register_block, match([:sv_rtl_top, :protocol])).and_call_original
       expect(builder).to receive(:enable).with(:register_block, :protocol, match([:apb, :axi4lite])).and_call_original
-
       expect(builder).to receive(:enable).with(:register, match([:sv_rtl_top])).and_call_original
-
       expect(builder).to receive(:enable).with(:bit_field, match([:sv_rtl_top])).and_call_original
+
+      expect(builder).to receive(:enable).with(:register_block, match([:sv_ral_package])).and_call_original
 
       cli = RgGen::Core::CLI.new(builder)
       cli.run(['--verbose-version'])

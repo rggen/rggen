@@ -1,0 +1,11 @@
+function new(string name);
+  super.new(name);
+endfunction
+function void build();
+<% reg_model_constructors.each do |constructor| %>
+  <%= constructor %>
+<% end %>
+endfunction
+function uvm_reg_map create_default_map();
+  return create_map("default_map", 0, <%= byte_width %>, UVM_LITTLE_ENDIAN, 1);
+endfunction
