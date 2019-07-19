@@ -319,15 +319,13 @@ RgGen.define_list_feature(:register, :type) do
       end
 
       def access_rights
-        access =
-          if register.writable? && register.readable?
-            'RW'
-          elsif register.writable?
-            'WO'
-          else
-            'RO'
-          end
-        string(access)
+        if register.writable? && register.readable?
+          'RW'
+        elsif register.writable?
+          'WO'
+        else
+          'RO'
+        end
       end
 
       def unmapped
@@ -335,11 +333,11 @@ RgGen.define_list_feature(:register, :type) do
       end
 
       def hdl_path(array_index)
-        string([
+        [
           "g_#{register.name}",
           *Array(array_index).map { |i| "g[#{i}]" },
           'u_register'
-        ].join('.'))
+        ].join('.')
       end
 
       def variables

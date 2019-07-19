@@ -255,7 +255,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       def arguments(index)
         [
           ral_model[index], bit_field.lsb(index), bit_field.width,
-          string(access), volatile, reset_value, valid_reset
+          access, volatile, reset_value, valid_reset
         ]
       end
 
