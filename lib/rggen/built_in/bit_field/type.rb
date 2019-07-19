@@ -184,14 +184,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       end
 
       def reference_bit_field
-        (bit_field.reference? || nil) &&
-          begin
-            reference = bit_field.reference.full_name
-            register_block
-              .bit_fields
-              .find { |bit_field| bit_field.full_name == reference }
-              .value
-          end
+        bit_field.find_reference(register_block.bit_fields)&.value
       end
     end
 

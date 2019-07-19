@@ -4,6 +4,7 @@ RgGen.define_simple_feature(:bit_field, :reference) do
   register_map do
     property :reference, forward_to: :reference_bit_field, verify: :all
     property :reference?, body: -> { !@input_reference.nil? }
+    property :find_reference, forward_to: :find_reference_bit_field
 
     input_pattern /(#{variable_name})\.(#{variable_name})/
 
@@ -50,12 +51,18 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     private
 
     def reference_bit_field
-      reference? && (@reference_bit_field ||= lookup_reference) || nil
+      (reference? || nil) &&
+        (@reference_bit_field ||= lookup_reference)
+    end
+
+    def find_reference_bit_field(bit_fields)
+      (reference? || nil) &&
+        bit_fields
+          .find { |bit_field| bit_field.full_name == @input_reference }
     end
 
     def lookup_reference
-      register_block.bit_fields
-        .find { |bit_field| bit_field.full_name == @input_reference }
+      find_reference_bit_field(register_block.bit_fields)
     end
   end
 end
