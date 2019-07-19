@@ -114,4 +114,22 @@ RgGen.define_list_item_feature(:register, :type, :external) do
       hex(address, address_width)
     end
   end
+
+  sv_ral do
+    build do
+      parameter :register_block, :model_type, {
+        name: model_name,
+        data_type: :type,
+        default: 'rggen_ral_block'
+      }
+    end
+
+    model_name { register.name.upcase }
+
+    constructor do
+      macro_call(
+        'rggen_ral_create_block_model', [ral_model, offset_address]
+      )
+    end
+  end
 end
