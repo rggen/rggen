@@ -350,8 +350,19 @@ RgGen.define_list_feature(:register, :type) do
     end
 
     default_feature do
-      template_path = File.join(__dir__, 'type', 'default_sv_ral.erb')
-      main_code :ral_package, from_template: template_path
+      main_code :ral_package do
+        class_definition(model_name) do |sv_class|
+          sv_class.base 'rggen_ral_reg'
+          sv_class.variables variables
+          sv_class.body { model_body }
+        end
+      end
+
+      private
+
+      def model_body
+        process_template(File.join(__dir__, 'type', 'default_sv_ral.erb'))
+      end
     end
 
     factory do

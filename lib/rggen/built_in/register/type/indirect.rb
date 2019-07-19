@@ -295,10 +295,19 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
     unmapped
     offset_address { register.offset_address }
 
-    template_path = File.join(__dir__, 'indirect_sv_ral.erb')
-    main_code :ral_package, from_template: template_path
+    main_code :ral_package do
+      class_definition(model_name) do |sv_class|
+        sv_class.base 'rggen_ral_indirect_reg'
+        sv_class.variables variables
+        sv_class.body { model_body }
+      end
+    end
 
     private
+
+    def model_body
+      process_template(File.join(__dir__, 'indirect_sv_ral.erb'))
+    end
 
     def index_properties
       array_position = -1
