@@ -697,7 +697,7 @@ RSpec.describe 'bit_field/type' do
       end
     end
 
-    describe '#field_model' do
+    describe '#ral_model' do
       before(:all) do
         RgGen.define_list_item_feature(:bit_field, :type, :foo) do
           register_map {}
@@ -719,7 +719,7 @@ RSpec.describe 'bit_field/type' do
         RgGen.delete(:bit_field, :type, [:foo, :bar, :baz])
       end
 
-      it 'フィールドモデル変数#field_modelを持つ' do
+      it 'フィールドモデル変数#ral_model' do
         bit_fields = create_bit_fields do
           register do
             name 'register_0'

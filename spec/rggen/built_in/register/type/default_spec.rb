@@ -257,7 +257,7 @@ RSpec.describe 'register/type/default' do
 
     let(:registers) { create_sv_ral(&register_map_body).registers }
 
-    it 'レジスタモデル変数#reg_modelを持つ' do
+    it 'レジスタモデル変数#ral_modelを持つ' do
       expect(registers[0])
         .to have_variable :register_block, :ral_model, {
           name: 'register_0',
