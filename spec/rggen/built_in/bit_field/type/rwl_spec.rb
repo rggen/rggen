@@ -377,4 +377,28 @@ RSpec.describe 'bit_field/type/rwl' do
       end
     end
   end
+
+  describe 'sv ral' do
+    include_context 'sv ral common'
+
+    before(:all) do
+      delete_register_map_factory
+    end
+
+    specify 'モデル名はrggen_ral_rwl_field' do
+      sv_ral = create_sv_ral do
+        register do
+          name 'register_0'
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rwl; initial_value 0; reference 'register_1.bit_field_0' }
+        end
+
+        register do
+          name 'register_1'
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+        end
+      end
+
+      expect(sv_ral.bit_fields[0].model_name).to eq 'rggen_ral_rwl_field #("register_1", "bit_field_0")'
+    end
+  end
 end

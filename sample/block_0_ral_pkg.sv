@@ -52,8 +52,8 @@ package block_0_ral_pkg;
     endfunction
   endclass
   class register_4_reg_model extends rggen_ral_reg;
-    rand rggen_ral_field bit_field_0;
-    rand rggen_ral_field bit_field_1;
+    rand rggen_ral_rwe_field #("register_0", "bit_field_2") bit_field_0;
+    rand rggen_ral_rwl_field #("register_0", "bit_field_2") bit_field_1;
     function new(string name);
       super.new(name, 32, 0);
     endfunction
