@@ -1,0 +1,18 @@
+class <%= model_name %> extends rggen_ral_indirect_reg;
+<% variables.each do |variable| %>
+  <%= variable %>;
+<% end %>
+  function new(string name);
+    super.new(name, <%= register.width%>, 0);
+  endfunction
+  function void build();
+<% field_model_constructors.each do |constructor| %>
+    <%= constructor %>
+<% end%>
+  endfunction
+  function void setup_index_fields();
+<% index_properties.each do |reg_name, field_name, value| %>
+    setup_index_field("<%= reg_name %>", "<%= field_name%>", <%= value %>);
+<% end %>
+  endfunction
+endclass

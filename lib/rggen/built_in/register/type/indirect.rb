@@ -52,9 +52,16 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
         name == other.name && value != other.value &&
           [self, other].all?(&:value_index?)
       end
+
+      def find_index_field(bit_fields)
+        bit_fields.find { |bit_field| bit_field.full_name == name }
+      end
     end
 
     property :index_entries
+    property :collect_index_fields do |bit_fields|
+      index_entries.map { |entry| entry.find_index_field(bit_fields) }
+    end
 
     byte_size { byte_width }
     support_array_register
@@ -211,16 +218,9 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
     end
 
     def index_field(index)
-      @index_fields ||= Hash.new do |hash, key|
-        hash[key] = find_index_field(key)
-      end
-      @index_fields[index.name]
-    end
-
-    def find_index_field(name)
-      register_block
-        .bit_fields
-        .find { |bit_field| bit_field.full_name == name }
+      @index_fields ||= {}
+      @index_fields[index.name] ||=
+        index.find_index_field(register_block.bit_fields)
     end
 
     def array_index_fields
@@ -261,20 +261,14 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
 
     main_code :register do |code|
       code << indirect_index_assignment << nl
-      code << process_template
+      code << process_template(File.join(__dir__, 'indirect_sv_rtl.erb'))
     end
 
     private
 
     def index_fields
       @index_fields ||=
-        register.index_entries.map(&method(:find_index_field))
-    end
-
-    def find_index_field(entry)
-      register_block
-        .bit_fields
-        .find { |bit_field| bit_field.full_name == entry.name }
+        register.collect_index_fields(register_block.bit_fields)
     end
 
     def index_width
@@ -294,6 +288,33 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
 
     def indirect_index_assignment
       assign(indirect_index, concat(index_fields.map(&:value)))
+    end
+  end
+
+  sv_ral do
+    unmapped
+    offset_address { register.offset_address }
+
+    template_path = File.join(__dir__, 'indirect_sv_ral.erb')
+    main_code :ral_package, from_template: template_path
+
+    private
+
+    def index_properties
+      array_position = -1
+      register.index_entries.zip(index_fields).map do |entry, field|
+        value =
+          if entry.value_index?
+            hex(entry.value, field.width)
+          else
+            "array_index[#{array_position += 1}]"
+          end
+        [*entry.name.split('.'), value]
+      end
+    end
+
+    def index_fields
+      register.collect_index_fields(register_block.bit_fields)
     end
   end
 end
