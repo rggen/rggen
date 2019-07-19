@@ -259,13 +259,13 @@ RSpec.describe 'register/type/default' do
 
     it 'レジスタモデル変数#reg_modelを持つ' do
       expect(registers[0])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_0',
           data_type: 'register_0_reg_model',
           random: true
         }
       expect(registers[1])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_1',
           data_type: 'register_1_reg_model',
           array_size: [4],
@@ -273,7 +273,7 @@ RSpec.describe 'register/type/default' do
           random: true
         }
       expect(registers[2])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_2',
           data_type: 'register_2_reg_model',
           array_size: [2, 2],

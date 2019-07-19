@@ -739,13 +739,13 @@ RSpec.describe 'bit_field/type' do
         end
 
         expect(bit_fields[0])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_0',
             data_type: :rggen_ral_field,
             random: true
           }
         expect(bit_fields[1])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_1',
             data_type: :rggen_ral_field,
             array_size: [4],
@@ -753,13 +753,13 @@ RSpec.describe 'bit_field/type' do
             random: true
           }
         expect(bit_fields[2])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_0',
             data_type: :rggen_bar_field,
             random: true
           }
         expect(bit_fields[3])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_1',
             data_type: :rggen_bar_field,
             array_size: [4],
@@ -767,13 +767,13 @@ RSpec.describe 'bit_field/type' do
             random: true
           }
         expect(bit_fields[4])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_0',
             data_type: 'rggen_ral_bit_field_0',
             random: true
           }
         expect(bit_fields[5])
-          .to have_variable :register, :field_model, {
+          .to have_variable :register, :ral_model, {
             name: 'bit_field_1',
             data_type: 'rggen_ral_bit_field_1',
             array_size: [4],

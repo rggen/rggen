@@ -259,7 +259,7 @@ RgGen.define_list_feature(:register, :type) do
       export :constructors
 
       build do
-        variable :register_block, :reg_model, {
+        variable :register_block, :ral_model, {
           name: register.name,
           data_type: model_name,
           array_size: register.array_size,
@@ -303,12 +303,12 @@ RgGen.define_list_feature(:register, :type) do
 
       def arguments(array_index, index)
         [
-          reg_model[array_index], array(array_index), offset_address(index),
+          ral_model[array_index], array(array_index), offset_address(index),
           access_rights, unmapped, hdl_path(array_index)
         ]
       end
 
-      def offset_address(index)
+      def offset_address(index = 0)
         address =
           if helper.offset_address
             instance_exec(index, &helper.offset_address)

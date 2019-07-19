@@ -218,7 +218,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       export :constructors
 
       build do
-        variable :register, :field_model, {
+        variable :register, :ral_model, {
           name: bit_field.name,
           data_type: model_name,
           array_size: array_size,
@@ -254,7 +254,7 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       def arguments(index)
         [
-          field_model[index], bit_field.lsb(index), bit_field.width,
+          ral_model[index], bit_field.lsb(index), bit_field.width,
           string(access), volatile, reset_value, valid_reset
         ]
       end

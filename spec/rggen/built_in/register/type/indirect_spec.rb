@@ -1075,15 +1075,15 @@ RSpec.describe 'register/type/indirect' do
       create_sv_ral(&register_map_body).registers
     end
 
-    it 'レジスタモデル変数#reg_modelを持つ' do
+    it 'レジスタモデル変数#ral_modelを持つ' do
       expect(registers[1])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_1',
           data_type: 'register_1_reg_model',
           random: true
         }
       expect(registers[2])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_2',
           data_type: 'register_2_reg_model',
           array_size: [2],
@@ -1091,7 +1091,7 @@ RSpec.describe 'register/type/indirect' do
           random: true
         }
       expect(registers[3])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_3',
           data_type: 'register_3_reg_model',
           array_size: [2, 4],
@@ -1099,7 +1099,7 @@ RSpec.describe 'register/type/indirect' do
           random: true
         }
       expect(registers[4])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_4',
           data_type: 'register_4_reg_model',
           array_size: [2, 4],
@@ -1107,13 +1107,13 @@ RSpec.describe 'register/type/indirect' do
           random: true
         }
       expect(registers[5])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_5',
           data_type: 'register_5_reg_model',
           random: true
         }
       expect(registers[6])
-        .to have_variable :register_block, :reg_model, {
+        .to have_variable :register_block, :ral_model, {
           name: 'register_6',
           data_type: 'register_6_reg_model',
           random: true
