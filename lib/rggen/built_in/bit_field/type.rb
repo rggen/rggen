@@ -215,7 +215,7 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       export :access
       export :model_name
-      export :constructor
+      export :constructors
 
       build do
         variable :register, :field_model, {
@@ -238,11 +238,11 @@ RgGen.define_list_feature(:bit_field, :type) do
         end
       end
 
-      def constructor(code)
-        (bit_field.sequence_size&.times || [nil]).each do |index|
-          code << [
-            macro_call(:rggen_ral_create_field_model, arguments(index)), nl
-          ]
+      def constructors
+        (bit_field.sequence_size&.times || [nil]).map do |index|
+          macro_call(
+            :rggen_ral_create_field_model, arguments(index)
+          )
         end
       end
 
@@ -270,6 +270,9 @@ RgGen.define_list_feature(:bit_field, :type) do
       def valid_reset
         bit_field.initial_value? && 1 || 0
       end
+    end
+
+    default_feature do
     end
 
     factory do

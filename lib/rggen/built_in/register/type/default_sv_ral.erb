@@ -1,0 +1,13 @@
+class <%= model_name %> extends rggen_ral_reg;
+<% variables.each do |variable| %>
+  <%= variable%>;
+<% end %>
+  function new(string name);
+    super.new(name, <%= register.width%>, 0);
+  endfunction
+  function void build();
+<% field_model_constructors.each do |constructor| %>
+    <%= constructor %>
+<% end%>
+  endfunction
+endclass

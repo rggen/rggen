@@ -719,7 +719,7 @@ RSpec.describe 'bit_field/type' do
         RgGen.delete(:bit_field, :type, [:foo, :bar, :baz])
       end
 
-      it 'フィールド変数#field_modelを持つ' do
+      it 'フィールドモデル変数#field_modelを持つ' do
         bit_fields = create_bit_fields do
           register do
             name 'register_0'
@@ -783,7 +783,7 @@ RSpec.describe 'bit_field/type' do
       end
     end
 
-    describe '#constructor' do
+    describe '#constructors' do
       before(:all) do
         RgGen.define_list_item_feature(:bit_field, :type, :foo) do
           register_map { volatile }
@@ -829,7 +829,9 @@ RSpec.describe 'bit_field/type' do
         end
 
         code_block = RgGen::Core::Utility::CodeUtility::CodeBlock.new
-        bit_fields.each { |bit_field| bit_field.constructor(code_block) }
+        bit_fields.flat_map(&:constructors).each do |constructor|
+          code_block << [constructor, "\n"]
+        end
 
         expect(code_block).to match_string(<<~'CODE')
           `rggen_ral_create_field_model(bit_field_0, 0, 1, "FOO", 1, 1'h0, 0)
