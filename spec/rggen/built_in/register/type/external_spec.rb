@@ -361,18 +361,30 @@ RSpec.describe 'register/type/external' do
         }
     end
 
-    it 'パラメータ#model_typeを持つ' do
+    it 'パラメータ#model_typeと#integrateを持つ' do
       expect(registers[0])
         .to have_parameter :register_block, :model_type, {
           name: 'REGISTER_0',
           data_type: 'type',
           default: 'rggen_ral_block'
         }
+      expect(registers[0])
+        .to have_parameter :register_block, :integrate_model, {
+          name: 'INTEGRATE_REGISTER_0',
+          data_type: 'bit',
+          default: 1
+        }
       expect(registers[1])
         .to have_parameter :register_block, :model_type, {
           name: 'REGISTER_1',
           data_type: 'type',
           default: 'rggen_ral_block'
+        }
+      expect(registers[1])
+        .to have_parameter :register_block, :integrate_model, {
+          name: 'INTEGRATE_REGISTER_1',
+          data_type: 'bit',
+          default: 1
         }
     end
 
@@ -384,8 +396,8 @@ RSpec.describe 'register/type/external' do
         end
 
         expect(code_block).to match_string(<<~'CODE')
-          `rggen_ral_create_block_model(register_0, 8'h00)
-          `rggen_ral_create_block_model(register_1, 8'h80)
+          `rggen_ral_create_block_model(register_0, 8'h00, this, INTEGRATE_REGISTER_0)
+          `rggen_ral_create_block_model(register_1, 8'h80, this, INTEGRATE_REGISTER_1)
         CODE
       end
     end

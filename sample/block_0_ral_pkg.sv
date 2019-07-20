@@ -121,7 +121,8 @@ package block_0_ral_pkg;
     endfunction
   endclass
   class block_0_block_model #(
-    type REGISTER_8 = rggen_ral_block
+    type REGISTER_8 = rggen_ral_block,
+    bit INTEGRATE_REGISTER_8 = 1
   ) extends rggen_ral_block;
     rand register_0_reg_model register_0;
     rand register_1_reg_model register_1;
@@ -154,7 +155,7 @@ package block_0_ral_pkg;
       `rggen_ral_create_reg_model(register_7[1][1], '{1, 1}, 8'h40, RW, 1, g_register_7.g[1].g[1].u_register)
       `rggen_ral_create_reg_model(register_7[1][2], '{1, 2}, 8'h40, RW, 1, g_register_7.g[1].g[2].u_register)
       `rggen_ral_create_reg_model(register_7[1][3], '{1, 3}, 8'h40, RW, 1, g_register_7.g[1].g[3].u_register)
-      `rggen_ral_create_block_model(register_8, 8'h80)
+      `rggen_ral_create_block_model(register_8, 8'h80, this, INTEGRATE_REGISTER_8)
     endfunction
     function uvm_reg_map create_default_map();
       return create_map("default_map", 0, 4, UVM_LITTLE_ENDIAN, 1);
