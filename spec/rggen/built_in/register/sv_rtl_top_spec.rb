@@ -133,8 +133,8 @@ RSpec.describe 'register/sv_rtl_top' do
   end
 
   describe '#index' do
-    it 'レジスタブロック内でのインデックスを返す' do
-      registers = create_registers do
+    let(:registers) do
+      create_registers do
         name 'block_0'
         byte_size 256
 
@@ -171,12 +171,45 @@ RSpec.describe 'register/sv_rtl_top' do
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
         end
       end
+    end
 
-      expect(registers[0].index).to eq 0
-      expect(registers[1].index).to eq '1+i'
-      expect(registers[2].index).to eq '5+2*i+j'
-      expect(registers[3].index).to eq 9
-      expect(registers[4].index).to eq 10
+    context '無引数の場合' do
+      it 'レジスタブロック内でのインデックスを返す' do
+        expect(registers[0].index).to eq 0
+        expect(registers[1].index).to eq '1+i'
+        expect(registers[2].index).to eq '5+2*i+j'
+        expect(registers[3].index).to eq 9
+        expect(registers[4].index).to eq 10
+      end
+    end
+
+    context '引数がnilの場合' do
+      it 'レジスタブロック内でのインデックスを返す' do
+        expect(registers[0].index(nil)).to eq 0
+        expect(registers[1].index(nil)).to eq '1+i'
+        expect(registers[2].index(nil)).to eq '5+2*i+j'
+        expect(registers[3].index(nil)).to eq 9
+        expect(registers[4].index(nil)).to eq 10
+      end
+    end
+
+    context 'オフセットが引数で指定された場合' do
+      it '指定されたオフセットでのインデックスを返す' do
+        expect(registers[0].index(1)).to eq 0
+        expect(registers[0].index('i')).to eq 0
+
+        expect(registers[1].index(1)).to eq 2
+        expect(registers[1].index('i')).to eq '1+i'
+
+        expect(registers[2].index(1)).to eq 6
+        expect(registers[2].index('i')).to eq '5+i'
+
+        expect(registers[3].index(1)).to eq 9
+        expect(registers[3].index('i')).to eq 9
+
+        expect(registers[4].index(1)).to eq 10
+        expect(registers[4].index('i')).to eq 10
+      end
     end
   end
 

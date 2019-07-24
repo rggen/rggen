@@ -208,8 +208,8 @@ RSpec.describe 'bit_field/sv_rtl_top' do
   end
 
   describe '#value' do
-    it '自身が保持する値への参照を返す' do
-      bit_fields = create_bit_fields do
+    let(:bit_fields) do
+      create_bit_fields do
         name 'block_0'
         byte_size 256
 
@@ -245,24 +245,62 @@ RSpec.describe 'bit_field/sv_rtl_top' do
           bit_field { name 'bit_field_4'; bit_assignment lsb: 24, width: 2, sequence_size: 2, step: 4; type :rw; initial_value 0 }
         end
       end
+    end
 
-      expect(bit_fields[0].value).to match_identifier('register_if[0].value[0+:1]')
-      expect(bit_fields[1].value).to match_identifier('register_if[0].value[8+:8]')
-      expect(bit_fields[2].value).to match_identifier('register_if[0].value[16+1*i+:1]')
-      expect(bit_fields[3].value).to match_identifier('register_if[0].value[20+2*i+:2]')
-      expect(bit_fields[4].value).to match_identifier('register_if[0].value[24+4*i+:2]')
+    context '無引数の場合' do
+      it '自身が保持する値への参照を返す' do
+        expect(bit_fields[0].value).to match_identifier('register_if[0].value[0+:1]')
+        expect(bit_fields[1].value).to match_identifier('register_if[0].value[8+:8]')
+        expect(bit_fields[2].value).to match_identifier('register_if[0].value[16+1*i+:1]')
+        expect(bit_fields[3].value).to match_identifier('register_if[0].value[20+2*i+:2]')
+        expect(bit_fields[4].value).to match_identifier('register_if[0].value[24+4*i+:2]')
 
-      expect(bit_fields[5].value).to match_identifier('register_if[1+i].value[0+:1]')
-      expect(bit_fields[6].value).to match_identifier('register_if[1+i].value[8+:8]')
-      expect(bit_fields[7].value).to match_identifier('register_if[1+i].value[16+1*j+:1]')
-      expect(bit_fields[8].value).to match_identifier('register_if[1+i].value[20+2*j+:2]')
-      expect(bit_fields[9].value).to match_identifier('register_if[1+i].value[24+4*j+:2]')
+        expect(bit_fields[5].value).to match_identifier('register_if[1+i].value[0+:1]')
+        expect(bit_fields[6].value).to match_identifier('register_if[1+i].value[8+:8]')
+        expect(bit_fields[7].value).to match_identifier('register_if[1+i].value[16+1*j+:1]')
+        expect(bit_fields[8].value).to match_identifier('register_if[1+i].value[20+2*j+:2]')
+        expect(bit_fields[9].value).to match_identifier('register_if[1+i].value[24+4*j+:2]')
 
-      expect(bit_fields[10].value).to match_identifier('register_if[5+2*i+j].value[0+:1]')
-      expect(bit_fields[11].value).to match_identifier('register_if[5+2*i+j].value[8+:8]')
-      expect(bit_fields[12].value).to match_identifier('register_if[5+2*i+j].value[16+1*k+:1]')
-      expect(bit_fields[13].value).to match_identifier('register_if[5+2*i+j].value[20+2*k+:2]')
-      expect(bit_fields[14].value).to match_identifier('register_if[5+2*i+j].value[24+4*k+:2]')
+        expect(bit_fields[10].value).to match_identifier('register_if[5+2*i+j].value[0+:1]')
+        expect(bit_fields[11].value).to match_identifier('register_if[5+2*i+j].value[8+:8]')
+        expect(bit_fields[12].value).to match_identifier('register_if[5+2*i+j].value[16+1*k+:1]')
+        expect(bit_fields[13].value).to match_identifier('register_if[5+2*i+j].value[20+2*k+:2]')
+        expect(bit_fields[14].value).to match_identifier('register_if[5+2*i+j].value[24+4*k+:2]')
+      end
+    end
+
+    context '引数でレジスタ/ビットフィールドのオフセットが指定された場合' do
+      it '指定されたオフセットでの自身が保持する値への参照を返す' do
+        expect(bit_fields[0].value(1, 1)).to match_identifier('register_if[0].value[0+:1]')
+        expect(bit_fields[0].value('i', 'j')).to match_identifier('register_if[0].value[0+:1]')
+
+        expect(bit_fields[1].value(1, 1)).to match_identifier('register_if[0].value[8+:8]')
+        expect(bit_fields[1].value('i', 'j')).to match_identifier('register_if[0].value[8+:8]')
+
+        expect(bit_fields[2].value(1, 1)).to match_identifier('register_if[0].value[17+:1]')
+        expect(bit_fields[2].value('i', 'j')).to match_identifier('register_if[0].value[16+1*j+:1]')
+
+        expect(bit_fields[3].value(1, 1)).to match_identifier('register_if[0].value[22+:2]')
+        expect(bit_fields[3].value('i', 'j')).to match_identifier('register_if[0].value[20+2*j+:2]')
+
+        expect(bit_fields[4].value(1, 1)).to match_identifier('register_if[0].value[28+:2]')
+        expect(bit_fields[4].value('i', 'j')).to match_identifier('register_if[0].value[24+4*j+:2]')
+
+        expect(bit_fields[5].value(1, 1)).to match_identifier('register_if[2].value[0+:1]')
+        expect(bit_fields[5].value('i', 'j')).to match_identifier('register_if[1+i].value[0+:1]')
+
+        expect(bit_fields[6].value(1, 1)).to match_identifier('register_if[2].value[8+:8]')
+        expect(bit_fields[6].value('i', 'j')).to match_identifier('register_if[1+i].value[8+:8]')
+
+        expect(bit_fields[7].value(1, 1)).to match_identifier('register_if[2].value[17+:1]')
+        expect(bit_fields[7].value('i', 'j')).to match_identifier('register_if[1+i].value[16+1*j+:1]')
+
+        expect(bit_fields[8].value(1, 1)).to match_identifier('register_if[2].value[22+:2]')
+        expect(bit_fields[8].value('i', 'j')).to match_identifier('register_if[1+i].value[20+2*j+:2]')
+
+        expect(bit_fields[9].value(1, 1)).to match_identifier('register_if[2].value[28+:2]')
+        expect(bit_fields[9].value('i', 'j')).to match_identifier('register_if[1+i].value[24+4*j+:2]')
+      end
     end
   end
 

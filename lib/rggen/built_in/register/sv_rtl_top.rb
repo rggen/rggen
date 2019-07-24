@@ -30,8 +30,14 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
       end
     end
 
-    def index
-      register.array? ? "#{@base_index}+#{local_index}" : @base_index
+    def index(offset = nil)
+      operands =
+        register.array? ? [@base_index, offset || local_index] : [@base_index]
+      if operands.all? { |operand| operand.is_a?(Integer) }
+        operands.inject(:+)
+      else
+        operands.join('+')
+      end
     end
 
     def local_index
@@ -44,8 +50,8 @@ RgGen.define_simple_feature(:register, :sv_rtl_top) do
 
     def loop_variables
       (register.array? || nil) &&
-        Array.new(register.array_size.size) do |i|
-          create_identifier(loop_index(i + 1))
+        register.array_size.map.with_index(1) do |_size, i|
+          create_identifier(loop_index(i))
         end
     end
 
