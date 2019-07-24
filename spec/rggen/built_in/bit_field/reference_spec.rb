@@ -8,13 +8,15 @@ RSpec.describe 'bit_field/reference' do
     RgGen.define_simple_feature(:register, :array) do
       register_map do
         property :array?, default: false
-        build { |value| @array = value }
+        property :array_size, default: nil
+        build { |value| @array, @array_size = value }
       end
     end
     RgGen.define_simple_feature(:bit_field, :sequential) do
       register_map do
         property :sequential?, default: false
-        build { |value| @sequential = value }
+        property :sequence_size, default: 0
+        build { |value| @sequential, @sequence_size = value }
       end
     end
     RgGen.define_simple_feature(:bit_field, :reserved) do
@@ -199,7 +201,7 @@ RSpec.describe 'bit_field/reference' do
       end
     end
 
-    context '配列レジスタを参照している場合' do
+    context '自身は単体レジスタで、配列レジスタを参照している場合' do
       it 'RegisterMapErrorを起こす' do
         expect {
           create_bit_fields do
@@ -209,7 +211,7 @@ RSpec.describe 'bit_field/reference' do
             end
             register do
               name 'foo_1'
-              array true
+              array [true, [2]]
               bit_field { name 'foo_1_0' }
             end
           end
@@ -217,7 +219,104 @@ RSpec.describe 'bit_field/reference' do
       end
     end
 
-    context '連番ビットフィールドを参照している場合' do
+    context '自身は配列レジスタで、単体レジスタを参照している場合' do
+      it 'RegisterMapErrorを起こさない' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              array [true, [2]]
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.not_to raise_error
+      end
+    end
+
+    context '自身、参照レジスタともに配列レジスタで、配列のサイズが一致する場合' do
+      it 'RegisterMapErrorを起こさない' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              array [true, [2]]
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              array [true, [2]]
+              bit_field { name 'foo_1_0' }
+            end
+
+            register do
+              name 'foo_2'
+              array [true, [2, 3]]
+              bit_field { name 'foo_2_0'; reference 'foo_3.foo_3_0' }
+            end
+            register do
+              name 'foo_3'
+              array [true, [2, 3]]
+              bit_field { name 'foo_3_0' }
+            end
+          end
+        }.not_to raise_error
+      end
+    end
+
+    context '自身、参照レジスタともに配列レジスタで、配列のサイズが一致しない場合' do
+      it 'RegisterMapErrorを起こす' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              array [true, [2]]
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              array [true, [1]]
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.to raise_register_map_error 'array size is not matched: own [2] reference [1]'
+
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              array [true, [2]]
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              array [true, [2, 1]]
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.to raise_register_map_error 'array size is not matched: own [2] reference [2, 1]'
+
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              array [true, [2, 1]]
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+            end
+            register do
+              name 'foo_1'
+              array [true, [2]]
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.to raise_register_map_error 'array size is not matched: own [2, 1] reference [2]'
+      end
+    end
+
+    context '自身が単体ビットフィールドで、連番ビットフィールドを参照している場合' do
       it 'RegisterMapErrorを起こす' do
         expect {
           create_bit_fields do
@@ -227,10 +326,61 @@ RSpec.describe 'bit_field/reference' do
             end
             register do
               name 'foo_1'
-              bit_field { name 'foo_1_0'; sequential true }
+              bit_field { name 'foo_1_0'; sequential [true, 2] }
             end
           end
         }.to raise_register_map_error 'sequential bit field is not allowed for reference bit field: foo_1.foo_1_0'
+      end
+    end
+
+    context '自身が連番ビットフィールドで、単体ビットフィールドを参照している場合' do
+      it 'RegiterMapErrorを起こさない' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+            end
+            register do
+              name 'foo_1'
+              bit_field { name 'foo_1_0' }
+            end
+          end
+        }.not_to raise_error
+      end
+    end
+
+    context '自身、参照ビットフィールドともに連番ビットフィールドで、連番サイズが一致する場合' do
+      it 'RegiterMapErrorを起こさない' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+            end
+            register do
+              name 'foo_1'
+              bit_field { name 'foo_1_0'; sequential [true, 2] }
+            end
+          end
+        }.not_to raise_error
+      end
+    end
+
+    context '自身、参照ビットフィールドともに連番ビットフィールドで、連番サイズが一致しない場合' do
+      it 'RegiterMapErrorを起こす' do
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+            end
+            register do
+              name 'foo_1'
+              bit_field { name 'foo_1_0'; sequential [true, 3] }
+            end
+          end
+        }.to raise_register_map_error 'sequence size is not matched: own 2 reference 3'
       end
     end
 
