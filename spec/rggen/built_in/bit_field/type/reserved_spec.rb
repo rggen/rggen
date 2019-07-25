@@ -30,14 +30,14 @@ RSpec.describe 'bit_field/type/reserved' do
       expect(bit_fields[0]).to have_property(:type, :reserved)
     end
 
-    it '揮発性ビットフィールドである' do
+    it '不揮発性ビットフィールドである' do
       bit_fields = create_bit_fields do
         register do
           name :foo
           bit_field { name :foo; bit_assignment lsb: 1; type :reserved }
         end
       end
-      expect(bit_fields[0]).to have_property(:volatile?, true)
+      expect(bit_fields[0]).to have_property(:volatile?, false)
     end
 
     specify 'アクセス属性は予約済み属性' do
