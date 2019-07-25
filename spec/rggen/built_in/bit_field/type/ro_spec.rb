@@ -471,8 +471,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (1)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_0_bit_field_0)
           );
@@ -482,8 +480,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (1)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[1].value[1+:1])
           );
@@ -493,8 +489,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (8)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_0_bit_field_2)
           );
@@ -504,8 +498,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (8)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[1].value[16+:8])
           );
@@ -515,8 +507,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (64)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_2_bit_field_0)
           );
@@ -526,8 +516,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_3_bit_field_0[i])
           );
@@ -537,8 +525,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[4].value[4+:4])
           );
@@ -548,8 +534,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[4].value[8+4*i+:4])
           );
@@ -559,8 +543,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_5_bit_field_0[i][j])
           );
@@ -570,8 +552,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[9+i].value[4+4*j+:4])
           );
@@ -581,8 +561,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[13].value[4+:4])
           );
@@ -592,8 +570,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (i_register_8_bit_field_0[i][j][k])
           );
@@ -603,8 +579,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[18+2*i+j].value[4+4*k+:4])
           );
@@ -614,8 +588,6 @@ RSpec.describe 'bit_field/type/ro' do
           rggen_bit_field_ro #(
             .WIDTH  (4)
           ) u_bit_field (
-            .i_clk        (i_clk),
-            .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
             .i_value      (register_if[22].value[4+:4])
           );
