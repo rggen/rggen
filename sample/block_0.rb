@@ -15,8 +15,10 @@ register_block {
   register {
     name 'register_1'
     offset_address 0x04
-    bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 4; type :ro }
-    bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 4; type :ro }
+    bit_field { name 'bit_field_0'; bit_assignment lsb: 0 , width: 4; type :ro }
+    bit_field { name 'bit_field_1'; bit_assignment lsb: 8 , width: 4; type :ro }
+    bit_field { name 'bit_field_2'; bit_assignment lsb: 16, width: 8; type :rof; initial_value 0xab }
+    bit_field { name 'bit_field_3'; bit_assignment lsb: 24, width: 8; type :reserved }
   }
 
   register {

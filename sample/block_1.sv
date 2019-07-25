@@ -72,8 +72,6 @@ module block_1
             rggen_bit_field_ro #(
               .WIDTH  (8)
             ) u_bit_field (
-              .i_clk        (i_clk),
-              .i_rst_n      (i_rst_n),
               .bit_field_if (bit_field_sub_if),
               .i_value      (register_if[8+4*i+j].value[8+16*k+:8])
             );
@@ -111,8 +109,6 @@ module block_1
             rggen_bit_field_ro #(
               .WIDTH  (8)
             ) u_bit_field (
-              .i_clk        (i_clk),
-              .i_rst_n      (i_rst_n),
               .bit_field_if (bit_field_sub_if),
               .i_value      (register_if[0+4*i+j].value[0+16*k+:8])
             );

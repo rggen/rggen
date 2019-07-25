@@ -19,12 +19,16 @@ package block_0_ral_pkg;
   class register_1_reg_model extends rggen_ral_reg;
     rand rggen_ral_field bit_field_0;
     rand rggen_ral_field bit_field_1;
+    rand rggen_ral_field bit_field_2;
+    rand rggen_ral_field bit_field_3;
     function new(string name);
       super.new(name, 32, 0);
     endfunction
     function void build();
       `rggen_ral_create_field_model(bit_field_0, 0, 4, RO, 1, 4'h0, 0)
       `rggen_ral_create_field_model(bit_field_1, 8, 4, RO, 1, 4'h0, 0)
+      `rggen_ral_create_field_model(bit_field_2, 16, 8, RO, 0, 8'hab, 1)
+      `rggen_ral_create_field_model(bit_field_3, 24, 8, RO, 0, 8'h00, 0)
     endfunction
   endclass
   class register_2_reg_model extends rggen_ral_reg;

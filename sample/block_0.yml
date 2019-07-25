@@ -16,16 +16,18 @@ register_blocks: [
         name: register_1,
         offset_address: 0x04,
         bit_fields: [
-          { name: bit_field_0, bit_assignment: { lsb: 0, width: 4}, type: ro },
-          { name: bit_field_1, bit_assignment: { lsb: 8, width: 4}, type: ro }
+          { name: bit_field_0, bit_assignment: { lsb: 0 , width: 4 }, type: ro },
+          { name: bit_field_1, bit_assignment: { lsb: 8 , width: 4 }, type: ro },
+          { name: bit_field_2, bit_assignment: { lsb: 16, width: 8 }, type: rof, initial_value: 0xab },
+          { name: bit_field_3, bit_assignment: { lsb: 24, width: 8 }, type: reserved }
         ]
       },
       {
         name: register_2,
         offset_address: 0x04,
         bit_fields: [
-          { name: bit_field_0, bit_assignment: { lsb: 0, width: 4}, type: wo, initial_value: 0 },
-          { name: bit_field_1, bit_assignment: { lsb: 8, width: 4}, type: wo, initial_value: 0 }
+          { name: bit_field_0, bit_assignment: { lsb: 0, width: 4 }, type: wo, initial_value: 0 },
+          { name: bit_field_1, bit_assignment: { lsb: 8, width: 4 }, type: wo, initial_value: 0 }
         ]
       },
       {
