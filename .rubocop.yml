@@ -27,6 +27,7 @@ Metrics/BlockLength:
     - define_simple_feature
     - factory
     - register_map
+    - sv_ral
     - sv_rtl
 
 Style/Alias:
