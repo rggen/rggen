@@ -1,0 +1,6 @@
+rggen_bit_field_ro #(
+  .WIDTH  (<%= bit_field.width %>)
+) u_bit_field (
+  .bit_field_if (<%= bit_field.bit_field_sub_if %>),
+  .i_value      (<%= initial_value %>)
+);
