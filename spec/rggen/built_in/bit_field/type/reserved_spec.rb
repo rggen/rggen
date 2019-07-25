@@ -182,4 +182,25 @@ RSpec.describe 'bit_field/type/reserved' do
       end
     end
   end
+
+  describe 'sv ral' do
+    include_context 'sv ral common'
+
+    before(:all) do
+      delete_register_map_factory
+    end
+
+    describe '#access' do
+      it 'ROを返す' do
+        sv_ral = create_sv_ral do
+          register do
+            name :foo
+            bit_field { name :foo; bit_assignment lsb: 1; type :reserved }
+          end
+        end
+
+        expect(sv_ral.bit_fields[0].access).to eq 'RO'
+      end
+    end
+  end
 end
