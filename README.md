@@ -58,8 +58,8 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 
 ## Copyright & License
 
-Copyright &copy; 2019 Taichi Ishitani. RgGen is licensed unther the [MIT License](https://opensource.org/licenses/MIT), see [LICENS](LICENS) for futher detils.
+Copyright &copy; 2019 Taichi Ishitani. RgGen is licensed unther the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.
 
 ## Code of Conduct
 
-Everyone interacting in the Rggen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the RgGen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
