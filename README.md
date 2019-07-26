@@ -5,44 +5,46 @@
 
 # RgGen
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rggen`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automatically generate soruce code related to control/status registers (CSR), e.g. SytemVerilog RTL, UVM RAL model, from human readable register map documents.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+### Ruby
 
-```ruby
-gem 'rggen'
+RgGen is written in the [Ruby](https://www.ruby-lang.org/en/about/) programing language and its required version is 2.3 or later. You need to install  any of these versions of Ruby before installing RgGen tool. To install Ruby, see [this page](https://www.ruby-lang.org/en/downloads/).
+
+### Installatin Command
+
+To isnstall RgGen and necessary libraries, use this command:
+
+```
+$ gem install rggen
 ```
 
-And then execute:
+RgGen and libraries will be installed on your system root.
 
-    $ bundle
+If you want to install them on other location, you need to specify install path and set the `GEM_PATH` environment variable:
 
-Or install it yourself as:
-
-    $ gem install rggen
+```
+$ gem install --install-dir YOUR_INSTALL_DIRECTORY rggen
+$ export GEM_PATH=YOUR_INSTALL_DIRECTORY
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+See [Wiki documents](https://github.com/rggen/rggen/wiki).
 
-## Development
+## Contact
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+* [GitHub Issue Tracker](https://github.com/rggen/rggen/issues)
+* [Mail](mailto:taichi730@gmail.com)
 
-## Contributing
+## Copyright & License
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rggen. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Copyright &copy; 2019 Taichi Ishitani. RgGen is licensed unther the [MIT License](https://opensource.org/licenses/MIT), see [LICENS](LICENS) for futher detils.
 
 ## Code of Conduct
 
-Everyone interacting in the Rggen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rggen/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Rggen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
