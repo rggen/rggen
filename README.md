@@ -47,4 +47,4 @@ Copyright &copy; 2019 Taichi Ishitani. RgGen is licensed unther the [MIT License
 
 ## Code of Conduct
 
-Everyone interacting in the Rggen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the RgGen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
