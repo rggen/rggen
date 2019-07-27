@@ -1,7 +1,9 @@
+[![Gem Version](https://badge.fury.io/rb/rggen.svg)](https://badge.fury.io/rb/rggen)
 [![Build Status](https://travis-ci.org/rggen/rggen.svg?branch=master)](https://travis-ci.org/rggen/rggen)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5ee2248300ec0517e597/maintainability)](https://codeclimate.com/github/rggen/rggen/maintainability)
 [![codecov](https://codecov.io/gh/rggen/rggen/branch/master/graph/badge.svg)](https://codecov.io/gh/rggen/rggen)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rggen_rggen&metric=alert_status)](https://sonarcloud.io/dashboard?id=rggen_rggen)
+[![Gitter](https://badges.gitter.im/rggen/rggen.svg)](https://gitter.im/rggen/rggen?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # RgGen
 
@@ -30,13 +32,13 @@ RgGen is written in the [Ruby](https://www.ruby-lang.org/en/about/) programing l
 
 ### Installatin Command
 
-To isnstall RgGen and necessary libraries, use this command:
+RgGen depends on [RgGen::Core](https://github.com/rggen/rggen-core), [RgGen::SystemVerilog](https://github.com/rggen/rggen-systemverilog), [RgGen::SpreadsheetLoader](https://github.com/rggen/rggen-spreadsheet-loader) and other Ruby libraries. To install RgGen and dependencies, use the command below:
 
 ```
 $ gem install rggen
 ```
 
-RgGen and libraries will be installed on your system root.
+RgGen and dependencies will be installed on your system root.
 
 If you want to install them on other location, you need to specify install path and set the `GEM_PATH` environment variable:
 
@@ -44,6 +46,42 @@ If you want to install them on other location, you need to specify install path 
 $ gem install --install-dir YOUR_INSTALL_DIRECTORY rggen
 $ export GEM_PATH=YOUR_INSTALL_DIRECTORY
 ```
+
+You would get the following error message duaring installation if you have the old RgGen (version < 0.9).
+
+```
+ERROR:  Error installing rggen:
+        "rggen" from rggen-core conflicts with installed executable from rggen
+```
+
+To resolve the above error, there are three solutions:
+
+1. Uninstall the previous RgGen
+
+Run the command below before installing the latest RgGen.
+
+```
+$ gem uninstall rggen
+```
+
+2. Override `rggen` executable with the latest one forcibly.
+
+Add `--force` option to the installation command.
+
+```
+$ gem install --force rggen
+```
+
+3. Change directory where the latest `rggen` executable is located.
+
+Add `--bindir DIRECTORY` to the installation comand and add the direcoty to `PATH` environment variable.
+
+```
+$ gem install --bindir path/to/rggen/bin rggen`
+$ export PATH="path/to/rggen/bin:$PATH"
+```
+
+The old RgGen cannot be used if you chose solution 1 or 2. If you need to use the old RgGen then you have to chose solution 3.
 
 ## Usage
 
@@ -54,7 +92,14 @@ See [Wiki documents](https://github.com/rggen/rggen/wiki).
 Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
 
 * [GitHub Issue Tracker](https://github.com/rggen/rggen/issues)
+* [Chat Room](https://gitter.im/rggen/rggen)
 * [Mail](mailto:taichi730@gmail.com)
+
+## See Also
+
+* https://github.com/rggen/rggen-core
+* https://github.com/rggen/rggen-systemverilog
+* https://github.com/rggen/rggen-spreadsheet-loader
 
 ## Copyright & License
 
