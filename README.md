@@ -93,7 +93,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 
 * [GitHub Issue Tracker](https://github.com/rggen/rggen/issues)
 * [Chat Room](https://gitter.im/rggen/rggen)
-* [Mailing List](https://groups.google.com/forum/#!forum/rggen)
+* [Mailing List](https://groups.google.com/d/forum/rggen)
 * [Mail](mailto:rggen@googlegroups.com)
 
 ## See Also
