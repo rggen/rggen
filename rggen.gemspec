@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name = 'rggen'
   spec.version = RgGen::VERSION
   spec.authors = ['Taichi Ishitani']
-  spec.email = ['taichi730@gmail.com']
+  spec.email = ['rggen@googlegroups.com']
 
   spec.summary = 'Code generation tool for control/status registers'
   spec.description = <<~'DESCRIPTION'
@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/rggen/rggen/issues',
+    'mailing_list_uri' => 'https://groups.google.com/forum/#!forum/rggen',
     'source_code_uri' => 'https://github.com/rggen/rggen',
     'wiki_uri' => 'https://github.com/rggen/rggen/wiki'
   }
