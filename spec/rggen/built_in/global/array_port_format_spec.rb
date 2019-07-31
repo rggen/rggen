@@ -15,7 +15,7 @@ RSpec.describe 'global/array_port_format' do
     end
 
     it '入力された配列形式を返す' do
-      [:packed, :unpacked, :vectorized].each do |format|
+      [:packed, :unpacked, :serialized].each do |format|
         value = random_string(/#{format}/i)
         configuration = create_configuration(array_port_format: value)
         expect(configuration).to have_property(:array_port_format, format)
@@ -28,7 +28,7 @@ RSpec.describe 'global/array_port_format' do
   end
 
   describe 'エラーチェック' do
-    context '入力がpacked/unpacked/vectorized以外の場合' do
+    context '入力がpacked/unpacked/serialized以外の場合' do
       it 'ConfigurationErrorを起こす' do
         [nil, true, false, '', 'foo', :foo, 0, Object.new].each do |value|
           expect {

@@ -127,7 +127,7 @@ RSpec.describe 'bit_field/type/ro' do
     end
 
     let(:array_port_format) do
-      [:packed, :unpacked, :vectorized].sample
+      [:packed, :unpacked, :serialized].sample
     end
 
     context '参照ビットフィールドを持たない場合' do

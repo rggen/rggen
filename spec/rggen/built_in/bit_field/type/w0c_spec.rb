@@ -133,7 +133,7 @@ RSpec.describe 'bit_field/type/w0c' do
     end
 
     let(:array_port_format) do
-      [:packed, :unpacked, :vectorized].sample
+      [:packed, :unpacked, :serialized].sample
     end
 
     it '入力ポート#set/出力ポート#value_outを持つ' do

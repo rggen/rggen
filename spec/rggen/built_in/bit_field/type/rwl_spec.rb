@@ -124,7 +124,7 @@ RSpec.describe 'bit_field/type/rwl' do
     end
 
     let(:array_port_format) do
-      [:packed, :unpacked, :vectorized].sample
+      [:packed, :unpacked, :serialized].sample
     end
 
     it '出力ポート#value_outを持つ' do

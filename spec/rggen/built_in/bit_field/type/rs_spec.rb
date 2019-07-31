@@ -115,7 +115,7 @@ RSpec.describe 'bit_field/type/rs' do
     end
 
     let(:array_port_format) do
-      [:packed, :unpacked, :vectorized].sample
+      [:packed, :unpacked, :serialized].sample
     end
 
     it '出力ポート#value_out.入力ポート#clearを持つ' do

@@ -4,7 +4,7 @@ RgGen.define_simple_feature(:global, :array_port_format) do
   configuration do
     property :array_port_format, default: :packed
 
-    input_pattern /(packed|unpacked|vectorized)/i
+    input_pattern /(packed|unpacked|serialized)/i
     ignore_empty_value false
 
     build do |value|
