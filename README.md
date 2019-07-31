@@ -54,34 +54,7 @@ ERROR:  Error installing rggen:
         "rggen" from rggen-core conflicts with installed executable from rggen
 ```
 
-To resolve the above error, there are three solutions:
-
-1. Uninstall the previous RgGen
-
-Run the command below before installing the latest RgGen.
-
-```
-$ gem uninstall rggen
-```
-
-2. Override `rggen` executable with the latest one forcibly.
-
-Add `--force` option to the installation command.
-
-```
-$ gem install --force rggen
-```
-
-3. Change directory where the latest `rggen` executable is located.
-
-Add `--bindir DIRECTORY` to the installation comand and add the direcoty to `PATH` environment variable.
-
-```
-$ gem install --bindir path/to/rggen/bin rggen`
-$ export PATH="path/to/rggen/bin:$PATH"
-```
-
-The old RgGen cannot be used if you chose solution 1 or 2. If you need to use the old RgGen then you have to chose solution 3.
+To resolve the above error, there are three solutions. See [this page](https://github.com/rggen/rggen/wiki/Resolve-Confliction-of-Installed-Executable)
 
 ## Usage
 
