@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'rggen/systemverilog'
 require_relative 'built_in/version'
 
 module RgGen

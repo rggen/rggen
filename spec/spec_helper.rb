@@ -14,6 +14,5 @@ end
 
 RGGEN_ROOT = File.expand_path('..', __dir__)
 
-require 'rggen/systemverilog'
-require 'rggen/spreadsheet_loader'
 require 'rggen'
+require 'rggen/spreadsheet_loader'

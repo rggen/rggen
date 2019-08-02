@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rggen/systemverilog'
 require 'rggen/built_in'
 require 'rggen/spreadsheet_loader'
 
