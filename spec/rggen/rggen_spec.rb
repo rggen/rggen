@@ -47,7 +47,7 @@ RSpec.describe RgGen do
       expect(builder).to receive(:enable).with(:register, match([:name, :offset_address, :size, :type])).and_call_original
       expect(builder).to receive(:enable).with(:register, :type, match([:external, :indirect])).and_call_original
       expect(builder).to receive(:enable).with(:bit_field, match([:name, :bit_assignment, :type, :initial_value, :reference, :comment])).and_call_original
-      expect(builder).to receive(:enable).with(:bit_field, :type, match([:rc, :reserved, :ro, :rof, :rs, :rw, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :wo])).and_call_original
+      expect(builder).to receive(:enable).with(:bit_field, :type, match([:rc, :reserved, :ro, :rof, :rs, :rw, :rwc, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :wo])).and_call_original
 
       expect(builder).to receive(:enable).with(:register_block, match([:sv_rtl_top, :protocol])).and_call_original
       expect(builder).to receive(:enable).with(:register_block, :protocol, match([:apb, :axi4lite])).and_call_original
