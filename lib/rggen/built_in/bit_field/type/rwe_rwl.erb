@@ -6,9 +6,9 @@ rggen_bit_field_<%= bit_field.type %> #(
   .i_rst_n      (<%= register_block.reset %>),
   .bit_field_if (<%= bit_field.bit_field_sub_if %>),
 <% if bit_field.type == :rwe %>
-  .i_enable     (<%= reference_bit_field %>),
+  .i_enable     (<%= control_signal %>),
 <% else %>
-  .i_lock       (<%= reference_bit_field %>),
+  .i_lock       (<%= control_signal %>),
 <% end %>
   .o_value      (<%= value_out[bit_field.loop_variables] %>)
 );

@@ -160,24 +160,18 @@ RSpec.describe 'bit_field/type' do
     end
 
     describe '揮発性' do
-      before(:all) do
-        RgGen.define_list_item_feature(:bit_field, :type, :foo) do
-          register_map { volatile }
-        end
-        RgGen.define_list_item_feature(:bit_field, :type, :bar) do
-          register_map { non_volatile }
-        end
-        RgGen.define_list_item_feature(:bit_field, :type, :baz) do
-          register_map {}
-        end
-      end
-
-      after(:all) do
-        delete_register_map_factory
-        RgGen.delete(:bit_field, :type, [:foo, :bar, :baz])
-      end
-
       context '.volatileが指定されている場合' do
+        before do
+          RgGen.define_list_item_feature(:bit_field, :type, :foo) do
+            register_map { volatile }
+          end
+        end
+
+        after do
+          delete_register_map_factory
+          RgGen.delete(:bit_field, :type, :foo)
+        end
+
         specify 'ビットフィールドは揮発性' do
           bit_fields = create_bit_fields do
             register do
@@ -191,11 +185,22 @@ RSpec.describe 'bit_field/type' do
       end
 
       context '.non_volatileが指定されている場合' do
+        before do
+          RgGen.define_list_item_feature(:bit_field, :type, :foo) do
+            register_map { non_volatile }
+          end
+        end
+
+        after do
+          delete_register_map_factory
+          RgGen.delete(:bit_field, :type, :foo)
+        end
+
         specify 'ビットフィールドは不揮発性' do
           bit_fields = create_bit_fields do
             register do
               name 'register_0'
-              bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :bar }
+              bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :foo }
             end
           end
 
@@ -203,12 +208,59 @@ RSpec.describe 'bit_field/type' do
         end
       end
 
+      context '.volatile?にブロックが指定された場合' do
+        before do
+          RgGen.define_list_item_feature(:bit_field, :type, :foo) do
+            register_map do
+              volatile? { @volatile }
+              build { @volatile = true }
+            end
+          end
+
+          RgGen.define_list_item_feature(:bit_field, :type, :bar) do
+            register_map do
+              volatile? { @volatile }
+              build { @volatile = false }
+            end
+          end
+        end
+
+        after do
+          delete_register_map_factory
+          RgGen.delete(:bit_field, :type, [:foo, :bar])
+        end
+
+        specify 'ブロックの評価結果がビットフィールドの揮発性' do
+          bit_fields = create_bit_fields do
+            register do
+              name 'register_0'
+              bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :foo }
+              bit_field { name 'bit_field_1'; bit_assignment lsb: 1; type :bar }
+            end
+          end
+
+          expect(bit_fields[0]).to have_property(:volatile?, true)
+          expect(bit_fields[1]).to have_property(:volatile?, false)
+        end
+      end
+
       context '未指定の場合' do
+        before do
+          RgGen.define_list_item_feature(:bit_field, :type, :foo) do
+            register_map {}
+          end
+        end
+
+        after do
+          delete_register_map_factory
+          RgGen.delete(:bit_field, :type, :foo)
+        end
+
         specify 'ビットフィールドは不揮発性' do
           bit_fields = create_bit_fields do
             register do
               name 'register_0'
-              bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :baz }
+              bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :foo }
             end
           end
 

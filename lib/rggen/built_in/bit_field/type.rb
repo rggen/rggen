@@ -33,16 +33,18 @@ RgGen.define_list_feature(:bit_field, :type) do
         end
 
         def volatile
-          @volatile = true
+          @volatility = -> { true }
         end
 
         def non_volatile
-          @volatile = false
+          @volatility = -> { false }
         end
 
-        def volatile?
-          @volatile.nil? || @volatile
+        def volatile?(&block)
+          @volatility = block
         end
+
+        attr_reader :volatility
 
         def need_initial_value(**options)
           @initial_value_options = options.merge(needed: true)
@@ -63,7 +65,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       property :read_only?, body: -> { readable? && !writable? }
       property :write_only?, body: -> { writable? && !readable? }
       property :reserved?, body: -> { !(readable? || writable?) }
-      property :volatile?, forward_to_helper: true
+      property :volatile?, forward_to: :volatility
 
       build { |value| @type = value }
 
@@ -135,6 +137,14 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       def reference_width
         helper.reference_options[:width] || bit_field.width
+      end
+
+      def volatility
+        if @volatility.nil?
+          @volatility =
+            helper.volatility.nil? || instance_exec(&helper.volatility)
+        end
+        @volatility
       end
     end
 
