@@ -15,7 +15,8 @@ RgGen.enable :bit_field, [
 ]
 RgGen.enable :bit_field, :type, [
   :rc, :reserved, :ro, :rof, :rs,
-  :rw, :rwc, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :wo
+  :rw, :rwc, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s,
+  :w0trg, :w1trg, :wo
 ]
 
 RgGen.enable :register_block, [:sv_rtl_top, :protocol]
