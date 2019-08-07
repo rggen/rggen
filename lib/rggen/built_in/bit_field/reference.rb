@@ -3,7 +3,8 @@
 RgGen.define_simple_feature(:bit_field, :reference) do
   register_map do
     property :reference, forward_to: :reference_bit_field, verify: :all
-    property :reference?, body: -> { !@input_reference.nil? }
+    property :reference?, body: -> { use_reference? && !@input_reference.nil? }
+    property :reference_width, forward_to: :required_width
     property :find_reference, forward_to: :find_reference_bit_field
 
     input_pattern /(#{variable_name})\.(#{variable_name})/
@@ -15,6 +16,11 @@ RgGen.define_simple_feature(:bit_field, :reference) do
         else
           error "illegal input value for reference: #{value.inspect}"
         end
+    end
+
+    verify(:component) do
+      error_condition { options[:required] && !reference? }
+      message { 'no reference bit field is given' }
     end
 
     verify(:component) do
@@ -70,7 +76,24 @@ RgGen.define_simple_feature(:bit_field, :reference) do
       message { "refer to reserved bit field: #{@input_reference}" }
     end
 
+    verify(:all) do
+      error_condition { reference? && !match_width? }
+      message do
+        "#{required_width} bits reference bit field is required: " \
+        "#{reference_bit_field.width} bit(s) width"
+      end
+    end
+
     private
+
+    def options
+      @options ||=
+        (bit_field.options && bit_field.options[:reference]) || {}
+    end
+
+    def use_reference?
+      options[:usable] || false
+    end
 
     def reference_bit_field
       (reference? || nil) &&
@@ -95,6 +118,14 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     def match_sequence_size?
       !(bit_field.sequential? && reference_bit_field.sequential?) ||
         bit_field.sequence_size == reference_bit_field.sequence_size
+    end
+
+    def required_width
+      options[:width] || bit_field.width
+    end
+
+    def match_width?
+      reference_bit_field.width >= required_width
     end
   end
 end

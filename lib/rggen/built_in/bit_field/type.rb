@@ -46,17 +46,19 @@ RgGen.define_list_feature(:bit_field, :type) do
 
         attr_reader :volatility
 
+        def options
+          @options ||= {}
+        end
+
         def need_initial_value(**options)
           @initial_value_options = options.merge(needed: true)
         end
 
         attr_reader :initial_value_options
 
-        def use_reference(**options)
-          @reference_options = options.merge(usable: true)
+        def use_reference(**reference_options)
+          options[:reference] = reference_options.merge(usable: true)
         end
-
-        attr_reader :reference_options
       end
 
       property :type
@@ -66,6 +68,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       property :write_only?, body: -> { writable? && !readable? }
       property :reserved?, body: -> { !(readable? || writable?) }
       property :volatile?, forward_to: :volatility
+      property :options, forward_to_helper: true
 
       build { |value| @type = value }
 
@@ -81,20 +84,6 @@ RgGen.define_list_feature(:bit_field, :type) do
         message do
           "value 0x#{required_initial_value.to_s(16)} is only allowed for " \
           "initial value: 0x#{bit_field.initial_value.to_s(16)}"
-        end
-      end
-
-      verify(:component) do
-        error_condition { no_reference_bit_field_given? }
-        message { 'no reference bit field is given' }
-      end
-
-      verify(:all) do
-        error_condition { invalid_reference_width? }
-        message do
-          "#{reference_width} bit(s) reference bit field is required: " \
-          "#{bit_field.reference.full_name} " \
-          "#{bit_field.reference.width} bit(s)"
         end
       end
 
@@ -117,26 +106,6 @@ RgGen.define_list_feature(:bit_field, :type) do
         else
           value
         end
-      end
-
-      def no_reference_bit_field_given?
-        use_reference? &&
-          helper.reference_options[:required] &&
-          !bit_field.reference?
-      end
-
-      def invalid_reference_width?
-        use_reference? &&
-          bit_field.reference? &&
-          bit_field.reference.width != reference_width
-      end
-
-      def use_reference?
-        helper.reference_options&.key?(:usable)
-      end
-
-      def reference_width
-        helper.reference_options[:width] || bit_field.width
       end
 
       def volatility
@@ -202,9 +171,14 @@ RgGen.define_list_feature(:bit_field, :type) do
       end
 
       def reference_bit_field
-        bit_field
-          .find_reference(register_block.bit_fields)
-          &.value(register.local_index, bit_field.local_index)
+        bit_field.reference? &&
+          bit_field
+            .find_reference(register_block.bit_fields)
+            .value(
+              register.local_index,
+              bit_field.local_index,
+              bit_field.reference_width
+            )
       end
 
       def bit_field_if

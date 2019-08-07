@@ -47,10 +47,12 @@ RgGen.define_simple_feature(:bit_field, :sv_rtl_top) do
         [*register.array_size, bit_field.sequence_size].compact
     end
 
-    def value(register_offset = nil, bit_field_offset = nil)
+    def value(register_offset = nil, bit_field_offset = nil, width = nil)
+      bit_field_offset ||= local_index
+      width ||= bit_field.width
       register_block
         .register_if[register.index(register_offset)]
-        .value[bit_field.lsb(bit_field_offset || local_index), bit_field.width]
+        .value[bit_field.lsb(bit_field_offset), width]
     end
 
     private
