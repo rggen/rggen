@@ -19,7 +19,8 @@ module block_0
   input logic [3:0] i_register_1_bit_field_0,
   input logic [3:0] i_register_1_bit_field_1,
   output logic [3:0] o_register_2_bit_field_0,
-  output logic [3:0] o_register_2_bit_field_1,
+  output logic o_register_2_bit_field_1_trigger,
+  output logic o_register_2_bit_field_2_trigger,
   input logic [3:0] i_register_3_bit_field_0_set,
   output logic [3:0] o_register_3_bit_field_0,
   input logic [3:0] i_register_3_bit_field_1_set,
@@ -188,7 +189,7 @@ module block_0
       .OFFSET_ADDRESS (8'h04),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
-      .VALID_BITS     (32'h00000f0f),
+      .VALID_BITS     (32'h0001010f),
       .REGISTER_INDEX (0)
     ) u_register (
       .i_clk        (i_clk),
@@ -210,16 +211,29 @@ module block_0
       );
     end
     if (1) begin : g_bit_field_1
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 4)
-      rggen_bit_field_wo #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 1)
+      rggen_bit_field_w01trg #(
+        .TRIGGER_VALUE  (1'b0),
+        .WIDTH          (1)
       ) u_bit_field (
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .o_value      (o_register_2_bit_field_1)
+        .o_trigger    (o_register_2_bit_field_1_trigger)
+      );
+    end
+    if (1) begin : g_bit_field_2
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16, 1)
+      rggen_bit_field_w01trg #(
+        .TRIGGER_VALUE  (1'b1),
+        .WIDTH          (1)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .o_trigger    (o_register_2_bit_field_2_trigger)
       );
     end
   end endgenerate
@@ -338,7 +352,7 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .i_clear      (register_if[0].value[8+:1]),
+        .i_clear      (register_if[2].value[8+:1]),
         .o_value      (o_register_4_bit_field_1)
       );
     end

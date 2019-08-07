@@ -24,8 +24,9 @@ register_block {
   register {
     name 'register_2'
     offset_address 0x04
-    bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 4; type :wo; initial_value 0 }
-    bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 4; type :wo; initial_value 0 }
+    bit_field { name 'bit_field_0'; bit_assignment lsb: 0 , width: 4; type :wo; initial_value 0 }
+    bit_field { name 'bit_field_1'; bit_assignment lsb: 8 , width: 1; type :w0trg }
+    bit_field { name 'bit_field_2'; bit_assignment lsb: 16, width: 1; type :w1trg }
   }
 
   register {
@@ -41,7 +42,7 @@ register_block {
     name 'register_4'
     offset_address 0x0C
     bit_field { name 'bit_field_0'; bit_assignment lsb: 0 , width: 4; type :rwc; initial_value 0 }
-    bit_field { name 'bit_field_1'; bit_assignment lsb: 4 , width: 4; type :rwc; initial_value 0; reference 'register_0.bit_field_2' }
+    bit_field { name 'bit_field_1'; bit_assignment lsb: 4 , width: 4; type :rwc; initial_value 0; reference 'register_2.bit_field_1' }
     bit_field { name 'bit_field_2'; bit_assignment lsb: 8 , width: 4; type :rwe; initial_value 0 }
     bit_field { name 'bit_field_3'; bit_assignment lsb: 12, width: 4; type :rwe; initial_value 0; reference 'register_0.bit_field_2' }
     bit_field { name 'bit_field_4'; bit_assignment lsb: 16, width: 4; type :rwl; initial_value 0 }

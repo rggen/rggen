@@ -33,13 +33,15 @@ package block_0_ral_pkg;
   endclass
   class register_2_reg_model extends rggen_ral_reg;
     rand rggen_ral_field bit_field_0;
-    rand rggen_ral_field bit_field_1;
+    rand rggen_ral_w0trg_field bit_field_1;
+    rand rggen_ral_w1trg_field bit_field_2;
     function new(string name);
       super.new(name, 32, 0);
     endfunction
     function void build();
       `rggen_ral_create_field_model(bit_field_0, 0, 4, WO, 0, 4'h0, 1)
-      `rggen_ral_create_field_model(bit_field_1, 8, 4, WO, 0, 4'h0, 1)
+      `rggen_ral_create_field_model(bit_field_1, 8, 1, W0TRG, 0, 1'h0, 0)
+      `rggen_ral_create_field_model(bit_field_2, 16, 1, W1TRG, 0, 1'h0, 0)
     endfunction
   endclass
   class register_3_reg_model extends rggen_ral_reg;
