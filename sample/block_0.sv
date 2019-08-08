@@ -19,8 +19,8 @@ module block_0
   input logic [3:0] i_register_1_bit_field_0,
   input logic [3:0] i_register_1_bit_field_1,
   output logic [3:0] o_register_2_bit_field_0,
-  output logic o_register_2_bit_field_1_trigger,
-  output logic o_register_2_bit_field_2_trigger,
+  output logic [3:0] o_register_2_bit_field_1_trigger,
+  output logic [3:0] o_register_2_bit_field_2_trigger,
   input logic [3:0] i_register_3_bit_field_0_set,
   output logic [3:0] o_register_3_bit_field_0,
   input logic [3:0] i_register_3_bit_field_1_set,
@@ -189,7 +189,7 @@ module block_0
       .OFFSET_ADDRESS (8'h04),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
-      .VALID_BITS     (32'h0001010f),
+      .VALID_BITS     (32'h000f0f0f),
       .REGISTER_INDEX (0)
     ) u_register (
       .i_clk        (i_clk),
@@ -211,11 +211,11 @@ module block_0
       );
     end
     if (1) begin : g_bit_field_1
-      rggen_bit_field_if #(1) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 1)
+      rggen_bit_field_if #(4) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 4)
       rggen_bit_field_w01trg #(
         .TRIGGER_VALUE  (1'b0),
-        .WIDTH          (1)
+        .WIDTH          (4)
       ) u_bit_field (
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
@@ -224,11 +224,11 @@ module block_0
       );
     end
     if (1) begin : g_bit_field_2
-      rggen_bit_field_if #(1) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16, 1)
+      rggen_bit_field_if #(4) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16, 4)
       rggen_bit_field_w01trg #(
         .TRIGGER_VALUE  (1'b1),
-        .WIDTH          (1)
+        .WIDTH          (4)
       ) u_bit_field (
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),

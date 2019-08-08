@@ -27,8 +27,8 @@ register_blocks: [
         offset_address: 0x04,
         bit_fields: [
           { name: bit_field_0, bit_assignment: { lsb: 0 , width: 4 }, type: wo, initial_value: 0 },
-          { name: bit_field_1, bit_assignment: { lsb: 8 , width: 1 }, type: w0trg },
-          { name: bit_field_2, bit_assignment: { lsb: 16, width: 1 }, type: w1trg }
+          { name: bit_field_1, bit_assignment: { lsb: 8 , width: 4 }, type: w0trg },
+          { name: bit_field_2, bit_assignment: { lsb: 16, width: 4 }, type: w1trg }
         ]
       },
       {

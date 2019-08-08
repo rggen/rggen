@@ -40,8 +40,8 @@ package block_0_ral_pkg;
     endfunction
     function void build();
       `rggen_ral_create_field_model(bit_field_0, 0, 4, WO, 0, 4'h0, 1)
-      `rggen_ral_create_field_model(bit_field_1, 8, 1, W0TRG, 0, 1'h0, 0)
-      `rggen_ral_create_field_model(bit_field_2, 16, 1, W1TRG, 0, 1'h0, 0)
+      `rggen_ral_create_field_model(bit_field_1, 8, 4, W0TRG, 0, 4'h0, 0)
+      `rggen_ral_create_field_model(bit_field_2, 16, 4, W1TRG, 0, 4'h0, 0)
     endfunction
   endclass
   class register_3_reg_model extends rggen_ral_reg;
