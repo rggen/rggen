@@ -3,14 +3,14 @@
 RgGen.define_list_item_feature(:bit_field, :type, :rs) do
   register_map do
     read_only
-    need_initial_value
+    initial_value require: true
   end
 end
 
 RgGen.define_list_item_feature(:bit_field, :type, [:w0s, :w1s]) do
   register_map do
     read_write
-    need_initial_value
+    initial_value require: true
   end
 end
 

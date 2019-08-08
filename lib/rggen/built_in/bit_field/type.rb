@@ -50,12 +50,12 @@ RgGen.define_list_feature(:bit_field, :type) do
           @options ||= {}
         end
 
-        def need_initial_value(**option)
-          options[:initial_value] = option.merge(required: true)
+        def initial_value(**option)
+          options[:initial_value] = option
         end
 
-        def use_reference(**option)
-          options[:reference] = option.merge(usable: true)
+        def reference(**option)
+          options[:reference] = option
         end
       end
 

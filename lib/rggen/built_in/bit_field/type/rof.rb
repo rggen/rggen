@@ -4,7 +4,7 @@ RgGen.define_list_item_feature(:bit_field, :type, :rof) do
   register_map do
     read_only
     non_volatile
-    need_initial_value
+    initial_value require: true
   end
 
   sv_rtl do

@@ -3,7 +3,7 @@
 RgGen.define_list_item_feature(:bit_field, :type, :ro) do
   register_map do
     read_only
-    use_reference
+    reference use: true
   end
 
   sv_rtl do

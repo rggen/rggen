@@ -3,16 +3,16 @@
 RgGen.define_list_item_feature(:bit_field, :type, :rc) do
   register_map do
     read_only
-    use_reference
-    need_initial_value
+    reference use: true
+    initial_value require: true
   end
 end
 
 RgGen.define_list_item_feature(:bit_field, :type, [:w0c, :w1c]) do
   register_map do
     read_write
-    use_reference
-    need_initial_value
+    reference use: true
+    initial_value require: true
   end
 end
 
