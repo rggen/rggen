@@ -254,9 +254,7 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
 
   sv_rtl do
     build do
-      logic :register, :indirect_index, {
-        width: index_width
-      }
+      logic :register, :indirect_index, { width: index_width }
     end
 
     main_code :register do |code|

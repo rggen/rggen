@@ -6,18 +6,13 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
 
     build do
       input :register_block, :clock, {
-        name: 'i_clk',
-        data_type: :logic,
-        width: 1
+        name: 'i_clk', data_type: :logic, width: 1
       }
       input :register_block, :reset, {
-        name: 'i_rst_n',
-        data_type: :logic,
-        width: 1
+        name: 'i_rst_n', data_type: :logic, width: 1
       }
       interface :register_block, :register_if, {
-        name: 'register_if',
-        interface_type: 'rggen_register_if',
+        name: 'register_if', interface_type: 'rggen_register_if',
         parameter_values: [address_width, bus_width, value_width],
         array_size: [total_registers],
         variables: ['value']

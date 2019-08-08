@@ -12,37 +12,25 @@ RgGen.define_list_item_feature(:bit_field, :type, [:rwc, :rwe, :rwl]) do
     build do
       if clear_port?
         input :register_block, :clear, {
-          name: "i_#{full_name}_clear",
-          data_type: :logic,
-          width: 1,
-          array_size: bit_field.array_size,
-          array_format: array_port_format
+          name: "i_#{full_name}_clear", data_type: :logic, width: 1,
+          array_size: array_size, array_format: array_port_format
         }
       end
       if enable_port?
         input :register_block, :enable, {
-          name: "i_#{full_name}_enable",
-          data_type: :logic,
-          width: 1,
-          array_size: bit_field.array_size,
-          array_format: array_port_format
+          name: "i_#{full_name}_enable", data_type: :logic, width: 1,
+          array_size: array_size, array_format: array_port_format
         }
       end
       if lock_port?
         input :register_block, :lock, {
-          name: "i_#{full_name}_lock",
-          data_type: :logic,
-          width: 1,
-          array_size: bit_field.array_size,
-          array_format: array_port_format
+          name: "i_#{full_name}_lock", data_type: :logic, width: 1,
+          array_size: array_size, array_format: array_port_format
         }
       end
       output :register_block, :value_out, {
-        name: "o_#{full_name}",
-        data_type: :logic,
-        width: bit_field.width,
-        array_size: bit_field.array_size,
-        array_format: array_port_format
+        name: "o_#{full_name}", data_type: :logic, width: width,
+        array_size: array_size, array_format: array_port_format
       }
     end
 
@@ -63,7 +51,7 @@ RgGen.define_list_item_feature(:bit_field, :type, [:rwc, :rwe, :rwl]) do
     end
 
     def control_signal
-      reference_bit_field || control_port[bit_field.loop_variables]
+      reference_bit_field || control_port[loop_variables]
     end
 
     def control_port

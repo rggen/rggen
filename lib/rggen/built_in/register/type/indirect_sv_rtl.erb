@@ -3,8 +3,8 @@ rggen_indirect_register #(
   .WRITABLE             (<%= writable %>),
   .ADDRESS_WIDTH        (<%= address_width %>),
   .OFFSET_ADDRESS       (<%= offset_address %>),
-  .BUS_WIDTH            (<%= configuration.bus_width %>),
-  .DATA_WIDTH           (<%= register.width %>),
+  .BUS_WIDTH            (<%= bus_width %>),
+  .DATA_WIDTH           (<%= width %>),
   .VALID_BITS           (<%= valid_bits %>),
   .INDIRECT_INDEX_WIDTH (<%= index_width %>),
   .INDIRECT_INDEX_VALUE (<%= concat(index_values) %>)
@@ -13,5 +13,5 @@ rggen_indirect_register #(
   .i_rst_n          (<%= register_block.reset %>),
   .register_if      (<%= register_if %>),
   .i_indirect_index (<%= indirect_index %>),
-  .bit_field_if     (<%= register.bit_field_if %>)
+  .bit_field_if     (<%= bit_field_if %>)
 );

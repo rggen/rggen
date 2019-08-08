@@ -1,11 +1,11 @@
 rggen_axi4lite_adapter #(
-  .ADDRESS_WIDTH  (<%= register_block.local_address_width %>),
-  .BUS_WIDTH      (<%= configuration.bus_width %>),
-  .REGISTERS      (<%= register_block.total_registers %>),
+  .ADDRESS_WIDTH  (<%= local_address_width %>),
+  .BUS_WIDTH      (<%= bus_width %>),
+  .REGISTERS      (<%= total_registers %>),
   .WRITE_FIRST    (<%= write_first %>)
 ) u_adapter (
   .i_clk        (<%= register_block.clock %>),
   .i_rst_n      (<%= register_block.reset %>),
   .axi4lite_if  (<%= axi4lite_if %>),
-  .register_if  (<%= register_block.register_if %>)
+  .register_if  (<%= register_if %>)
 );

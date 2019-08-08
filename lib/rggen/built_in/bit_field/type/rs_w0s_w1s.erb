@@ -2,12 +2,12 @@
 <% if [:w0s, :w1s].include?(bit_field.type) %>
   .SET_VALUE      (<%= set_value %>),
 <% end %>
-  .WIDTH          (<%= bit_field.width %>),
+  .WIDTH          (<%= width %>),
   .INITIAL_VALUE  (<%= initial_value %>)
 ) u_bit_field (
   .i_clk        (<%= register_block.clock %>),
   .i_rst_n      (<%= register_block.reset %>),
-  .bit_field_if (<%= bit_field.bit_field_sub_if %>),
-  .i_clear      (<%= clear[bit_field.loop_variables] %>),
-  .o_value      (<%= value_out[bit_field.loop_variables] %>)
+  .bit_field_if (<%= bit_field_if %>),
+  .i_clear      (<%= clear[loop_variables] %>),
+  .o_value      (<%= value_out[loop_variables] %>)
 );

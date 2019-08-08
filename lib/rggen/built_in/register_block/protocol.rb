@@ -62,6 +62,34 @@ RgGen.define_list_feature(:register_block, :protocol) do
   sv_rtl do
     shared_context.feature_registry(registry)
 
+    base_feature do
+      private
+
+      def address_width
+        configuration.address_width
+      end
+
+      def bus_width
+        configuration.bus_width
+      end
+
+      def byte_width
+        configuration.byte_width
+      end
+
+      def local_address_width
+        register_block.local_address_width
+      end
+
+      def total_registers
+        register_block.total_registers
+      end
+
+      def register_if
+        register_block.register_if
+      end
+    end
+
     factory do
       def select_feature(configuration, _register_block)
         target_features[configuration.protocol]

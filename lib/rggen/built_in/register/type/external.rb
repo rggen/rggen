@@ -25,47 +25,38 @@ RgGen.define_list_item_feature(:register, :type, :external) do
       else
         output :register_block, :valid, {
           name: "o_#{register.name}_valid",
-          data_type: :logic,
-          width: 1
+          data_type: :logic, width: 1
         }
         output :register_block, :address, {
           name: "o_#{register.name}_address",
-          data_type: :logic,
-          width: address_width
+          data_type: :logic, width: address_width
         }
         output :register_block, :write, {
           name: "o_#{register.name}_write",
-          data_type: :logic,
-          width: 1
+          data_type: :logic, width: 1
         }
         output :register_block, :write_data, {
           name: "o_#{register.name}_data",
-          data_type: :logic,
-          width: bus_width
+          data_type: :logic, width: bus_width
         }
         output :register_block, :strobe, {
           name: "o_#{register.name}_strobe",
-          data_type: :logic,
-          width: byte_width
+          data_type: :logic, width: byte_width
         }
         input :register_block, :ready, {
           name: "i_#{register.name}_ready",
-          data_type: :logic,
-          width: 1
+          data_type: :logic, width: 1
         }
         input :register_block, :status, {
           name: "i_#{register.name}_status",
-          data_type: :logic,
-          width: 2
+          data_type: :logic, width: 2
         }
         input :register_block, :read_data, {
           name: "i_#{register.name}_data",
-          data_type: :logic,
-          width: bus_width
+          data_type: :logic, width: bus_width
         }
         interface :register, :bus_if, {
-          name: 'bus_if',
-          interface_type: 'rggen_bus_if',
+          name: 'bus_if', interface_type: 'rggen_bus_if',
           parameter_values: [address_width, bus_width],
           variables: [
             'valid', 'address', 'write', 'write_data', 'strobe',
@@ -95,10 +86,6 @@ RgGen.define_list_item_feature(:register, :type, :external) do
 
     def address_width
       register_block.local_address_width
-    end
-
-    def bus_width
-      configuration.bus_width
     end
 
     def byte_width

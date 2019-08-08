@@ -23,67 +23,43 @@ RgGen.define_list_item_feature(:register_block, :protocol, :apb) do
     build do
       if configuration.fold_sv_interface_port?
         interface_port :register_block, :apb_if, {
-          name: 'apb_if',
-          interface_type: 'rggen_apb_if',
-          modport: 'slave'
+          name: 'apb_if', interface_type: 'rggen_apb_if', modport: 'slave'
         }
       else
         input :register_block, :psel, {
-          name: 'i_psel',
-          data_type: :logic,
-          width: 1
+          name: 'i_psel', data_type: :logic, width: 1
         }
         input :register_block, :penable, {
-          name: 'i_penable',
-          data_type: :logic,
-          width: 1
+          name: 'i_penable', data_type: :logic, width: 1
         }
         input :register_block, :paddr, {
-          name: 'i_paddr',
-          data_type: :logic,
-          width: configuration.address_width
+          name: 'i_paddr', data_type: :logic, width: address_width
         }
         input :register_block, :pprot, {
-          name: 'i_pprot',
-          data_type: :logic,
-          width: 3
+          name: 'i_pprot', data_type: :logic, width: 3
         }
         input :register_block, :pwrite, {
-          name: 'i_pwrite',
-          data_type: :logic,
-          width: 1
+          name: 'i_pwrite', data_type: :logic, width: 1
         }
         input :register_block, :pstrb, {
-          name: 'i_pstrb',
-          data_type: :logic,
-          width: configuration.byte_width
+          name: 'i_pstrb', data_type: :logic,
+          width: byte_width
         }
         input :register_block, :pwdata, {
-          name: 'i_pwdata',
-          data_type: :logic,
-          width: configuration.bus_width
+          name: 'i_pwdata', data_type: :logic, width: bus_width
         }
         output :register_block, :pready, {
-          name: 'o_pready',
-          data_type: :logic,
-          width: 1
+          name: 'o_pready', data_type: :logic, width: 1
         }
         output :register_block, :prdata, {
-          name: 'o_prdata',
-          data_type: :logic,
-          width: configuration.bus_width
+          name: 'o_prdata', data_type: :logic, width: bus_width
         }
         output :register_block, :pslverr, {
-          name: 'o_pslverr',
-          data_type: :logic,
-          width: 1
+          name: 'o_pslverr', data_type: :logic, width: 1
         }
         interface :register_block, :apb_if, {
-          name: 'apb_if',
-          interface_type: 'rggen_apb_if',
-          parameter_values: [
-            configuration.address_width, configuration.bus_width
-          ],
+          name: 'apb_if', interface_type: 'rggen_apb_if',
+          parameter_values: [address_width, bus_width],
           variables: [
             'psel', 'penable', 'paddr', 'pprot', 'pwrite', 'pstrb', 'pwdata',
             'pready', 'prdata', 'pslverr'
