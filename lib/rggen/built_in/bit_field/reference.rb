@@ -3,7 +3,7 @@
 RgGen.define_simple_feature(:bit_field, :reference) do
   register_map do
     property :reference, forward_to: :reference_bit_field, verify: :all
-    property :reference?, body: -> { use_reference? && !@input_reference.nil? }
+    property :reference?, body: -> { use_reference? && !no_reference? }
     property :reference_width, forward_to: :required_width
     property :find_reference, forward_to: :find_reference_bit_field
 
@@ -19,7 +19,7 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     end
 
     verify(:component) do
-      error_condition { options[:required] && !reference? }
+      error_condition { require_reference? && no_reference? }
       message { 'no reference bit field is given' }
     end
 
@@ -86,13 +86,21 @@ RgGen.define_simple_feature(:bit_field, :reference) do
 
     private
 
-    def options
-      @options ||=
+    def option
+      @option ||=
         (bit_field.options && bit_field.options[:reference]) || {}
     end
 
     def use_reference?
-      options[:usable] || false
+      option.fetch(:use, true)
+    end
+
+    def require_reference?
+      use_reference? && option[:required]
+    end
+
+    def no_reference?
+      @input_reference.nil?
     end
 
     def reference_bit_field
@@ -121,7 +129,7 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     end
 
     def required_width
-      options[:width] || bit_field.width
+      option[:width] || bit_field.width
     end
 
     def match_width?
