@@ -96,7 +96,7 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     end
 
     def require_reference?
-      use_reference? && option[:required]
+      use_reference? && option[:require]
     end
 
     def no_reference?

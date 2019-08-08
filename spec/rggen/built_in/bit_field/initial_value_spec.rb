@@ -36,7 +36,7 @@ RSpec.describe 'bit_field/initial_value' do
   end
 
   let(:default_option) do
-    { required: false }
+    { require: false }
   end
 
   describe '#initial_value' do
@@ -112,15 +112,15 @@ RSpec.describe 'bit_field/initial_value' do
     context '初期値の指定が必須の場合で、初期値の指定がない場合' do
       it 'RegisterMapErrorを起こす' do
         expect {
-          create_bit_field(1, { required: true })
+          create_bit_field(1, { require: true })
         }.to raise_register_map_error 'no initial value is given'
 
         expect {
-          create_bit_field(1, { required: true }, nil)
+          create_bit_field(1, { require: true }, nil)
         }.to raise_register_map_error 'no initial value is given'
 
         expect {
-          create_bit_field(1, { required: true }, '')
+          create_bit_field(1, { require: true }, '')
         }.to raise_register_map_error 'no initial value is given'
       end
     end

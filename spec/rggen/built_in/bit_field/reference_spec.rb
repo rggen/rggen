@@ -215,20 +215,20 @@ RSpec.describe 'bit_field/reference' do
       end
     end
 
-    context 'requiredオプションの指定があり、参照ビットフィールドの指定がない場合' do
+    context 'requireオプションの指定があり、参照ビットフィールドの指定がない場合' do
       it 'RegisterMapErrorを起こす' do
         expect {
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; options reference: { required: true } }
+              bit_field { name 'foo_0_0'; options reference: { require: true } }
             end
           end
         }.to raise_register_map_error 'no reference bit field is given'
       end
     end
 
-    context 'requiredオプションが未指定の場合' do
+    context 'requireオプションが未指定の場合' do
       specify '参照ビットフィールドの指定は必須ではない' do
         expect {
           create_bit_fields do
@@ -535,7 +535,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; options reference: { use: false, required: true } }
+              bit_field { name 'foo_0_0'; options reference: { use: false, require: true } }
             end
           end
         }.not_to raise_error

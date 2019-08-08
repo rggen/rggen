@@ -15,7 +15,7 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
     end
 
     verify(:component) do
-      error_condition { option[:required] && !initial_value? }
+      error_condition { option[:require] && !initial_value? }
       message { 'no initial value is given' }
     end
 
