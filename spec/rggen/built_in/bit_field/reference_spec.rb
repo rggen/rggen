@@ -53,12 +53,16 @@ RSpec.describe 'bit_field/reference' do
     create_register_map { register_block(&block) }.bit_fields
   end
 
+  let(:default_option) do
+    { reference: { use: true } }
+  end
+
   describe '#reference' do
     it '指定された参照ビットフィールドを返す' do
       bit_fields = create_bit_fields do
         register do
           name 'foo_0'
-          bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_1' }
+          bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_1'; options default_option }
           bit_field { name 'foo_0_1' }
         end
       end
@@ -68,7 +72,7 @@ RSpec.describe 'bit_field/reference' do
         register do
           name 'foo_0'
           bit_field { name 'foo_0_0' }
-          bit_field { name 'foo_0_1'; reference 'foo_0.foo_0_0' }
+          bit_field { name 'foo_0_1'; reference 'foo_0.foo_0_0'; options default_option }
         end
       end
       expect(bit_fields[1]).to have_property(:reference, equal(bit_fields[0]))
@@ -80,7 +84,7 @@ RSpec.describe 'bit_field/reference' do
         end
         register do
           name 'foo_1'
-          bit_field { name 'foo_1_0'; reference 'foo_0.foo_0_0' }
+          bit_field { name 'foo_1_0'; reference 'foo_0.foo_0_0'; options default_option }
         end
       end
       expect(bit_fields[1]).to have_property(:reference, equal(bit_fields[0]))
@@ -88,7 +92,7 @@ RSpec.describe 'bit_field/reference' do
       bit_fields = create_bit_fields do
         register do
           name 'foo_0'
-          bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+          bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
         end
         register do
           name 'foo_1'
@@ -103,9 +107,9 @@ RSpec.describe 'bit_field/reference' do
         bit_fields = create_bit_fields do
           register do
             name 'foo_0'
-            bit_field { name 'foo_0_0' }
-            bit_field { name 'foo_0_1'; reference '' }
-            bit_field { name 'foo_0_2'; reference nil }
+            bit_field { name 'foo_0_0'; options default_option }
+            bit_field { name 'foo_0_1'; reference ''; options default_option }
+            bit_field { name 'foo_0_2'; reference nil; options default_option }
           end
         end
         expect {
@@ -122,9 +126,9 @@ RSpec.describe 'bit_field/reference' do
       bit_fields = create_bit_fields do
         register do
           name 'foo_0'
-          bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_2' }
+          bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_2'; options default_option }
           bit_field { name 'foo_0_1'; reference 'foo_0.foo_0_2'; options reference: { use: false } }
-          bit_field { name 'foo_0_2' }
+          bit_field { name 'foo_0_2'; options default_option }
         end
       end
       expect(bit_fields[0]).to have_property(:reference?, true)
@@ -165,7 +169,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_0'; options default_option }
             end
           end
         }.to raise_register_map_error 'self reference: foo_0.foo_0_0'
@@ -178,7 +182,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_1' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_1'; options default_option }
             end
             register do
               name 'foo_1'
@@ -191,7 +195,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_2.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_2.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -204,7 +208,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_3.foo_3_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_3.foo_3_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -221,7 +225,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; options reference: { require: true } }
+              bit_field { name 'foo_0_0'; options reference: { use: true, require: true } }
             end
           end
         }.to raise_register_map_error 'no reference bit field is given'
@@ -234,7 +238,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0' }
+              bit_field { name 'foo_0_0'; options default_option }
             end
           end
         }.not_to raise_error
@@ -247,7 +251,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -266,7 +270,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -284,7 +288,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -295,7 +299,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_2'
               array [true, [2, 3]]
-              bit_field { name 'foo_2_0'; reference 'foo_3.foo_3_0' }
+              bit_field { name 'foo_2_0'; reference 'foo_3.foo_3_0'; options default_option }
             end
             register do
               name 'foo_3'
@@ -314,7 +318,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -329,7 +333,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -344,7 +348,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2, 1]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -362,7 +366,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -379,7 +383,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2]; options default_option }
             end
             register do
               name 'foo_1'
@@ -396,7 +400,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2]; options default_option }
             end
             register do
               name 'foo_1'
@@ -413,7 +417,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2]; options default_option }
             end
             register do
               name 'foo_1'
@@ -430,7 +434,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options default_option }
             end
             register do
               name 'foo_1'
@@ -448,17 +452,17 @@ RSpec.describe 'bit_field/reference' do
             create_bit_fields do
               register do
                 name 'foo'
-                bit_field { name 'foo_0'; reference 'foo.foo_1'; width 8; options reference: { width: 1 } }
+                bit_field { name 'foo_0'; reference 'foo.foo_1'; width 8; options reference: { use: true, width: 1 } }
                 bit_field { name 'foo_1'; width 1 }
-                bit_field { name 'foo_2'; reference 'foo.foo_3'; width 8; options reference: { width: 1 } }
+                bit_field { name 'foo_2'; reference 'foo.foo_3'; width 8; options reference: { use: true, width: 1 } }
                 bit_field { name 'foo_3'; width 2 }
               end
 
               register do
                 name 'bar'
-                bit_field { name 'bar_0'; reference 'bar.bar_1'; width 8; options reference: { width: 2 } }
+                bit_field { name 'bar_0'; reference 'bar.bar_1'; width 8; options reference: { use: true, width: 2 } }
                 bit_field { name 'bar_1'; width 2 }
-                bit_field { name 'bar_2'; reference 'bar.bar_3'; width 8; options reference: { width: 2 } }
+                bit_field { name 'bar_2'; reference 'bar.bar_3'; width 8; options reference: { use: true, width: 2 } }
                 bit_field { name 'bar_3'; width 3 }
               end
             end
@@ -468,7 +472,7 @@ RSpec.describe 'bit_field/reference' do
             create_bit_fields do
               register do
                 name 'foo'
-                bit_field { name 'foo_0'; reference 'foo.foo_1'; width 8; options reference: { width: 2 } }
+                bit_field { name 'foo_0'; reference 'foo.foo_1'; width 8; options reference: { use: true, width: 2 } }
                 bit_field { name 'foo_1'; width 1 }
               end
             end
@@ -483,17 +487,17 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo'
-              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 1 }
+              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 1; options default_option }
               bit_field { name 'foo_1'; width 1 }
-              bit_field { name 'foo_2'; reference 'foo.foo_3'; width 1 }
+              bit_field { name 'foo_2'; reference 'foo.foo_3'; width 1; options default_option }
               bit_field { name 'foo_3'; width 2 }
             end
 
             register do
               name 'bar'
-              bit_field { name 'bar_0'; reference 'bar.bar_1'; width 2 }
+              bit_field { name 'bar_0'; reference 'bar.bar_1'; width 2; options default_option }
               bit_field { name 'bar_1'; width 2 }
-              bit_field { name 'bar_2'; reference 'bar.bar_3'; width 2 }
+              bit_field { name 'bar_2'; reference 'bar.bar_3'; width 2; options default_option }
               bit_field { name 'bar_3'; width 3 }
             end
           end
@@ -503,7 +507,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo'
-              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 2 }
+              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 2; options default_option }
               bit_field { name 'foo_1'; width 1 }
             end
           end
@@ -511,13 +515,13 @@ RSpec.describe 'bit_field/reference' do
       end
     end
 
-    context 'useオプションにfalseが設定されている場合' do
+    context 'useオプションが未指定の場合' do
       specify 'エラーチェックは行われない' do
         expect {
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_0'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_0' }
             end
           end
         }.not_to raise_error
@@ -526,7 +530,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_1'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_0.foo_0_1' }
             end
           end
         }.not_to raise_error
@@ -535,7 +539,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; options reference: { use: false, require: true } }
+              bit_field { name 'foo_0_0'; options reference: { require: true } }
             end
           end
         }.not_to raise_error
@@ -544,7 +548,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
             end
             register do
               name 'foo_1'
@@ -559,7 +563,7 @@ RSpec.describe 'bit_field/reference' do
             register do
               name 'foo_0'
               array [true, [2]]
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
             end
             register do
               name 'foo_1'
@@ -573,7 +577,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
             end
             register do
               name 'foo_1'
@@ -586,7 +590,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2]; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; sequential [true, 2] }
             end
             register do
               name 'foo_1'
@@ -599,7 +603,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo_0'
-              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0'; options reference: { use: false } }
+              bit_field { name 'foo_0_0'; reference 'foo_1.foo_1_0' }
             end
             register do
               name 'foo_1'
@@ -612,7 +616,7 @@ RSpec.describe 'bit_field/reference' do
           create_bit_fields do
             register do
               name 'foo'
-              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 2; options reference: { use: false } }
+              bit_field { name 'foo_0'; reference 'foo.foo_1'; width 2 }
               bit_field { name 'foo_1'; width 1 }
             end
           end
