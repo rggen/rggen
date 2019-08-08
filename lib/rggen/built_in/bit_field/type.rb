@@ -50,14 +50,12 @@ RgGen.define_list_feature(:bit_field, :type) do
           @options ||= {}
         end
 
-        def need_initial_value(**options)
-          @initial_value_options = options.merge(needed: true)
+        def need_initial_value(**option)
+          options[:initial_value] = option.merge(required: true)
         end
 
-        attr_reader :initial_value_options
-
-        def use_reference(**reference_options)
-          options[:reference] = reference_options.merge(usable: true)
+        def use_reference(**option)
+          options[:reference] = option.merge(usable: true)
         end
       end
 
@@ -72,41 +70,7 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       build { |value| @type = value }
 
-      verify(:component) do
-        error_condition { no_initial_value_given? }
-        message { 'no initial value is given' }
-      end
-
-      verify(:component) do
-        error_condition do
-          bit_field.initial_value? && not_match_initial_value?
-        end
-        message do
-          "value 0x#{required_initial_value.to_s(16)} is only allowed for " \
-          "initial value: 0x#{bit_field.initial_value.to_s(16)}"
-        end
-      end
-
       private
-
-      def no_initial_value_given?
-        helper.initial_value_options&.key?(:needed) &&
-          !bit_field.initial_value?
-      end
-
-      def not_match_initial_value?
-        helper.initial_value_options&.key?(:value) &&
-          bit_field.initial_value != required_initial_value
-      end
-
-      def required_initial_value
-        value = helper.initial_value_options[:value]
-        if value.is_a?(Proc)
-          instance_exec(&value)
-        else
-          value
-        end
-      end
 
       def volatility
         if @volatility.nil?
