@@ -55,12 +55,16 @@ RgGen.define_simple_feature(:register_block, :sv_rtl_top) do
 
     def sv_module_definition(code)
       code << module_definition(register_block.name) do |sv_module|
-        sv_module.package_imports [:rggen_rtl_pkg]
+        sv_module.package_imports packages
         sv_module.parameters parameters
         sv_module.ports ports
         sv_module.variables variables
         sv_module.body(&method(:sv_module_body))
       end
+    end
+
+    def packages
+      ['rggen_rtl_pkg', *register_block.package_imports(:register_block)]
     end
 
     def parameters
