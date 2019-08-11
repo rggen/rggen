@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description = <<~'DESCRIPTION'
     RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers.
     It will automatically generate soruce code related to control/status registers (CSR), e.g. SytemVerilog RTL, UVM RAL model,
-    from human readable register map documents.
+    from human readable register map specifications.
   DESCRIPTION
   spec.homepage = 'https://github.com/rggen/rggen'
   spec.license = 'MIT'
@@ -32,9 +32,9 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3'
 
-  spec.add_runtime_dependency 'rggen-core', '~> 0.10'
+  spec.add_runtime_dependency 'rggen-core', '~> 0.11'
   spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.10'
-  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.10'
+  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.11'
 
   spec.add_development_dependency 'bundler'
 end
