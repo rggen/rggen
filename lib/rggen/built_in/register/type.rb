@@ -23,39 +23,28 @@ RgGen.define_list_feature(:register, :type) do
           !@no_bit_fields
         end
 
-        def support_array_register
-          @support_array_register = true
+        def settings
+          @settings ||= {}
         end
 
-        def support_array_register?
-          @support_array_register || false
+        def support_array_register
+          settings[:support_array] = true
         end
 
         def byte_size(&block)
-          @byte_size = block if block_given?
-          @byte_size
+          settings[:byte_size] = block
         end
 
         def support_overlapped_address
-          @support_overlapped_address = true
-        end
-
-        def support_overlapped_address?
-          @support_overlapped_address || false
+          settings[:support_overlapped_address] = true
         end
       end
 
       property :type, body: -> { @type || :default }
+      property :match_type?, body: ->(register) { register.type == type }
       property :writable?, forward_to: :writability
       property :readable?, forward_to: :readability
-      property :width, body: -> { @width ||= calc_width }
-      property :byte_width, body: -> { @byte_width ||= width / 8 }
-      property :array?, forward_to: :array_register?
-      property :array_size, body: -> { (array? && register.size) || nil }
-      property :count, body: -> { @count ||= calc_count }
-      property :byte_size, body: -> { @byte_size ||= calc_byte_size }
-      property :match_type?, body: ->(register) { register.type == type }
-      property :support_overlapped_address?, forward_to_helper: true
+      property :settings, forward_to_helper: true
 
       build do |value|
         @type = value[:type]
@@ -98,37 +87,6 @@ RgGen.define_list_feature(:register, :type) do
         lambda do
           block = ->(bit_field) { bit_field.readable? || bit_field.reserved? }
           register.bit_fields.any?(&block)
-        end
-      end
-
-      def calc_width
-        bus_width = configuration.bus_width
-        if helper.need_bit_fields?
-          ((collect_msb.max + bus_width) / bus_width) * bus_width
-        else
-          bus_width
-        end
-      end
-
-      def collect_msb
-        register.bit_fields.collect do |bit_field|
-          bit_field.msb((bit_field.sequence_size || 1) - 1)
-        end
-      end
-
-      def array_register?
-        helper.support_array_register? && !register.size.nil?
-      end
-
-      def calc_count
-        Array(array_size).reduce(1, :*)
-      end
-
-      def calc_byte_size
-        if helper.byte_size
-          instance_exec(&helper.byte_size)
-        else
-          Array(register.size).reduce(1, :*) * byte_width
         end
       end
     end

@@ -89,7 +89,7 @@ RgGen.define_simple_feature(:register, :offset_address) do
     end
 
     def support_unique_range_only?(other_register)
-      !(register.support_overlapped_address? &&
+      !(register.settings[:support_overlapped_address] &&
         register.match_type?(other_register))
     end
   end
