@@ -15,7 +15,7 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
     end
 
     verify(:component) do
-      error_condition { option[:require] && !initial_value? }
+      error_condition { settings[:require] && !initial_value? }
       message { 'no initial value is given' }
     end
 
@@ -46,9 +46,9 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
 
     private
 
-    def option
-      @option ||=
-        (bit_field.options && bit_field.options[:initial_value]) || {}
+    def settings
+      @settings ||=
+        (bit_field.settings && bit_field.settings[:initial_value]) || {}
     end
 
     def min_initial_value
@@ -60,8 +60,8 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
     end
 
     def match_valid_condition?
-      !option.key?(:valid_condition) ||
-        instance_exec(@initial_value, &option[:valid_condition])
+      !settings.key?(:valid_condition) ||
+        instance_exec(@initial_value, &settings[:valid_condition])
     end
   end
 end

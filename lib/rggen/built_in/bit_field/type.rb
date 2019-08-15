@@ -46,16 +46,16 @@ RgGen.define_list_feature(:bit_field, :type) do
 
         attr_reader :volatility
 
-        def options
-          @options ||= {}
+        def settings
+          @settings ||= {}
         end
 
-        def initial_value(**option)
-          options[:initial_value] = option
+        def initial_value(**setting)
+          settings[:initial_value] = setting
         end
 
-        def reference(**option)
-          options[:reference] = option
+        def reference(**setting)
+          settings[:reference] = setting
         end
       end
 
@@ -66,7 +66,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       property :write_only?, body: -> { writable? && !readable? }
       property :reserved?, body: -> { !(readable? || writable?) }
       property :volatile?, forward_to: :volatility
-      property :options, forward_to_helper: true
+      property :settings, forward_to_helper: true
 
       build { |value| @type = value }
 

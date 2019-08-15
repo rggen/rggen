@@ -86,17 +86,17 @@ RgGen.define_simple_feature(:bit_field, :reference) do
 
     private
 
-    def option
-      @option ||=
-        (bit_field.options && bit_field.options[:reference]) || {}
+    def settings
+      @settings ||=
+        (bit_field.settings && bit_field.settings[:reference]) || {}
     end
 
     def use_reference?
-      option.fetch(:use, false)
+      settings.fetch(:use, false)
     end
 
     def require_reference?
-      use_reference? && option[:require]
+      use_reference? && settings[:require]
     end
 
     def no_reference?
@@ -129,7 +129,7 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     end
 
     def required_width
-      option[:width] || bit_field.width
+      settings[:width] || bit_field.width
     end
 
     def match_width?
