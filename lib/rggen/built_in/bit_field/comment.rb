@@ -12,5 +12,7 @@ RgGen.define_simple_feature(:bit_field, :comment) do
           value.to_s
         end
     end
+
+    printable :comment
   end
 end

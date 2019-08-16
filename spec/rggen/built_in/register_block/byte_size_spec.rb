@@ -54,6 +54,12 @@ RSpec.describe 'register_block/byte_size' do
     end
   end
 
+  it '表示可能オブジェクトとして、バイトサイズを返す' do
+    configuration = create_configuration(bus_width: 32, address_width: 16)
+    register_block = create_regsiter_block(configuration) { byte_size 256 }
+    expect(register_block.printables[:byte_size]).to eq 256
+  end
+
   describe 'エラーチェック' do
     context 'バイトサイズが未指定の場合' do
       it 'RegisterMapErrorを起こす' do

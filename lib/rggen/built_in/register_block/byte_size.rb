@@ -42,6 +42,8 @@ RgGen.define_simple_feature(:register_block, :byte_size) do
       end
     end
 
+    printable :byte_size
+
     private
 
     def max_byte_size

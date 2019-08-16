@@ -98,6 +98,34 @@ RSpec.describe 'bit_field/initial_value' do
     end
   end
 
+  describe '#printables[:initial_value]' do
+    context '初期値が設定されている場合' do
+      it '表示可能オブジェクトとして、設定された初期値を返す' do
+        bit_field = create_bit_field(1, default_settings, 0)
+        expect(bit_field.printables[:initial_value]).to eq '0x0'
+
+        bit_field = create_bit_field(8, default_settings, 0xab)
+        expect(bit_field.printables[:initial_value]).to eq '0xab'
+
+        bit_field = create_bit_field(11, default_settings, 0xab)
+        expect(bit_field.printables[:initial_value]).to eq '0x0ab'
+      end
+    end
+
+    context '初期値が未設定の場合' do
+      it 'nilを返す' do
+        bit_field = create_bit_field(1, default_settings)
+        expect(bit_field.printables[:initial_value]).to be_nil
+
+        bit_field = create_bit_field(8, default_settings)
+        expect(bit_field.printables[:initial_value]).to be_nil
+
+        bit_field = create_bit_field(11, default_settings)
+        expect(bit_field.printables[:initial_value]).to be_nil
+      end
+    end
+  end
+
   describe 'エラーチェック' do
     context '入力が整数に変換できない場合' do
       it 'RegisterMapErrorを起こす' do

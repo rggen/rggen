@@ -25,6 +25,8 @@ RgGen.define_simple_feature(:register_block, :name) do
       message { "duplicated register block name: #{name}" }
     end
 
+    printable :name
+
     private
 
     def duplicated_name?

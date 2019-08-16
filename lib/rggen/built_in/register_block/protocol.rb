@@ -22,6 +22,7 @@ RgGen.define_list_feature(:register_block, :protocol) do
     base_feature do
       property :protocol
       build { |protocol| @protocol = protocol }
+      printable :protocol
     end
 
     default_feature do

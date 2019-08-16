@@ -258,6 +258,20 @@ RSpec.describe 'bit_field/bit_assignment' do
     end
   end
 
+  it '表示可能オブジェクトとして、ビット割当一覧を返す' do
+    bit_field = create_bit_field(lsb: 1)
+    expect(bit_field.printables[:bit_assignments]).to match(['[1]'])
+
+    bit_field = create_bit_field(lsb: 1, width: 2)
+    expect(bit_field.printables[:bit_assignments]).to match(['[2:1]'])
+
+    bit_field = create_bit_field(lsb: 1, width: 2, sequence_size: 3)
+    expect(bit_field.printables[:bit_assignments]).to match(['[2:1]', '[4:3]', '[6:5]'])
+
+    bit_field = create_bit_field(lsb: 1, width: 2, sequence_size: 3, step: 4)
+    expect(bit_field.printables[:bit_assignments]).to match(['[2:1]', '[6:5]', '[10:9]'])
+  end
+
   describe 'エラーチェック' do
     context 'ビット割当が未入力の場合' do
       it 'RegisterMapErrorを起こす' do

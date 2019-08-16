@@ -56,6 +56,13 @@ RSpec.describe 'register_block/protocol' do
       end
     end
 
+    it '表示可能オブジェクトとして、設定されたプロトコル名を返す' do
+      RgGen.enable(:register_block, :protocol, [:foo, :bar, :baz])
+      protocol =  [:foo, :bar, :baz].sample
+      configuration = create_configuration(protocol: protocol)
+      expect(configuration.printables[:protocol]).to eq protocol
+    end
+
     describe 'エラーチェック' do
       context '使用可能なプロトコルがない場合' do
         before do

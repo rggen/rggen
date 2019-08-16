@@ -22,6 +22,8 @@ RgGen.define_simple_feature(:global, :address_width) do
       end
     end
 
+    printable :address_width
+
     private
 
     def min_address_width

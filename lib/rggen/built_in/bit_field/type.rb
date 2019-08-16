@@ -70,6 +70,8 @@ RgGen.define_list_feature(:bit_field, :type) do
 
       build { |value| @type = value }
 
+      printable :type
+
       private
 
       def volatility

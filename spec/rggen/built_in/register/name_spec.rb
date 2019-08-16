@@ -32,6 +32,13 @@ RSpec.describe 'register/name' do
     end
   end
 
+  it '表示可能オブジェクトとして、レジスタ名を返す' do
+    register_map = create_register_map do
+      register_block { register { name 'foo' } }
+    end
+    expect(register_map.registers[0].printables[:name]).to eq 'foo'
+  end
+
   describe 'エラーチェック' do
     context 'レジスタ名が未入力の場合' do
       it 'RegisterMapErrorを起こす' do

@@ -30,6 +30,11 @@ RSpec.describe 'register_block/name' do
     end
   end
 
+  it '表示可能オブジェクトとして、レジスタブロック名を返す' do
+    register_block = create_register_map { register_block { name 'foo' } }.register_blocks[0]
+    expect(register_block.printables[:name]).to eq 'foo'
+  end
+
   describe 'エラーチェック' do
     context 'レジスタブロック名が未入力の場合' do
       it 'RegisterMapErrorを起こす' do

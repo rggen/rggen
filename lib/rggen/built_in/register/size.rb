@@ -26,6 +26,10 @@ RgGen.define_simple_feature(:register, :size) do
       end
     end
 
+    printable(:array_size) do
+      (array_register? || nil) && "[#{array_registers.join(', ')}]"
+    end
+
     private
 
     def parse_values(values)

@@ -44,6 +44,14 @@ RgGen.define_simple_feature(:bit_field, :initial_value) do
       end
     end
 
+    printable(:initial_value) do
+      @initial_value &&
+        begin
+          print_width = (bit_field.width + 3) / 4
+          format('0x%0*x', print_width, @initial_value)
+        end
+    end
+
     private
 
     def settings

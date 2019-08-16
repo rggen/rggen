@@ -24,6 +24,8 @@ RgGen.define_simple_feature(:global, :bus_width) do
       message { "input bus width is not power of 2: #{bus_width}" }
     end
 
+    printable :bus_width
+
     private
 
     def power_of_2?(value)

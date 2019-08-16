@@ -322,6 +322,39 @@ RSpec.describe 'register/size' do
     expect(register).to have_property(:size, match([1, 2, 3]))
   end
 
+  describe '#printables[:array_size]' do
+    let(:registers) do
+      create_registers do
+        register {}
+        register { size [2] }
+        register { size [2, 3] }
+      end
+    end
+
+    context 'レジスタが配列の場合' do
+      it '表示可能オブジェクトとして、配列の大きさを返す' do
+        allow(registers[1]).to receive(:settings).and_return(support_array: true)
+        expect(registers[1].printables[:array_size]).to eq '[2]'
+
+        allow(registers[2]).to receive(:settings).and_return(support_array: true)
+        expect(registers[2].printables[:array_size]).to eq '[2, 3]'
+      end
+    end
+
+    context 'レジスタが配列ではない場合' do
+      it 'nilを返す' do
+        allow(registers[0]).to receive(:settings).and_return(support_array: true)
+        expect(registers[0].printables[:array_size]).to be_nil
+
+        allow(registers[1]).to receive(:settings).and_return({})
+        expect(registers[1].printables[:array_size]).to be_nil
+
+        allow(registers[2]).to receive(:settings).and_return({})
+        expect(registers[2].printables[:array_size]).to be_nil
+      end
+    end
+  end
+
   describe 'エラーチェック' do
     context '入力文字列がパターンに一致しなかった場合' do
       it 'RegisterMapErrorを起こす' do

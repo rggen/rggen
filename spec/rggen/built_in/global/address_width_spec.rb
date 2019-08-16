@@ -42,6 +42,11 @@ RSpec.describe 'global/address_width' do
     end
   end
 
+  it '表示可能オブジェクトとして、入力されたアドレス幅を返す' do
+    configuration = create_configuration(bus_width: 32, address_width: 32)
+    expect(configuration.printables[:address_width]).to eq 32
+  end
+
   describe 'エラーチェック' do
     context '入力値が整数に変換できない場合' do
       it 'ConfigurationErrorを起こす' do

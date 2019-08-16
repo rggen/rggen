@@ -54,6 +54,12 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
       message { 'overlap with existing bit field(s)' }
     end
 
+    printable(:bit_assignments) do
+      Array.new(@sequence_size || 1) do |i|
+        width > 1 && "[#{msb(i)}:#{lsb(i)}]" || "[#{lsb(i)}]"
+      end
+    end
+
     private
 
     KEYS = [:lsb, :width, :sequence_size, :step].freeze

@@ -117,6 +117,18 @@ RSpec.describe 'register/offset_address' do
     end
   end
 
+  it 'アドレス範囲を表示可能オブジェクトとして返す' do
+    registers = create_registers(32) do
+      register { offset_address 0x00; type :foo }
+      register { offset_address 0x10; type :foo; size [2] }
+      register { offset_address 0x80; type :foo; size [32] }
+    end
+
+    expect(registers[0].printables[:offset_address]).to eq '0x00 - 0x03'
+    expect(registers[1].printables[:offset_address]).to eq '0x10 - 0x17'
+    expect(registers[2].printables[:offset_address]).to eq '0x80 - 0xff'
+  end
+
   describe 'エラーチェック' do
     context 'オフセットアドレスが未指定の場合' do
       it 'RegisterMapErrorを起こす' do

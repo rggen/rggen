@@ -55,6 +55,11 @@ RgGen.define_simple_feature(:register, :offset_address) do
       end
     end
 
+    printable(:offset_address) do
+      [start_address, end_address]
+        .map(&method(:printable_address)).join(' - ')
+    end
+
     private
 
     def bus_width
@@ -91,6 +96,11 @@ RgGen.define_simple_feature(:register, :offset_address) do
     def support_unique_range_only?(other_register)
       !(register.settings[:support_overlapped_address] &&
         register.match_type?(other_register))
+    end
+
+    def printable_address(address)
+      print_width = (register_block.local_address_width + 3) / 4
+      format('0x%0*x', print_width, address)
     end
   end
 end

@@ -67,6 +67,21 @@ RSpec.describe 'bit_field/name' do
     end
   end
 
+  it '表示可能オブジェクトとして入力されたビットフィールド名を返す' do
+    register_map = create_register_map do
+      register_block do
+        register do
+          name :register_0
+          bit_field { name :bit_field_0 }
+          bit_field { name 'bit_field_1' }
+        end
+      end
+    end
+
+    expect(register_map.bit_fields[0].printables[:name]).to eq 'bit_field_0'
+    expect(register_map.bit_fields[1].printables[:name]).to eq 'bit_field_1'
+  end
+
   describe 'エラーチェック' do
     context 'ビットフィールド名が未入力の場合' do
       it 'RegisterMapErrorを起こす' do

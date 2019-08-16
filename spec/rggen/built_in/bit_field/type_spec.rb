@@ -268,6 +268,32 @@ RSpec.describe 'bit_field/type' do
         end
       end
     end
+
+    describe '#printables[:type]' do
+      before(:all) do
+        RgGen.define_list_item_feature(:bit_field, :type, [:foo, :bar]) do
+          register_map {}
+        end
+      end
+
+      after(:all) do
+        delete_register_map_factory
+        RgGen.delete(:bit_field, :type, [:foo, :bar])
+      end
+
+      it '表示可能オブジェクトとして、入力されたビットフィールド型を返す' do
+        bit_fields = create_bit_fields do
+          register do
+            name 'register_0'
+            bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :foo }
+            bit_field { name 'bit_field_1'; bit_assignment lsb: 1; type :bar }
+          end
+        end
+
+        expect(bit_fields[0].printables[:type]).to eq :foo
+        expect(bit_fields[1].printables[:type]).to eq :bar
+      end
+    end
   end
 
   describe 'sv ral' do

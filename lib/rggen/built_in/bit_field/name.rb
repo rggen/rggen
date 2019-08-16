@@ -26,6 +26,8 @@ RgGen.define_simple_feature(:bit_field, :name) do
       message { "duplicated bit field name: #{name}" }
     end
 
+    printable :name
+
     private
 
     def get_full_name(separator = '.')

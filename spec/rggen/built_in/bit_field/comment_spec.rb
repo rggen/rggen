@@ -57,4 +57,12 @@ RSpec.describe 'bit_field/comment' do
       end
     end
   end
+
+  it '表示可能オブジェクトとして、#commentを返す' do
+    bit_field = create_bit_field { comment "foo\nbar\nbaz" }
+    expect(bit_field.printables[:comment]).to eq "foo\nbar\nbaz"
+
+    bit_field = create_bit_field {}
+    expect(bit_field.printables[:comment]).to eq ''
+  end
 end

@@ -40,6 +40,12 @@ RSpec.describe 'globa/bus_width' do
     end
   end
 
+  it '表示可能オブジェクトとして、入力されたバス幅を返す' do
+    width = [8, 16, 32, 64].sample
+    configuration = create_configuration(bus_width: width)
+    expect(configuration.printables[:bus_width]).to eq width
+  end
+
   describe 'エラーチェック' do
     context '入力が整数に変換できない場合' do
       it 'ConfigurationErrorを起こす' do
