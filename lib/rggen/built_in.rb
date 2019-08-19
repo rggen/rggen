@@ -30,7 +30,6 @@ module RgGen
       'built_in/bit_field/bit_assignment',
       'built_in/bit_field/comment',
       'built_in/bit_field/initial_value',
-      'built_in/bit_field/markdown',
       'built_in/bit_field/name',
       'built_in/bit_field/reference',
       'built_in/bit_field/sv_rtl_top',
