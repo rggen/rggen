@@ -14,7 +14,7 @@ RSpec.describe 'register/type/external' do
 
   describe 'register map' do
     before(:all) do
-      delete_configuration_facotry
+      delete_configuration_factory
       delete_register_map_factory
     end
 

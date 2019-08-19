@@ -17,7 +17,7 @@ RSpec.describe 'register_block/protocol' do
 
     after do
       RgGen.disable(:register_block, :protocol)
-      delete_configuration_facotry
+      delete_configuration_factory
     end
 
     describe '#protocol' do

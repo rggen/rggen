@@ -13,7 +13,7 @@ RSpec.describe 'bit_field/type/rwc' do
 
   describe 'register_map' do
     before(:all) do
-      delete_configuration_facotry
+      delete_configuration_factory
       delete_register_map_factory
     end
 
@@ -87,7 +87,7 @@ RSpec.describe 'bit_field/type/rwc' do
     include_context 'sv rtl common'
 
     before(:all) do
-      delete_configuration_facotry
+      delete_configuration_factory
       delete_register_map_factory
     end
 
