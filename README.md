@@ -7,14 +7,14 @@
 
 # RgGen
 
-RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automatically generate soruce code related to control/status registers (CSR), e.g. SytemVerilog RTL, UVM RAL model, from human readable register map specifications.
+RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automatically generate soruce code related to control/status registers (CSR), e.g. SytemVerilog RTL, UVM RAL model, Wiki documents, from human readable register map specifications.
 
 RgGen has following features:
 
 * Generate source files related to CSR from register map specifications
-    * Source files listed below will be generated:
-        * SystemVerilog RTL
-        * UVM RAL model
+    * SystemVerilog RTL
+    * UVM RAL model
+    * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
     * Supported formats are listed below:
         * Ruby with APIs to describe register map information
