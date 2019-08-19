@@ -8,6 +8,7 @@ gemspec
 [
   'rggen-devtools',
   'rggen-core',
+  'rggen-markdown',
   'rggen-spreadsheet-loader',
   'rggen-systemverilog'
 ].each do |rggen_library|

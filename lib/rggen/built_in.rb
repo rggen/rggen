@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rggen/systemverilog'
+require 'rggen/markdown'
 require_relative 'built_in/version'
 
 module RgGen
@@ -11,12 +12,14 @@ module RgGen
       'built_in/global/bus_width',
       'built_in/global/fold_sv_interface_port',
       'built_in/register_block/byte_size',
+      'built_in/register_block/markdown',
       'built_in/register_block/name',
       'built_in/register_block/protocol',
       'built_in/register_block/protocol/apb',
       'built_in/register_block/protocol/axi4lite',
       'built_in/register_block/sv_ral_package',
       'built_in/register_block/sv_rtl_top',
+      'built_in/register/markdown',
       'built_in/register/name',
       'built_in/register/offset_address',
       'built_in/register/size',
@@ -27,6 +30,7 @@ module RgGen
       'built_in/bit_field/bit_assignment',
       'built_in/bit_field/comment',
       'built_in/bit_field/initial_value',
+      'built_in/bit_field/markdown',
       'built_in/bit_field/name',
       'built_in/bit_field/reference',
       'built_in/bit_field/sv_rtl_top',
