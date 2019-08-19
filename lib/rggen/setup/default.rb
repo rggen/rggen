@@ -25,3 +25,6 @@ RgGen.enable :register, [:sv_rtl_top]
 RgGen.enable :bit_field, [:sv_rtl_top]
 
 RgGen.enable :register_block, [:sv_ral_package]
+
+RgGen.enable :register_block, [:markdown]
+RgGen.enable :register, [:markdown]

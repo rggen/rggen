@@ -56,6 +56,9 @@ RSpec.describe RgGen do
 
       expect(builder).to receive(:enable).with(:register_block, match([:sv_ral_package])).and_call_original
 
+      expect(builder).to receive(:enable).with(:register_block, match([:markdown])).and_call_original
+      expect(builder).to receive(:enable).with(:register, match([:markdown])).and_call_original
+
       cli = RgGen::Core::CLI.new(builder)
       cli.run(['--verbose-version'])
     end

@@ -1,0 +1,8 @@
+## <%= register_block.name %>
+
+<% register_block.printables.each do |name, printable| %>
+* <%= name %>
+    * <%= printable || 'NA' %>
+<% end %>
+
+<%= register_table %>

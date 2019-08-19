@@ -1,0 +1,11 @@
+
+### <%= anchor(anchor_id) %><%= register.name %>
+
+<% register.printables.each do |name, printable| %>
+* <%= name %>
+    * <%= printable || 'NA' %>
+<% end %>
+<% if register.bit_fields? %>
+
+<%= bit_field_table %>
+<% end%>
