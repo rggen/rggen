@@ -10,29 +10,45 @@ RSpec.describe 'bit_field/name' do
   end
 
   describe '#name' do
-    let(:names) do
-      random_strings(/[_a-z][_a-z0-9]*/i, 4)
-    end
+    context 'ビットフィールド名が入力された場合' do
+      let(:names) do
+        random_strings(/[_a-z][_a-z0-9]*/i, 4)
+      end
 
-    let(:register_map) do
-      create_register_map do
-        register_block do
-          register do
-            name :register_0
-            bit_field { name names[0] }
-            bit_field { name names[1] }
-            bit_field { name names[2] }
-            bit_field { name names[3] }
+      let(:register_map) do
+        create_register_map do
+          register_block do
+            register do
+              name :register_0
+              bit_field { name names[0] }
+              bit_field { name names[1] }
+              bit_field { name names[2] }
+              bit_field { name names[3] }
+            end
           end
         end
       end
+
+      it '入力されたビットフィールド名を返す' do
+        expect(register_map.bit_fields[0]).to have_property(:name, names[0])
+        expect(register_map.bit_fields[1]).to have_property(:name, names[1])
+        expect(register_map.bit_fields[2]).to have_property(:name, names[2])
+        expect(register_map.bit_fields[3]).to have_property(:name, names[3])
+      end
     end
 
-    it '入力されたビットフィールド名を返す' do
-      expect(register_map.bit_fields[0]).to have_property(:name, names[0])
-      expect(register_map.bit_fields[1]).to have_property(:name, names[1])
-      expect(register_map.bit_fields[2]).to have_property(:name, names[2])
-      expect(register_map.bit_fields[3]).to have_property(:name, names[3])
+    context 'ビットフィールド名が省略された場合' do
+      let(:register_map) do
+        create_register_map do
+          register_block do
+            register { name :register_0; bit_field {} }
+          end
+        end
+      end
+
+      it '所属するレジスタのレジスタ名を返す' do
+        expect(register_map.bit_fields[0]).to have_property(:name, 'register_0')
+      end
     end
   end
 
@@ -50,6 +66,10 @@ RSpec.describe 'bit_field/name' do
             bit_field { name :bit_field_0 }
             bit_field { name :bit_field_1 }
           end
+          register do
+            name :register_2
+            bit_field {}
+          end
         end
       end
     end
@@ -59,6 +79,7 @@ RSpec.describe 'bit_field/name' do
       expect(register_map.bit_fields[1]).to have_property(:full_name, 'register_0.bit_field_1')
       expect(register_map.bit_fields[2]).to have_property(:full_name, 'register_1.bit_field_0')
       expect(register_map.bit_fields[3]).to have_property(:full_name, 'register_1.bit_field_1')
+      expect(register_map.bit_fields[4]).to have_property(:full_name, 'register_2')
     end
 
     it '区切り文字を変更できる' do
@@ -74,53 +95,17 @@ RSpec.describe 'bit_field/name' do
           name :register_0
           bit_field { name :bit_field_0 }
           bit_field { name 'bit_field_1' }
+          bit_field {}
         end
       end
     end
 
     expect(register_map.bit_fields[0].printables[:name]).to eq 'bit_field_0'
     expect(register_map.bit_fields[1].printables[:name]).to eq 'bit_field_1'
+    expect(register_map.bit_fields[2].printables[:name]).to eq 'register_0'
   end
 
   describe 'エラーチェック' do
-    context 'ビットフィールド名が未入力の場合' do
-      it 'RegisterMapErrorを起こす' do
-        expect {
-          create_register_map do
-            register_block do
-              register do
-                name :register_0
-                bit_field {}
-              end
-            end
-          end
-        }.to raise_register_map_error 'no bit field name is given'
-
-        expect {
-          create_register_map do
-            register_block do
-              register do
-                name :register_0
-                bit_field { name nil }
-              end
-            end
-          end
-        }.to raise_register_map_error 'no bit field name is given'
-
-        expect {
-          create_register_map do
-            register_block do
-              register do
-                name :register_0
-                bit_field { name '' }
-              end
-            end
-          end
-        }.to raise_register_map_error 'no bit field name is given'
-
-      end
-    end
-
     context 'ビットフィールド名が入力パターンに合致しない場合' do
       it 'RegisterMapErrorを起こす' do
         [
@@ -155,11 +140,23 @@ RSpec.describe 'bit_field/name' do
             end
           end
         }.to raise_register_map_error('duplicated bit field name: bit_field_0')
+
+        expect {
+          create_register_map do
+            register_block do
+              register do
+                name :register_0
+                bit_field {}
+                bit_field {}
+              end
+            end
+          end
+        }.to raise_register_map_error('duplicated bit field name: register_0')
       end
     end
 
     context '異なるレジスタ間でビットフィールド名の重複がある場合' do
-      it 'RegisterMapErrorを起こす' do
+      it 'RegisterMapErrorを起こさない' do
         expect {
           create_register_map do
             register_block do
