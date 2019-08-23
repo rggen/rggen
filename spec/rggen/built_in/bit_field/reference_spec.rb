@@ -100,6 +100,18 @@ RSpec.describe 'bit_field/reference' do
         end
       end
       expect(bit_fields[0]).to have_property(:reference, equal(bit_fields[1]))
+
+      bit_fields = create_bit_fields do
+        register do
+          name 'foo_0'
+          bit_field { name 'foo_0_0'; reference 'foo_1'; settings default_settings }
+        end
+        register do
+          name 'foo_1'
+          bit_field {}
+        end
+      end
+      expect(bit_fields[0]).to have_property(:reference, equal(bit_fields[1]))
     end
 
     context '参照ビットフィールドが指定されていない場合' do
@@ -143,7 +155,6 @@ RSpec.describe 'bit_field/reference' do
         [
           0,
           '0foo',
-          'foo',
           'foo.0',
           'foo.0bar',
           'foo/bar',
@@ -216,6 +227,19 @@ RSpec.describe 'bit_field/reference' do
             end
           end
         }.to raise_register_map_error 'no such bit field found: foo_3.foo_3_0'
+
+        expect {
+          create_bit_fields do
+            register do
+              name 'foo_0'
+              bit_field { name 'foo_0_0'; reference 'foo_2'; settings default_settings }
+            end
+            register do
+              name 'foo_1'
+              bit_field {}
+            end
+          end
+        }.to raise_register_map_error 'no such bit field found: foo_2'
       end
     end
 

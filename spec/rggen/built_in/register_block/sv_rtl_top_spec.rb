@@ -46,13 +46,11 @@ RSpec.describe 'register_block/sv_rtl_top' do
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
         end
       end
-      expect(register_block)
-        .to have_interface :register_block, :register_if, {
-          name: 'register_if',
-          interface_type: 'rggen_register_if',
-          parameter_values: [address_width, bus_width, 1 * bus_width],
-          array_size: [1]
-        }
+      expect(register_block).to have_interface(
+        :register_block, :register_if,
+        name: 'register_if', interface_type: 'rggen_register_if',
+        parameter_values: [address_width, bus_width, 1 * bus_width], array_size: [1]
+      )
 
       register_block = create_register_block do
         name 'block_0'
@@ -64,13 +62,12 @@ RSpec.describe 'register_block/sv_rtl_top' do
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
         end
       end
-      expect(register_block)
-        .to have_interface :register_block, :register_if, {
-          name: 'register_if',
-          interface_type: 'rggen_register_if',
-          parameter_values: [address_width, bus_width, 1 * bus_width],
-          array_size: [8]
-        }
+      expect(register_block).to have_interface(
+        :register_block, :register_if,
+        name: 'register_if', interface_type: 'rggen_register_if',
+        parameter_values: [address_width, bus_width, 1 * bus_width], array_size: [8]
+      )
+
       register_block = create_register_block do
         name 'block_0'
         byte_size 256
@@ -90,13 +87,11 @@ RSpec.describe 'register_block/sv_rtl_top' do
           bit_field { name 'bit_field_0'; bit_assignment lsb: 64; type :rw; initial_value 0 }
         end
       end
-      expect(register_block)
-        .to have_interface :register_block, :register_if, {
-          name: 'register_if',
-          interface_type: 'rggen_register_if',
-          parameter_values: [address_width, bus_width, 3 * bus_width],
-          array_size: [3]
-        }
+      expect(register_block).to have_interface(
+        :register_block, :register_if,
+        name: 'register_if', interface_type: 'rggen_register_if',
+        parameter_values: [address_width, bus_width, 3 * bus_width], array_size: [3]
+      )
     end
 
     specify '内部信号\'value\'を参照できる' do

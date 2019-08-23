@@ -71,6 +71,12 @@ RSpec.describe 'register/type/default' do
         offset_address 0x80
         bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :wo; initial_value 0 }
       end
+
+      register do
+        name 'register_9'
+        offset_address 0x90
+        bit_field { bit_assignment lsb: 0; type :rw; initial_value 0 }
+      end
     end
   end
 
@@ -258,28 +264,18 @@ RSpec.describe 'register/type/default' do
     let(:registers) { create_sv_ral(&register_map_body).registers }
 
     it 'レジスタモデル変数#ral_modelを持つ' do
-      expect(registers[0])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_0',
-          data_type: 'register_0_reg_model',
-          random: true
-        }
-      expect(registers[1])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_1',
-          data_type: 'register_1_reg_model',
-          array_size: [4],
-          array_format: :unpacked,
-          random: true
-        }
-      expect(registers[2])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_2',
-          data_type: 'register_2_reg_model',
-          array_size: [2, 2],
-          array_format: :unpacked,
-          random: true
-        }
+      expect(registers[0]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_0', data_type: 'register_0_reg_model', random: true
+      )
+      expect(registers[1]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_1', data_type: 'register_1_reg_model', array_size: [4], array_format: :unpacked, random: true
+      )
+      expect(registers[2]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_2', data_type: 'register_2_reg_model', array_size: [2, 2], array_format: :unpacked, random: true
+      )
     end
 
     describe '#constructors' do
@@ -305,6 +301,7 @@ RSpec.describe 'register/type/default' do
           `rggen_ral_create_reg_model(register_6, '{}, 8'h60, RW, 0, g_register_6.u_register)
           `rggen_ral_create_reg_model(register_7, '{}, 8'h70, RO, 0, g_register_7.u_register)
           `rggen_ral_create_reg_model(register_8, '{}, 8'h80, WO, 0, g_register_8.u_register)
+          `rggen_ral_create_reg_model(register_9, '{}, 8'h90, RW, 0, g_register_9.u_register)
         CODE
       end
     end
@@ -425,6 +422,18 @@ RSpec.describe 'register/type/default' do
             endfunction
             function void build();
               `rggen_ral_create_field_model(bit_field_0, 0, 1, WO, 0, 1'h0, 1)
+            endfunction
+          endclass
+        CODE
+
+        expect(registers[9]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_9_reg_model extends rggen_ral_reg;
+            rand rggen_ral_field register_9;
+            function new(string name);
+              super.new(name, 32, 0);
+            endfunction
+            function void build();
+              `rggen_ral_create_field_model(register_9, 0, 1, RW, 0, 1'h0, 1)
             endfunction
           endclass
         CODE

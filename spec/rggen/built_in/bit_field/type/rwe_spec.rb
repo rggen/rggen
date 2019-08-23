@@ -131,38 +131,48 @@ RSpec.describe 'bit_field/type/rwe' do
         register do
           name 'register_0'
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_2'; bit_assignment lsb: 4, width: 2; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_4'; bit_assignment lsb: 16, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
         end
 
         register do
           name 'register_1'
           size [4]
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_2'; bit_assignment lsb: 4, width: 2; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_4'; bit_assignment lsb: 16, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
         end
 
         register do
           name 'register_2'
           size [2, 2]
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_1'; bit_assignment lsb: 1, width: 1; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_2'; bit_assignment lsb: 4, width: 2; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_3'; bit_assignment lsb: 6, width: 2; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
           bit_field { name 'bit_field_4'; bit_assignment lsb: 16, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0 }
-          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_3.bit_field_0' }
+          bit_field { name 'bit_field_5'; bit_assignment lsb: 20, width: 4, sequence_size: 2, step: 8; type :rwe; initial_value 0; reference 'register_4.bit_field_0' }
         end
 
         register do
           name 'register_3'
+          bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rwe; initial_value 0; reference 'register_5' }
+        end
+
+        register do
+          name 'register_4'
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
+        end
+
+        register do
+          name 'register_5'
+          bit_field { bit_assignment lsb: 0; type :rw; initial_value 0 }
         end
       end
     end
@@ -216,6 +226,11 @@ RSpec.describe 'bit_field/type/rwe' do
         :register_block, :value_out,
         name: 'o_register_2_bit_field_4', direction: :output, data_type: :logic, width: 4,
         array_size: [2, 2, 2], array_format: array_port_format
+      )
+
+      expect(bit_fields[18]).to have_port(
+        :register_block, :value_out,
+        name: 'o_register_3_bit_field_0', direction: :output, data_type: :logic, width: 1
       )
     end
 
@@ -316,6 +331,11 @@ RSpec.describe 'bit_field/type/rwe' do
           name: 'i_register_2_bit_field_5_enable', direction: :input, data_type: :logic, width: 1,
           array_size: [2, 2, 2], array_format: array_port_format
         )
+
+        expect(bit_fields[18]).to not_have_port(
+          :register_block, :enable,
+          name: 'o_register_3_bit_field_0_enable', direction: :input, data_type: :logic, width: 1
+        )
       end
     end
 
@@ -344,7 +364,7 @@ RSpec.describe 'bit_field/type/rwe' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .i_enable     (register_if[9].value[0+:1]),
+            .i_enable     (register_if[10].value[0+:1]),
             .o_value      (o_register_0_bit_field_1)
           );
         CODE
@@ -370,7 +390,7 @@ RSpec.describe 'bit_field/type/rwe' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .i_enable     (register_if[9].value[0+:1]),
+            .i_enable     (register_if[10].value[0+:1]),
             .o_value      (o_register_0_bit_field_3)
           );
         CODE
@@ -396,7 +416,7 @@ RSpec.describe 'bit_field/type/rwe' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .i_enable     (register_if[9].value[0+:1]),
+            .i_enable     (register_if[10].value[0+:1]),
             .o_value      (o_register_0_bit_field_5[i])
           );
         CODE
@@ -422,7 +442,7 @@ RSpec.describe 'bit_field/type/rwe' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .i_enable     (register_if[9].value[0+:1]),
+            .i_enable     (register_if[10].value[0+:1]),
             .o_value      (o_register_1_bit_field_5[i][j])
           );
         CODE
@@ -448,8 +468,21 @@ RSpec.describe 'bit_field/type/rwe' do
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .i_enable     (register_if[9].value[0+:1]),
+            .i_enable     (register_if[10].value[0+:1]),
             .o_value      (o_register_2_bit_field_5[i][j][k])
+          );
+        CODE
+
+        expect(bit_fields[18]).to generate_code(:bit_field, :top_down, <<~'CODE')
+          rggen_bit_field_rwe #(
+            .WIDTH          (1),
+            .INITIAL_VALUE  (1'h0)
+          ) u_bit_field (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .bit_field_if (bit_field_sub_if),
+            .i_enable     (register_if[11].value[0+:1]),
+            .o_value      (o_register_3_bit_field_0)
           );
         CODE
       end
@@ -469,16 +502,23 @@ RSpec.describe 'bit_field/type/rwe' do
           name 'register_0'
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rwe; initial_value 0 }
           bit_field { name 'bit_field_1'; bit_assignment lsb: 1; type :rwe; initial_value 0; reference 'register_1.bit_field_0' }
+          bit_field { name 'bit_field_2'; bit_assignment lsb: 2; type :rwe; initial_value 0; reference 'register_2' }
         end
 
         register do
           name 'register_1'
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0; type :rw; initial_value 0 }
         end
+
+        register do
+          name 'register_2'
+          bit_field { bit_assignment lsb: 0; type :rw; initial_value 0 }
+        end
       end
 
       expect(sv_ral.bit_fields[0].model_name).to eq 'rggen_ral_rwe_field #("", "")'
       expect(sv_ral.bit_fields[1].model_name).to eq 'rggen_ral_rwe_field #("register_1", "bit_field_0")'
+      expect(sv_ral.bit_fields[2].model_name).to eq 'rggen_ral_rwe_field #("register_2", "register_2")'
     end
   end
 end

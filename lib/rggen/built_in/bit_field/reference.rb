@@ -7,12 +7,15 @@ RgGen.define_simple_feature(:bit_field, :reference) do
     property :reference_width, forward_to: :required_width
     property :find_reference, forward_to: :find_reference_bit_field
 
-    input_pattern /(#{variable_name})\.(#{variable_name})/
+    input_pattern [
+      /(#{variable_name})\.(#{variable_name})/,
+      /(#{variable_name})/
+    ]
 
     build do |value|
       @input_reference =
         if pattern_matched?
-          "#{match_data[1]}.#{match_data[2]}"
+          match_data[1..2].compact.join('.')
         else
           error "illegal input value for reference: #{value.inspect}"
         end
