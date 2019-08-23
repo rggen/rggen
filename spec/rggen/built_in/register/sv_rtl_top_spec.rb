@@ -377,6 +377,12 @@ RSpec.describe 'register/sv_rtl_top' do
           bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
           bit_field { name 'bit_field_1'; bit_assignment lsb: 8, width: 2; type :rw; initial_value 0 }
         end
+
+        register do
+          name 'register_4'
+          offset_address 0x40
+          bit_field { bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
+        end
       end
 
       expect(registers[0]).to generate_code(:register_block, :top_down, <<~'CODE')
@@ -545,6 +551,40 @@ RSpec.describe 'register/sv_rtl_top' do
                 );
               end
             end
+          end
+        end endgenerate
+      CODE
+
+      expect(registers[4]).to generate_code(:register_block, :top_down, <<~'CODE')
+        generate if (1) begin : g_register_4
+          rggen_bit_field_if #(32) bit_field_if();
+          rggen_default_register #(
+            .READABLE       (1),
+            .WRITABLE       (1),
+            .ADDRESS_WIDTH  (8),
+            .OFFSET_ADDRESS (8'h40),
+            .BUS_WIDTH      (32),
+            .DATA_WIDTH     (32),
+            .VALID_BITS     (32'h00000003),
+            .REGISTER_INDEX (0)
+          ) u_register (
+            .i_clk        (i_clk),
+            .i_rst_n      (i_rst_n),
+            .register_if  (register_if[10]),
+            .bit_field_if (bit_field_if)
+          );
+          if (1) begin : g_register_4
+            rggen_bit_field_if #(2) bit_field_sub_if();
+            `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 2)
+            rggen_bit_field_rw #(
+              .WIDTH          (2),
+              .INITIAL_VALUE  (2'h0)
+            ) u_bit_field (
+              .i_clk        (i_clk),
+              .i_rst_n      (i_rst_n),
+              .bit_field_if (bit_field_sub_if),
+              .o_value      (o_register_4)
+            );
           end
         end endgenerate
       CODE

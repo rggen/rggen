@@ -127,43 +127,64 @@ RSpec.describe 'register/type/indirect' do
           register do
             name :foo
             offset_address 0x0
-            type [:indirect, ['qux.qux_2', 0]]
+            type [:indirect, ['fizz.fizz_2', 0]]
             bit_field { name :foo_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
           end
           register do
             name :bar
-            offset_address 0x0
+            offset_address 0x00
             size [2]
-            type [:indirect, 'qux.qux_1', ['qux.qux_2', 1]]
+            type [:indirect, 'fizz.fizz_1', ['fizz.fizz_2', 1]]
             bit_field { name :bar_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
           end
           register do
             name :baz
-            offset_address 0x0
+            offset_address 0x00
             size [2, 3]
-            type [:indirect, 'qux.qux_0', 'qux.qux_1', ['qux.qux_2', 2]]
+            type [:indirect, 'fizz.fizz_0', 'fizz.fizz_1', ['fizz.fizz_2', 2]]
             bit_field { name :baz_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
           end
           register do
             name :qux
-            offset_address 0x4
-            bit_field { name :qux_0; bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
-            bit_field { name :qux_1; bit_assignment lsb: 2, width: 2; type :rw; initial_value 0 }
-            bit_field { name :qux_2; bit_assignment lsb: 4, width: 2; type :rw; initial_value 0 }
+            offset_address 0x04
+            size [2]
+            type [:indirect, 'buzz', ['fizz_buzz', 0]]
+            bit_field { name :qux_0; bit_assignment lsb: 0; type :rw; initial_value 0 }
+          end
+          register do
+            name :fizz
+            offset_address 0x08
+            bit_field { name :fizz_0; bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
+            bit_field { name :fizz_1; bit_assignment lsb: 2, width: 2; type :rw; initial_value 0 }
+            bit_field { name :fizz_2; bit_assignment lsb: 4, width: 2; type :rw; initial_value 0 }
+          end
+          register do
+            name :buzz
+            offset_address 0x0C
+            bit_field { bit_assignment lsb: 0, with: 2; type :rw; initial_value 0 }
+          end
+          register do
+            name :fizz_buzz
+            offset_address 0x10
+            bit_field { bit_assignment lsb: 0, with: 2; type :rw; initial_value 0 }
           end
         end
 
         expect(registers[0].index_entries.map(&:to_h)).to match([
-          { name: 'qux.qux_2', value: 0 }
+          { name: 'fizz.fizz_2', value: 0 }
         ])
         expect(registers[1].index_entries.map(&:to_h)).to match([
-          { name: 'qux.qux_1', value: nil },
-          { name: 'qux.qux_2', value: 1 }
+          { name: 'fizz.fizz_1', value: nil },
+          { name: 'fizz.fizz_2', value: 1 }
         ])
         expect(registers[2].index_entries.map(&:to_h)).to match([
-          { name: 'qux.qux_0', value: nil },
-          { name: 'qux.qux_1', value: nil },
-          { name: 'qux.qux_2', value: 2 }
+          { name: 'fizz.fizz_0', value: nil },
+          { name: 'fizz.fizz_1', value: nil },
+          { name: 'fizz.fizz_2', value: 2 }
+        ])
+        expect(registers[3].index_entries.map(&:to_h)).to match([
+          { name: 'buzz', value: nil },
+          { name: 'fizz_buzz', value: 0 }
         ])
       end
 
@@ -246,7 +267,7 @@ RSpec.describe 'register/type/indirect' do
 
       context 'フィールド名が入力パターンに一致しない場合' do
         it 'RegisterMapErrorを起こす' do
-          ['0foo.foo', 'foo.0foo', 'foo.foo.0', 'foo.foo:0xef_gh'].each do |value|
+          ['0foo.foo', 'foo.0foo', 'foo.foo.0', 'foo.foo:0xef_gh', '0foo', 'foo:0xef_gh'].each do |value|
             expect {
               create_registers do
                 register do
@@ -849,13 +870,25 @@ RSpec.describe 'register/type/indirect' do
 
       register do
         name 'register_1'
+        offset_address 0x04
+        bit_field { bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
+      end
+
+      register do
+        name 'register_2'
+        offset_address 0x08
+        bit_field { bit_assignment lsb: 0, width: 2; type :rw; initial_value 0 }
+      end
+
+      register do
+        name 'register_3'
         offset_address 0x10
         type [:indirect, ['register_0.bit_field_0', 1]]
         bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
       end
 
       register do
-        name 'register_2'
+        name 'register_4'
         offset_address 0x14
         size [2]
         type [:indirect, 'register_0.bit_field_1']
@@ -863,7 +896,7 @@ RSpec.describe 'register/type/indirect' do
       end
 
       register do
-        name 'register_3'
+        name 'register_5'
         offset_address 0x18
         size [2, 4]
         type [:indirect, 'register_0.bit_field_1', 'register_0.bit_field_2']
@@ -871,7 +904,7 @@ RSpec.describe 'register/type/indirect' do
       end
 
       register do
-        name 'register_4'
+        name 'register_6'
         offset_address 0x1c
         size [2, 4]
         type [:indirect, ['register_0.bit_field_0', 0], 'register_0.bit_field_1', 'register_0.bit_field_2']
@@ -879,17 +912,25 @@ RSpec.describe 'register/type/indirect' do
       end
 
       register do
-        name 'register_5'
+        name 'register_7'
         offset_address 0x20
         type [:indirect, ['register_0.bit_field_0', 0]]
         bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :ro }
       end
 
       register do
-        name 'register_6'
+        name 'register_8'
         offset_address 0x24
         type [:indirect, ['register_0.bit_field_0', 0]]
         bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :wo; initial_value 0 }
+      end
+
+      register do
+        name 'register_9'
+        offset_address 0x28
+        size [2]
+        type [:indirect, 'register_1', ['register_2', 0]]
+        bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 1; type :rw; initial_value 0 }
       end
     end
   end
@@ -908,38 +949,30 @@ RSpec.describe 'register/type/indirect' do
     end
 
     it 'logic変数#indirect_indexを持つ' do
-      expect(registers[1])
-        .to have_variable :register, :indirect_index, {
-          name: 'indirect_index',
-          data_type: :logic,
-          width: 1
-        }
+      expect(registers[3]).to have_variable(
+        :register, :indirect_index,
+        name: 'indirect_index', data_type: :logic, width: 1
+      )
 
-      expect(registers[2])
-        .to have_variable :register, :indirect_index, {
-          name: 'indirect_index',
-          data_type: :logic,
-          width: 2
-        }
+      expect(registers[4]).to have_variable(
+        :register, :indirect_index,
+        name: 'indirect_index', data_type: :logic, width: 2
+      )
 
-      expect(registers[3])
-        .to have_variable :register, :indirect_index, {
-          name: 'indirect_index',
-          data_type: :logic,
-          width: 6
-        }
+      expect(registers[5]).to have_variable(
+        :register, :indirect_index,
+        name: 'indirect_index', data_type: :logic, width: 6
+      )
 
-      expect(registers[4])
-        .to have_variable :register, :indirect_index, {
-          name: 'indirect_index',
-          data_type: :logic,
-          width: 7
-        }
+      expect(registers[6]).to have_variable(
+        :register, :indirect_index,
+        name: 'indirect_index', data_type: :logic, width: 7
+      )
     end
 
     describe '#generate_code' do
       it 'rggen_indirect_registerをインスタンスするコードを出力する' do
-        expect(registers[1]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[3]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1]};
           rggen_indirect_register #(
             .READABLE             (1),
@@ -954,13 +987,13 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[1]),
+            .register_if      (register_if[3]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
         CODE
 
-        expect(registers[2]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[4]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[8+:2]};
           rggen_indirect_register #(
             .READABLE             (1),
@@ -975,13 +1008,13 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[2+i]),
+            .register_if      (register_if[4+i]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
         CODE
 
-        expect(registers[3]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[5]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[8+:2], register_if[0].value[16+:4]};
           rggen_indirect_register #(
             .READABLE             (1),
@@ -996,13 +1029,13 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[4+4*i+j]),
+            .register_if      (register_if[6+4*i+j]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
         CODE
 
-        expect(registers[4]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[6]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1], register_if[0].value[8+:2], register_if[0].value[16+:4]};
           rggen_indirect_register #(
             .READABLE             (1),
@@ -1017,13 +1050,13 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[12+4*i+j]),
+            .register_if      (register_if[14+4*i+j]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
         CODE
 
-        expect(registers[5]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[7]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1]};
           rggen_indirect_register #(
             .READABLE             (1),
@@ -1038,13 +1071,13 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[20]),
+            .register_if      (register_if[22]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
         CODE
 
-        expect(registers[6]).to generate_code(:register, :top_down, <<~'CODE')
+        expect(registers[8]).to generate_code(:register, :top_down, <<~'CODE')
           assign indirect_index = {register_if[0].value[0+:1]};
           rggen_indirect_register #(
             .READABLE             (0),
@@ -1059,7 +1092,28 @@ RSpec.describe 'register/type/indirect' do
           ) u_register (
             .i_clk            (i_clk),
             .i_rst_n          (i_rst_n),
-            .register_if      (register_if[21]),
+            .register_if      (register_if[23]),
+            .i_indirect_index (indirect_index),
+            .bit_field_if     (bit_field_if)
+          );
+        CODE
+
+        expect(registers[9]).to generate_code(:register, :top_down, <<~'CODE')
+          assign indirect_index = {register_if[1].value[0+:2], register_if[2].value[0+:2]};
+          rggen_indirect_register #(
+            .READABLE             (1),
+            .WRITABLE             (1),
+            .ADDRESS_WIDTH        (8),
+            .OFFSET_ADDRESS       (8'h28),
+            .BUS_WIDTH            (32),
+            .DATA_WIDTH           (32),
+            .VALID_BITS           (32'h00000001),
+            .INDIRECT_INDEX_WIDTH (4),
+            .INDIRECT_INDEX_VALUE ({i[0+:2], 2'h0})
+          ) u_register (
+            .i_clk            (i_clk),
+            .i_rst_n          (i_rst_n),
+            .register_if      (register_if[24+i]),
             .i_indirect_index (indirect_index),
             .bit_field_if     (bit_field_if)
           );
@@ -1076,115 +1130,77 @@ RSpec.describe 'register/type/indirect' do
     end
 
     it 'レジスタモデル変数#ral_modelを持つ' do
-      expect(registers[1])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_1',
-          data_type: 'register_1_reg_model',
-          random: true
-        }
-      expect(registers[2])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_2',
-          data_type: 'register_2_reg_model',
-          array_size: [2],
-          array_format: :unpacked,
-          random: true
-        }
-      expect(registers[3])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_3',
-          data_type: 'register_3_reg_model',
-          array_size: [2, 4],
-          array_format: :unpacked,
-          random: true
-        }
-      expect(registers[4])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_4',
-          data_type: 'register_4_reg_model',
-          array_size: [2, 4],
-          array_format: :unpacked,
-          random: true
-        }
-      expect(registers[5])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_5',
-          data_type: 'register_5_reg_model',
-          random: true
-        }
-      expect(registers[6])
-        .to have_variable :register_block, :ral_model, {
-          name: 'register_6',
-          data_type: 'register_6_reg_model',
-          random: true
-        }
+      expect(registers[3]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_3', data_type: 'register_3_reg_model', random: true
+      )
+      expect(registers[4]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_4', data_type: 'register_4_reg_model',
+        array_size: [2], array_format: :unpacked, random: true
+      )
+      expect(registers[5]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_5', data_type: 'register_5_reg_model',
+        array_size: [2, 4], array_format: :unpacked, random: true
+      )
+      expect(registers[6]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_6', data_type: 'register_6_reg_model',
+        array_size: [2, 4], array_format: :unpacked, random: true
+      )
+      expect(registers[7]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_7', data_type: 'register_7_reg_model', random: true
+      )
+      expect(registers[8]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_8', data_type: 'register_8_reg_model', random: true
+      )
+      expect(registers[9]).to have_variable(
+        :register_block, :ral_model,
+        name: 'register_9', data_type: 'register_9_reg_model',
+        array_size: [2], array_format: :unpacked, random: true
+      )
     end
 
     describe '#constructors' do
       it 'レジスタモデルの生成と構成を行うコードを出力する' do
         code_block = RgGen::Core::Utility::CodeUtility::CodeBlock.new
-        registers[1..-1].flat_map(&:constructors).each do |constructor|
+        registers[3..-1].flat_map(&:constructors).each do |constructor|
           code_block << [constructor, "\n"]
         end
 
         expect(code_block).to match_string(<<~'CODE')
-          `rggen_ral_create_reg_model(register_1, '{}, 8'h10, RW, 1, g_register_1.u_register)
-          `rggen_ral_create_reg_model(register_2[0], '{0}, 8'h14, RW, 1, g_register_2.g[0].u_register)
-          `rggen_ral_create_reg_model(register_2[1], '{1}, 8'h14, RW, 1, g_register_2.g[1].u_register)
-          `rggen_ral_create_reg_model(register_3[0][0], '{0, 0}, 8'h18, RW, 1, g_register_3.g[0].g[0].u_register)
-          `rggen_ral_create_reg_model(register_3[0][1], '{0, 1}, 8'h18, RW, 1, g_register_3.g[0].g[1].u_register)
-          `rggen_ral_create_reg_model(register_3[0][2], '{0, 2}, 8'h18, RW, 1, g_register_3.g[0].g[2].u_register)
-          `rggen_ral_create_reg_model(register_3[0][3], '{0, 3}, 8'h18, RW, 1, g_register_3.g[0].g[3].u_register)
-          `rggen_ral_create_reg_model(register_3[1][0], '{1, 0}, 8'h18, RW, 1, g_register_3.g[1].g[0].u_register)
-          `rggen_ral_create_reg_model(register_3[1][1], '{1, 1}, 8'h18, RW, 1, g_register_3.g[1].g[1].u_register)
-          `rggen_ral_create_reg_model(register_3[1][2], '{1, 2}, 8'h18, RW, 1, g_register_3.g[1].g[2].u_register)
-          `rggen_ral_create_reg_model(register_3[1][3], '{1, 3}, 8'h18, RW, 1, g_register_3.g[1].g[3].u_register)
-          `rggen_ral_create_reg_model(register_4[0][0], '{0, 0}, 8'h1c, RW, 1, g_register_4.g[0].g[0].u_register)
-          `rggen_ral_create_reg_model(register_4[0][1], '{0, 1}, 8'h1c, RW, 1, g_register_4.g[0].g[1].u_register)
-          `rggen_ral_create_reg_model(register_4[0][2], '{0, 2}, 8'h1c, RW, 1, g_register_4.g[0].g[2].u_register)
-          `rggen_ral_create_reg_model(register_4[0][3], '{0, 3}, 8'h1c, RW, 1, g_register_4.g[0].g[3].u_register)
-          `rggen_ral_create_reg_model(register_4[1][0], '{1, 0}, 8'h1c, RW, 1, g_register_4.g[1].g[0].u_register)
-          `rggen_ral_create_reg_model(register_4[1][1], '{1, 1}, 8'h1c, RW, 1, g_register_4.g[1].g[1].u_register)
-          `rggen_ral_create_reg_model(register_4[1][2], '{1, 2}, 8'h1c, RW, 1, g_register_4.g[1].g[2].u_register)
-          `rggen_ral_create_reg_model(register_4[1][3], '{1, 3}, 8'h1c, RW, 1, g_register_4.g[1].g[3].u_register)
-          `rggen_ral_create_reg_model(register_5, '{}, 8'h20, RO, 1, g_register_5.u_register)
-          `rggen_ral_create_reg_model(register_6, '{}, 8'h24, WO, 1, g_register_6.u_register)
+          `rggen_ral_create_reg_model(register_3, '{}, 8'h10, RW, 1, g_register_3.u_register)
+          `rggen_ral_create_reg_model(register_4[0], '{0}, 8'h14, RW, 1, g_register_4.g[0].u_register)
+          `rggen_ral_create_reg_model(register_4[1], '{1}, 8'h14, RW, 1, g_register_4.g[1].u_register)
+          `rggen_ral_create_reg_model(register_5[0][0], '{0, 0}, 8'h18, RW, 1, g_register_5.g[0].g[0].u_register)
+          `rggen_ral_create_reg_model(register_5[0][1], '{0, 1}, 8'h18, RW, 1, g_register_5.g[0].g[1].u_register)
+          `rggen_ral_create_reg_model(register_5[0][2], '{0, 2}, 8'h18, RW, 1, g_register_5.g[0].g[2].u_register)
+          `rggen_ral_create_reg_model(register_5[0][3], '{0, 3}, 8'h18, RW, 1, g_register_5.g[0].g[3].u_register)
+          `rggen_ral_create_reg_model(register_5[1][0], '{1, 0}, 8'h18, RW, 1, g_register_5.g[1].g[0].u_register)
+          `rggen_ral_create_reg_model(register_5[1][1], '{1, 1}, 8'h18, RW, 1, g_register_5.g[1].g[1].u_register)
+          `rggen_ral_create_reg_model(register_5[1][2], '{1, 2}, 8'h18, RW, 1, g_register_5.g[1].g[2].u_register)
+          `rggen_ral_create_reg_model(register_5[1][3], '{1, 3}, 8'h18, RW, 1, g_register_5.g[1].g[3].u_register)
+          `rggen_ral_create_reg_model(register_6[0][0], '{0, 0}, 8'h1c, RW, 1, g_register_6.g[0].g[0].u_register)
+          `rggen_ral_create_reg_model(register_6[0][1], '{0, 1}, 8'h1c, RW, 1, g_register_6.g[0].g[1].u_register)
+          `rggen_ral_create_reg_model(register_6[0][2], '{0, 2}, 8'h1c, RW, 1, g_register_6.g[0].g[2].u_register)
+          `rggen_ral_create_reg_model(register_6[0][3], '{0, 3}, 8'h1c, RW, 1, g_register_6.g[0].g[3].u_register)
+          `rggen_ral_create_reg_model(register_6[1][0], '{1, 0}, 8'h1c, RW, 1, g_register_6.g[1].g[0].u_register)
+          `rggen_ral_create_reg_model(register_6[1][1], '{1, 1}, 8'h1c, RW, 1, g_register_6.g[1].g[1].u_register)
+          `rggen_ral_create_reg_model(register_6[1][2], '{1, 2}, 8'h1c, RW, 1, g_register_6.g[1].g[2].u_register)
+          `rggen_ral_create_reg_model(register_6[1][3], '{1, 3}, 8'h1c, RW, 1, g_register_6.g[1].g[3].u_register)
+          `rggen_ral_create_reg_model(register_7, '{}, 8'h20, RO, 1, g_register_7.u_register)
+          `rggen_ral_create_reg_model(register_8, '{}, 8'h24, WO, 1, g_register_8.u_register)
+          `rggen_ral_create_reg_model(register_9[0], '{0}, 8'h28, RW, 1, g_register_9.g[0].u_register)
+          `rggen_ral_create_reg_model(register_9[1], '{1}, 8'h28, RW, 1, g_register_9.g[1].u_register)
         CODE
       end
     end
 
     describe '#generate_code' do
       it 'レジスタレベルのRALモデルの定義を出力する' do
-        expect(registers[1]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
-          class register_1_reg_model extends rggen_ral_indirect_reg;
-            rand rggen_ral_field bit_field_0;
-            function new(string name);
-              super.new(name, 32, 0);
-            endfunction
-            function void build();
-              `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
-            endfunction
-            function void setup_index_fields();
-              setup_index_field("register_0", "bit_field_0", 1'h1);
-            endfunction
-          endclass
-        CODE
-
-        expect(registers[2]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
-          class register_2_reg_model extends rggen_ral_indirect_reg;
-            rand rggen_ral_field bit_field_0;
-            function new(string name);
-              super.new(name, 32, 0);
-            endfunction
-            function void build();
-              `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
-            endfunction
-            function void setup_index_fields();
-              setup_index_field("register_0", "bit_field_1", array_index[0]);
-            endfunction
-          endclass
-        CODE
-
         expect(registers[3]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
           class register_3_reg_model extends rggen_ral_indirect_reg;
             rand rggen_ral_field bit_field_0;
@@ -1195,8 +1211,7 @@ RSpec.describe 'register/type/indirect' do
               `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
             endfunction
             function void setup_index_fields();
-              setup_index_field("register_0", "bit_field_1", array_index[0]);
-              setup_index_field("register_0", "bit_field_2", array_index[1]);
+              setup_index_field("register_0", "bit_field_0", 1'h1);
             endfunction
           endclass
         CODE
@@ -1211,6 +1226,37 @@ RSpec.describe 'register/type/indirect' do
               `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
             endfunction
             function void setup_index_fields();
+              setup_index_field("register_0", "bit_field_1", array_index[0]);
+            endfunction
+          endclass
+        CODE
+
+        expect(registers[5]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_5_reg_model extends rggen_ral_indirect_reg;
+            rand rggen_ral_field bit_field_0;
+            function new(string name);
+              super.new(name, 32, 0);
+            endfunction
+            function void build();
+              `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
+            endfunction
+            function void setup_index_fields();
+              setup_index_field("register_0", "bit_field_1", array_index[0]);
+              setup_index_field("register_0", "bit_field_2", array_index[1]);
+            endfunction
+          endclass
+        CODE
+
+        expect(registers[6]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_6_reg_model extends rggen_ral_indirect_reg;
+            rand rggen_ral_field bit_field_0;
+            function new(string name);
+              super.new(name, 32, 0);
+            endfunction
+            function void build();
+              `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
+            endfunction
+            function void setup_index_fields();
               setup_index_field("register_0", "bit_field_0", 1'h0);
               setup_index_field("register_0", "bit_field_1", array_index[0]);
               setup_index_field("register_0", "bit_field_2", array_index[1]);
@@ -1218,8 +1264,8 @@ RSpec.describe 'register/type/indirect' do
           endclass
         CODE
 
-        expect(registers[5]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
-          class register_5_reg_model extends rggen_ral_indirect_reg;
+        expect(registers[7]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_7_reg_model extends rggen_ral_indirect_reg;
             rand rggen_ral_field bit_field_0;
             function new(string name);
               super.new(name, 32, 0);
@@ -1233,8 +1279,8 @@ RSpec.describe 'register/type/indirect' do
           endclass
         CODE
 
-        expect(registers[6]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
-          class register_6_reg_model extends rggen_ral_indirect_reg;
+        expect(registers[8]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_8_reg_model extends rggen_ral_indirect_reg;
             rand rggen_ral_field bit_field_0;
             function new(string name);
               super.new(name, 32, 0);
@@ -1244,6 +1290,22 @@ RSpec.describe 'register/type/indirect' do
             endfunction
             function void setup_index_fields();
               setup_index_field("register_0", "bit_field_0", 1'h0);
+            endfunction
+          endclass
+        CODE
+
+        expect(registers[9]).to generate_code(:ral_package, :bottom_up, <<~'CODE')
+          class register_9_reg_model extends rggen_ral_indirect_reg;
+            rand rggen_ral_field bit_field_0;
+            function new(string name);
+              super.new(name, 32, 0);
+            endfunction
+            function void build();
+              `rggen_ral_create_field_model(bit_field_0, 0, 1, RW, 0, 1'h0, 1)
+            endfunction
+            function void setup_index_fields();
+              setup_index_field("register_1", "register_1", array_index[0]);
+              setup_index_field("register_2", "register_2", 2'h0);
             endfunction
           endclass
         CODE

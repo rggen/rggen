@@ -69,7 +69,9 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
 
     input_pattern [
       /(#{variable_name}\.#{variable_name})/,
-      /(#{variable_name}\.#{variable_name}):(#{integer})?/
+      /(#{variable_name}\.#{variable_name}):(#{integer})?/,
+      /(#{variable_name})/,
+      /(#{variable_name}):(#{integer})?/
     ], match_automatically: false
 
     build do
@@ -316,7 +318,7 @@ RgGen.define_list_item_feature(:register, :type, :indirect) do
           else
             "array_index[#{array_position += 1}]"
           end
-        [*entry.name.split('.'), value]
+        [field.register.name, field.name, value]
       end
     end
 

@@ -534,6 +534,11 @@ RSpec.describe 'bit_field/type' do
             bit_field { name 'bit_field_0'; bit_assignment lsb: 0, width: 4, sequence_size: 4, step: 8; type :foo }
             bit_field { name 'bit_field_1'; bit_assignment lsb: 4, width: 4, sequence_size: 4, step: 8; type :foo }
           end
+
+          register do
+            name 'register_3'
+            bit_field { bit_assignment lsb: 0; type :foo }
+          end
         end
 
         code_block = RgGen::Core::Utility::CodeUtility::CodeBlock.new
@@ -556,6 +561,7 @@ RSpec.describe 'bit_field/type' do
           `rggen_ral_create_field_model(bit_field_1[1], 12, 4, FOO, 1, 4'h0, 0)
           `rggen_ral_create_field_model(bit_field_1[2], 20, 4, FOO, 1, 4'h0, 0)
           `rggen_ral_create_field_model(bit_field_1[3], 28, 4, FOO, 1, 4'h0, 0)
+          `rggen_ral_create_field_model(register_3, 0, 1, FOO, 1, 1'h0, 0)
         CODE
       end
     end

@@ -2,7 +2,7 @@
 
 RgGen.define_simple_feature(:bit_field, :name) do
   register_map do
-    property :name
+    property :name, body: -> { @name ||= register.name }
     property :full_name, forward_to: :get_full_name
 
     input_pattern variable_name
@@ -14,11 +14,7 @@ RgGen.define_simple_feature(:bit_field, :name) do
         else
           error "illegal input value for bit field name: #{value.inspect}"
         end
-    end
-
-    verify(:feature) do
-      error_condition { !name }
-      message { 'no bit field name is given' }
+      @full_name = [register.name, @name]
     end
 
     verify(:feature) do
@@ -31,7 +27,7 @@ RgGen.define_simple_feature(:bit_field, :name) do
     private
 
     def get_full_name(separator = '.')
-      [register.name, name].join(separator)
+      @full_name&.join(separator) || register.name
     end
 
     def duplicated_name?
