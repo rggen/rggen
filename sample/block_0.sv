@@ -16,52 +16,55 @@ module block_0
   output logic [3:0] o_register_0_bit_field_0,
   output logic [3:0] o_register_0_bit_field_1,
   output logic o_register_0_bit_field_2,
-  input logic [3:0] i_register_1_bit_field_0,
-  input logic [3:0] i_register_1_bit_field_1,
-  output logic [3:0] o_register_2_bit_field_0,
-  output logic [3:0] o_register_2_bit_field_1_trigger,
-  output logic [3:0] o_register_2_bit_field_2_trigger,
-  input logic [3:0] i_register_3_bit_field_0_set,
+  output logic o_register_1,
+  input logic [3:0] i_register_2_bit_field_0,
+  input logic [3:0] i_register_2_bit_field_1,
   output logic [3:0] o_register_3_bit_field_0,
-  input logic [3:0] i_register_3_bit_field_1_set,
-  output logic [3:0] o_register_3_bit_field_1,
-  output logic [3:0] o_register_3_bit_field_1_unmasked,
-  input logic [3:0] i_register_3_bit_field_3_clear,
-  output logic [3:0] o_register_3_bit_field_3,
-  input logic i_register_4_bit_field_0_clear,
+  output logic [3:0] o_register_3_bit_field_1_trigger,
+  output logic [3:0] o_register_3_bit_field_2_trigger,
+  input logic [3:0] i_register_4_bit_field_0_set,
   output logic [3:0] o_register_4_bit_field_0,
+  input logic [3:0] i_register_4_bit_field_1_set,
   output logic [3:0] o_register_4_bit_field_1,
-  input logic i_register_4_bit_field_2_enable,
-  output logic [3:0] o_register_4_bit_field_2,
+  output logic [3:0] o_register_4_bit_field_1_unmasked,
+  input logic [3:0] i_register_4_bit_field_3_clear,
   output logic [3:0] o_register_4_bit_field_3,
-  input logic i_register_4_bit_field_4_lock,
-  output logic [3:0] o_register_4_bit_field_4,
-  output logic [3:0] o_register_4_bit_field_5,
-  input logic [3:0] i_register_5_bit_field_0_set,
+  input logic i_register_5_bit_field_0_clear,
   output logic [3:0] o_register_5_bit_field_0,
-  input logic [3:0] i_register_5_bit_field_1_set,
   output logic [3:0] o_register_5_bit_field_1,
-  output logic [3:0] o_register_5_bit_field_1_unmasked,
-  input logic [3:0] i_register_5_bit_field_3_set,
-  output logic [3:0] o_register_5_bit_field_3,
-  input logic [3:0] i_register_5_bit_field_4_set,
-  output logic [3:0] o_register_5_bit_field_4,
-  output logic [3:0] o_register_5_bit_field_4_unmasked,
-  input logic [3:0] i_register_5_bit_field_6_clear,
-  output logic [3:0] o_register_5_bit_field_6,
-  input logic [3:0] i_register_5_bit_field_7_clear,
-  output logic [3:0] o_register_5_bit_field_7,
-  output logic [3:0][3:0][7:0] o_register_6_bit_field_0,
-  output logic [3:0][3:0][7:0] o_register_6_bit_field_1,
-  output logic [1:0][3:0][3:0][7:0] o_register_7_bit_field_0,
-  output logic [1:0][3:0][3:0][7:0] o_register_7_bit_field_1,
-  rggen_bus_if.master register_8_bus_if
+  input logic i_register_5_bit_field_2_enable,
+  output logic [1:0] o_register_5_bit_field_2,
+  output logic [1:0] o_register_5_bit_field_3,
+  output logic [1:0] o_register_5_bit_field_4,
+  input logic i_register_5_bit_field_5_lock,
+  output logic [1:0] o_register_5_bit_field_5,
+  output logic [1:0] o_register_5_bit_field_6,
+  output logic [1:0] o_register_5_bit_field_7,
+  input logic [3:0] i_register_6_bit_field_0_set,
+  output logic [3:0] o_register_6_bit_field_0,
+  input logic [3:0] i_register_6_bit_field_1_set,
+  output logic [3:0] o_register_6_bit_field_1,
+  output logic [3:0] o_register_6_bit_field_1_unmasked,
+  input logic [3:0] i_register_6_bit_field_3_set,
+  output logic [3:0] o_register_6_bit_field_3,
+  input logic [3:0] i_register_6_bit_field_4_set,
+  output logic [3:0] o_register_6_bit_field_4,
+  output logic [3:0] o_register_6_bit_field_4_unmasked,
+  input logic [3:0] i_register_6_bit_field_6_clear,
+  output logic [3:0] o_register_6_bit_field_6,
+  input logic [3:0] i_register_6_bit_field_7_clear,
+  output logic [3:0] o_register_6_bit_field_7,
+  output logic [3:0][3:0][7:0] o_register_7_bit_field_0,
+  output logic [3:0][3:0][7:0] o_register_7_bit_field_1,
+  output logic [1:0][3:0][3:0][7:0] o_register_8_bit_field_0,
+  output logic [1:0][3:0][3:0][7:0] o_register_8_bit_field_1,
+  rggen_bus_if.master register_9_bus_if
 );
-  rggen_register_if #(8, 32, 64) register_if[19]();
+  rggen_register_if #(8, 32, 64) register_if[20]();
   rggen_apb_adapter #(
     .ADDRESS_WIDTH  (8),
     .BUS_WIDTH      (32),
-    .REGISTERS      (19)
+    .REGISTERS      (20)
   ) u_adapter (
     .i_clk        (i_clk),
     .i_rst_n      (i_rst_n),
@@ -129,9 +132,40 @@ module block_0
     rggen_bit_field_if #(32) bit_field_if();
     rggen_default_register #(
       .READABLE       (1),
-      .WRITABLE       (0),
+      .WRITABLE       (1),
       .ADDRESS_WIDTH  (8),
       .OFFSET_ADDRESS (8'h04),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALID_BITS     (32'h00000001),
+      .REGISTER_INDEX (0)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[1]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_register_1
+      rggen_bit_field_if #(1) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 1)
+      rggen_bit_field_rw #(
+        .WIDTH          (1),
+        .INITIAL_VALUE  (1'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .o_value      (o_register_1)
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_register_2
+    rggen_bit_field_if #(32) bit_field_if();
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (0),
+      .ADDRESS_WIDTH  (8),
+      .OFFSET_ADDRESS (8'h08),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
       .VALID_BITS     (32'hffff0f0f),
@@ -139,7 +173,7 @@ module block_0
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[1]),
+      .register_if  (register_if[2]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_bit_field_0
@@ -149,7 +183,7 @@ module block_0
         .WIDTH  (4)
       ) u_bit_field (
         .bit_field_if (bit_field_sub_if),
-        .i_value      (i_register_1_bit_field_0)
+        .i_value      (i_register_2_bit_field_0)
       );
     end
     if (1) begin : g_bit_field_1
@@ -159,7 +193,7 @@ module block_0
         .WIDTH  (4)
       ) u_bit_field (
         .bit_field_if (bit_field_sub_if),
-        .i_value      (i_register_1_bit_field_1)
+        .i_value      (i_register_2_bit_field_1)
       );
     end
     if (1) begin : g_bit_field_2
@@ -180,13 +214,13 @@ module block_0
       );
     end
   end endgenerate
-  generate if (1) begin : g_register_2
+  generate if (1) begin : g_register_3
     rggen_bit_field_if #(32) bit_field_if();
     rggen_default_register #(
       .READABLE       (0),
       .WRITABLE       (1),
       .ADDRESS_WIDTH  (8),
-      .OFFSET_ADDRESS (8'h04),
+      .OFFSET_ADDRESS (8'h08),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
       .VALID_BITS     (32'h000f0f0f),
@@ -194,7 +228,7 @@ module block_0
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[2]),
+      .register_if  (register_if[3]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_bit_field_0
@@ -207,7 +241,7 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .o_value      (o_register_2_bit_field_0)
+        .o_value      (o_register_3_bit_field_0)
       );
     end
     if (1) begin : g_bit_field_1
@@ -220,7 +254,7 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .o_trigger    (o_register_2_bit_field_1_trigger)
+        .o_trigger    (o_register_3_bit_field_1_trigger)
       );
     end
     if (1) begin : g_bit_field_2
@@ -233,17 +267,17 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .o_trigger    (o_register_2_bit_field_2_trigger)
+        .o_trigger    (o_register_3_bit_field_2_trigger)
       );
     end
   end endgenerate
-  generate if (1) begin : g_register_3
+  generate if (1) begin : g_register_4
     rggen_bit_field_if #(32) bit_field_if();
     rggen_default_register #(
       .READABLE       (1),
       .WRITABLE       (0),
       .ADDRESS_WIDTH  (8),
-      .OFFSET_ADDRESS (8'h08),
+      .OFFSET_ADDRESS (8'h0c),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
       .VALID_BITS     (32'h000fff0f),
@@ -251,7 +285,7 @@ module block_0
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[3]),
+      .register_if  (register_if[4]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_bit_field_0
@@ -264,9 +298,9 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_3_bit_field_0_set),
+        .i_set            (i_register_4_bit_field_0_set),
         .i_mask           (4'hf),
-        .o_value          (o_register_3_bit_field_0),
+        .o_value          (o_register_4_bit_field_0),
         .o_value_unmasked ()
       );
     end
@@ -280,10 +314,10 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_3_bit_field_1_set),
+        .i_set            (i_register_4_bit_field_1_set),
         .i_mask           (register_if[0].value[0+:4]),
-        .o_value          (o_register_3_bit_field_1),
-        .o_value_unmasked (o_register_3_bit_field_1_unmasked)
+        .o_value          (o_register_4_bit_field_1),
+        .o_value_unmasked (o_register_4_bit_field_1_unmasked)
       );
     end
     if (1) begin : g_bit_field_2
@@ -293,7 +327,7 @@ module block_0
         .WIDTH  (4)
       ) u_bit_field (
         .bit_field_if (bit_field_sub_if),
-        .i_value      (register_if[3].value[8+:4])
+        .i_value      (register_if[4].value[8+:4])
       );
     end
     if (1) begin : g_bit_field_3
@@ -306,110 +340,8 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .i_clear      (i_register_3_bit_field_3_clear),
-        .o_value      (o_register_3_bit_field_3)
-      );
-    end
-  end endgenerate
-  generate if (1) begin : g_register_4
-    rggen_bit_field_if #(32) bit_field_if();
-    rggen_default_register #(
-      .READABLE       (1),
-      .WRITABLE       (1),
-      .ADDRESS_WIDTH  (8),
-      .OFFSET_ADDRESS (8'h0c),
-      .BUS_WIDTH      (32),
-      .DATA_WIDTH     (32),
-      .VALID_BITS     (32'h00ffffff),
-      .REGISTER_INDEX (0)
-    ) u_register (
-      .i_clk        (i_clk),
-      .i_rst_n      (i_rst_n),
-      .register_if  (register_if[4]),
-      .bit_field_if (bit_field_if)
-    );
-    if (1) begin : g_bit_field_0
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 4)
-      rggen_bit_field_rwc #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_clear      (i_register_4_bit_field_0_clear),
-        .o_value      (o_register_4_bit_field_0)
-      );
-    end
-    if (1) begin : g_bit_field_1
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 4, 4)
-      rggen_bit_field_rwc #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_clear      (register_if[2].value[8+:1]),
-        .o_value      (o_register_4_bit_field_1)
-      );
-    end
-    if (1) begin : g_bit_field_2
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 4)
-      rggen_bit_field_rwe #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_enable     (i_register_4_bit_field_2_enable),
-        .o_value      (o_register_4_bit_field_2)
-      );
-    end
-    if (1) begin : g_bit_field_3
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 12, 4)
-      rggen_bit_field_rwe #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_enable     (register_if[0].value[8+:1]),
+        .i_clear      (i_register_4_bit_field_3_clear),
         .o_value      (o_register_4_bit_field_3)
-      );
-    end
-    if (1) begin : g_bit_field_4
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16, 4)
-      rggen_bit_field_rwl #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_lock       (i_register_4_bit_field_4_lock),
-        .o_value      (o_register_4_bit_field_4)
-      );
-    end
-    if (1) begin : g_bit_field_5
-      rggen_bit_field_if #(4) bit_field_sub_if();
-      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 20, 4)
-      rggen_bit_field_rwl #(
-        .WIDTH          (4),
-        .INITIAL_VALUE  (4'h0)
-      ) u_bit_field (
-        .i_clk        (i_clk),
-        .i_rst_n      (i_rst_n),
-        .bit_field_if (bit_field_sub_if),
-        .i_lock       (register_if[0].value[8+:1]),
-        .o_value      (o_register_4_bit_field_5)
       );
     end
   end endgenerate
@@ -422,12 +354,142 @@ module block_0
       .OFFSET_ADDRESS (8'h10),
       .BUS_WIDTH      (32),
       .DATA_WIDTH     (32),
-      .VALID_BITS     (32'hffffffff),
+      .VALID_BITS     (32'h003f3fff),
       .REGISTER_INDEX (0)
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
       .register_if  (register_if[5]),
+      .bit_field_if (bit_field_if)
+    );
+    if (1) begin : g_bit_field_0
+      rggen_bit_field_if #(4) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 0, 4)
+      rggen_bit_field_rwc #(
+        .WIDTH          (4),
+        .INITIAL_VALUE  (4'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_clear      (i_register_5_bit_field_0_clear),
+        .o_value      (o_register_5_bit_field_0)
+      );
+    end
+    if (1) begin : g_bit_field_1
+      rggen_bit_field_if #(4) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 4, 4)
+      rggen_bit_field_rwc #(
+        .WIDTH          (4),
+        .INITIAL_VALUE  (4'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_clear      (register_if[3].value[8+:1]),
+        .o_value      (o_register_5_bit_field_1)
+      );
+    end
+    if (1) begin : g_bit_field_2
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 8, 2)
+      rggen_bit_field_rwe #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_enable     (i_register_5_bit_field_2_enable),
+        .o_value      (o_register_5_bit_field_2)
+      );
+    end
+    if (1) begin : g_bit_field_3
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 10, 2)
+      rggen_bit_field_rwe #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_enable     (register_if[0].value[8+:1]),
+        .o_value      (o_register_5_bit_field_3)
+      );
+    end
+    if (1) begin : g_bit_field_4
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 12, 2)
+      rggen_bit_field_rwe #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_enable     (register_if[1].value[0+:1]),
+        .o_value      (o_register_5_bit_field_4)
+      );
+    end
+    if (1) begin : g_bit_field_5
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 16, 2)
+      rggen_bit_field_rwl #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_lock       (i_register_5_bit_field_5_lock),
+        .o_value      (o_register_5_bit_field_5)
+      );
+    end
+    if (1) begin : g_bit_field_6
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 18, 2)
+      rggen_bit_field_rwl #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_lock       (register_if[0].value[8+:1]),
+        .o_value      (o_register_5_bit_field_6)
+      );
+    end
+    if (1) begin : g_bit_field_7
+      rggen_bit_field_if #(2) bit_field_sub_if();
+      `rggen_connect_bit_field_if(bit_field_if, bit_field_sub_if, 20, 2)
+      rggen_bit_field_rwl #(
+        .WIDTH          (2),
+        .INITIAL_VALUE  (2'h0)
+      ) u_bit_field (
+        .i_clk        (i_clk),
+        .i_rst_n      (i_rst_n),
+        .bit_field_if (bit_field_sub_if),
+        .i_lock       (register_if[1].value[0+:1]),
+        .o_value      (o_register_5_bit_field_7)
+      );
+    end
+  end endgenerate
+  generate if (1) begin : g_register_6
+    rggen_bit_field_if #(32) bit_field_if();
+    rggen_default_register #(
+      .READABLE       (1),
+      .WRITABLE       (1),
+      .ADDRESS_WIDTH  (8),
+      .OFFSET_ADDRESS (8'h14),
+      .BUS_WIDTH      (32),
+      .DATA_WIDTH     (32),
+      .VALID_BITS     (32'hffffffff),
+      .REGISTER_INDEX (0)
+    ) u_register (
+      .i_clk        (i_clk),
+      .i_rst_n      (i_rst_n),
+      .register_if  (register_if[6]),
       .bit_field_if (bit_field_if)
     );
     if (1) begin : g_bit_field_0
@@ -441,9 +503,9 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_5_bit_field_0_set),
+        .i_set            (i_register_6_bit_field_0_set),
         .i_mask           (4'hf),
-        .o_value          (o_register_5_bit_field_0),
+        .o_value          (o_register_6_bit_field_0),
         .o_value_unmasked ()
       );
     end
@@ -458,10 +520,10 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_5_bit_field_1_set),
+        .i_set            (i_register_6_bit_field_1_set),
         .i_mask           (register_if[0].value[0+:4]),
-        .o_value          (o_register_5_bit_field_1),
-        .o_value_unmasked (o_register_5_bit_field_1_unmasked)
+        .o_value          (o_register_6_bit_field_1),
+        .o_value_unmasked (o_register_6_bit_field_1_unmasked)
       );
     end
     if (1) begin : g_bit_field_2
@@ -471,7 +533,7 @@ module block_0
         .WIDTH  (4)
       ) u_bit_field (
         .bit_field_if (bit_field_sub_if),
-        .i_value      (register_if[5].value[4+:4])
+        .i_value      (register_if[6].value[4+:4])
       );
     end
     if (1) begin : g_bit_field_3
@@ -485,9 +547,9 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_5_bit_field_3_set),
+        .i_set            (i_register_6_bit_field_3_set),
         .i_mask           (4'hf),
-        .o_value          (o_register_5_bit_field_3),
+        .o_value          (o_register_6_bit_field_3),
         .o_value_unmasked ()
       );
     end
@@ -502,10 +564,10 @@ module block_0
         .i_clk            (i_clk),
         .i_rst_n          (i_rst_n),
         .bit_field_if     (bit_field_sub_if),
-        .i_set            (i_register_5_bit_field_4_set),
+        .i_set            (i_register_6_bit_field_4_set),
         .i_mask           (register_if[0].value[0+:4]),
-        .o_value          (o_register_5_bit_field_4),
-        .o_value_unmasked (o_register_5_bit_field_4_unmasked)
+        .o_value          (o_register_6_bit_field_4),
+        .o_value_unmasked (o_register_6_bit_field_4_unmasked)
       );
     end
     if (1) begin : g_bit_field_5
@@ -515,7 +577,7 @@ module block_0
         .WIDTH  (4)
       ) u_bit_field (
         .bit_field_if (bit_field_sub_if),
-        .i_value      (register_if[5].value[16+:4])
+        .i_value      (register_if[6].value[16+:4])
       );
     end
     if (1) begin : g_bit_field_6
@@ -529,8 +591,8 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .i_clear      (i_register_5_bit_field_6_clear),
-        .o_value      (o_register_5_bit_field_6)
+        .i_clear      (i_register_6_bit_field_6_clear),
+        .o_value      (o_register_6_bit_field_6)
       );
     end
     if (1) begin : g_bit_field_7
@@ -544,12 +606,12 @@ module block_0
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
         .bit_field_if (bit_field_sub_if),
-        .i_clear      (i_register_5_bit_field_7_clear),
-        .o_value      (o_register_5_bit_field_7)
+        .i_clear      (i_register_6_bit_field_7_clear),
+        .o_value      (o_register_6_bit_field_7)
       );
     end
   end endgenerate
-  generate if (1) begin : g_register_6
+  generate if (1) begin : g_register_7
     genvar i;
     for (i = 0;i < 4;++i) begin : g
       rggen_bit_field_if #(64) bit_field_if();
@@ -565,7 +627,7 @@ module block_0
       ) u_register (
         .i_clk        (i_clk),
         .i_rst_n      (i_rst_n),
-        .register_if  (register_if[6+i]),
+        .register_if  (register_if[7+i]),
         .bit_field_if (bit_field_if)
       );
       if (1) begin : g_bit_field_0
@@ -580,7 +642,7 @@ module block_0
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .o_value      (o_register_6_bit_field_0[i][j])
+            .o_value      (o_register_7_bit_field_0[i][j])
           );
         end
       end
@@ -596,20 +658,20 @@ module block_0
             .i_clk        (i_clk),
             .i_rst_n      (i_rst_n),
             .bit_field_if (bit_field_sub_if),
-            .o_value      (o_register_6_bit_field_1[i][j])
+            .o_value      (o_register_7_bit_field_1[i][j])
           );
         end
       end
     end
   end endgenerate
-  generate if (1) begin : g_register_7
+  generate if (1) begin : g_register_8
     genvar i;
     genvar j;
     for (i = 0;i < 2;++i) begin : g
       for (j = 0;j < 4;++j) begin : g
-        logic [8:0] indirect_index;
+        logic [9:0] indirect_index;
         rggen_bit_field_if #(64) bit_field_if();
-        assign indirect_index = {register_if[0].value[0+:4], register_if[0].value[4+:4], register_if[0].value[8+:1]};
+        assign indirect_index = {register_if[0].value[0+:4], register_if[0].value[4+:4], register_if[0].value[8+:1], register_if[1].value[0+:1]};
         rggen_indirect_register #(
           .READABLE             (1),
           .WRITABLE             (1),
@@ -618,12 +680,12 @@ module block_0
           .BUS_WIDTH            (32),
           .DATA_WIDTH           (64),
           .VALID_BITS           (64'hffffffffffffffff),
-          .INDIRECT_INDEX_WIDTH (9),
-          .INDIRECT_INDEX_VALUE ({i[0+:4], j[0+:4], 1'h1})
+          .INDIRECT_INDEX_WIDTH (10),
+          .INDIRECT_INDEX_VALUE ({i[0+:4], j[0+:4], 1'h0, 1'h1})
         ) u_register (
           .i_clk            (i_clk),
           .i_rst_n          (i_rst_n),
-          .register_if      (register_if[10+4*i+j]),
+          .register_if      (register_if[11+4*i+j]),
           .i_indirect_index (indirect_index),
           .bit_field_if     (bit_field_if)
         );
@@ -639,7 +701,7 @@ module block_0
               .i_clk        (i_clk),
               .i_rst_n      (i_rst_n),
               .bit_field_if (bit_field_sub_if),
-              .o_value      (o_register_7_bit_field_0[i][j][k])
+              .o_value      (o_register_8_bit_field_0[i][j][k])
             );
           end
         end
@@ -655,14 +717,14 @@ module block_0
               .i_clk        (i_clk),
               .i_rst_n      (i_rst_n),
               .bit_field_if (bit_field_sub_if),
-              .o_value      (o_register_7_bit_field_1[i][j][k])
+              .o_value      (o_register_8_bit_field_1[i][j][k])
             );
           end
         end
       end
     end
   end endgenerate
-  generate if (1) begin : g_register_8
+  generate if (1) begin : g_register_9
     rggen_external_register #(
       .ADDRESS_WIDTH  (8),
       .BUS_WIDTH      (32),
@@ -671,8 +733,8 @@ module block_0
     ) u_register (
       .i_clk        (i_clk),
       .i_rst_n      (i_rst_n),
-      .register_if  (register_if[18]),
-      .bus_if       (register_8_bus_if)
+      .register_if  (register_if[19]),
+      .bus_if       (register_9_bus_if)
     );
   end endgenerate
 endmodule
