@@ -2,21 +2,20 @@
 
 RgGen.define_simple_feature(:bit_field, :bit_assignment) do
   register_map do
-    property :lsb, body: ->(index = 0) { msb_lsb_bit(index, @lsb) }
-    property :msb, body: ->(index = 0) { msb_lsb_bit(index, @lsb + width - 1) }
-    property :width, body: -> { @width || 1 }
+    property :lsb, forward_to: :lsb_bit
+    property :msb, forward_to: :msb_bit
+    property :width, default: 1
     property :sequence_size
-    property :step, body: -> { @step || width }
+    property :step, initial: -> { width }
     property :sequential?, body: -> { !@sequence_size.nil? }
-    property :bit_map, body: -> { @bit_map ||= calc_bit_map }
+    property :bit_map, initial: -> { calc_bit_map }
 
     input_pattern /#{integer}(?::#{integer}){0,3}/,
                   match_automatically: false
 
     build do |value|
       input_value = preprocess(value)
-      @lsb, @width, @sequence_size, @step =
-        KEYS.map { |key| parse_value(input_value, key) }
+      KEYS.each { |key| parse_value(input_value, key) }
     end
 
     verify(:feature) do
@@ -83,13 +82,22 @@ RgGen.define_simple_feature(:bit_field, :bit_assignment) do
     end
 
     def parse_value(input_value, key)
-      (input_value.key?(key) && Integer(input_value[key])) || nil
+      input_value.key?(key) &&
+        instance_variable_set("@#{key}", Integer(input_value[key]))
     rescue ArgumentError, TypeError
       error "cannot convert #{input_value[key].inspect} into " \
             "bit assignment(#{key.to_s.tr('_', ' ')})"
     end
 
-    def msb_lsb_bit(index, base)
+    def lsb_bit(index = 0)
+      lsb_msb_bit(index, @lsb)
+    end
+
+    def msb_bit(index = 0)
+      lsb_msb_bit(index, @lsb + width - 1)
+    end
+
+    def lsb_msb_bit(index, base)
       calc_bit_position((sequential? && index) || 0, base)
     end
 

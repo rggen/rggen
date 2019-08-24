@@ -2,7 +2,7 @@
 
 RgGen.define_simple_feature(:bit_field, :reference) do
   register_map do
-    property :reference, forward_to: :reference_bit_field, verify: :all
+    property :reference, initial: -> { reference_bit_field }, verify: :all
     property :reference?, body: -> { use_reference? && !no_reference? }
     property :reference_width, forward_to: :required_width
     property :find_reference, forward_to: :find_reference_bit_field
