@@ -40,7 +40,7 @@ RgGen.define_list_feature(:register, :type) do
         end
       end
 
-      property :type, body: -> { @type || :default }
+      property :type, default: :default
       property :match_type?, body: ->(register) { register.type == type }
       property :writable?, forward_to: :writability
       property :readable?, forward_to: :readability

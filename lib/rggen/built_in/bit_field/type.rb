@@ -32,6 +32,18 @@ RgGen.define_list_feature(:bit_field, :type) do
           @writable.nil? || @writable
         end
 
+        def read_only?
+          readable? && !writable?
+        end
+
+        def write_only?
+          writable? && !readable?
+        end
+
+        def reserved?
+          !(readable? || writable?)
+        end
+
         def volatile
           @volatility = -> { true }
         end
@@ -60,13 +72,13 @@ RgGen.define_list_feature(:bit_field, :type) do
       end
 
       property :type
+      property :settings, forward_to_helper: true
       property :readable?, forward_to_helper: true
       property :writable?, forward_to_helper: true
-      property :read_only?, body: -> { readable? && !writable? }
-      property :write_only?, body: -> { writable? && !readable? }
-      property :reserved?, body: -> { !(readable? || writable?) }
-      property :volatile?, forward_to: :volatility
-      property :settings, forward_to_helper: true
+      property :read_only?, forward_to_helper: true
+      property :write_only?, forward_to_helper: true
+      property :reserved?, forward_to_helper: true
+      property :volatile?, initial: -> { volatility }
 
       build { |value| @type = value }
 
@@ -75,11 +87,7 @@ RgGen.define_list_feature(:bit_field, :type) do
       private
 
       def volatility
-        if @volatility.nil?
-          @volatility =
-            helper.volatility.nil? || instance_exec(&helper.volatility)
-        end
-        @volatility
+        helper.volatility.nil? || instance_exec(&helper.volatility)
       end
     end
 

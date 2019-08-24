@@ -3,12 +3,12 @@
 RgGen.define_simple_feature(:register, :size) do
   register_map do
     property :size
-    property :width, body: -> { @width ||= calc_width }
-    property :byte_width, body: -> { width / 8 }
-    property :byte_size, body: -> { @byte_size ||= calc_byte_size }
+    property :width, initial: -> { calc_width }
+    property :byte_width, initial: -> { width / 8 }
+    property :byte_size, initial: -> { calc_byte_size }
     property :array?, forward_to: :array_register?
     property :array_size, forward_to: :array_registers
-    property :count, body: -> { @count ||= calc_count }
+    property :count, initial: -> { calc_count }
 
     input_pattern [
       /(#{integer}(:?,#{integer})*)/,

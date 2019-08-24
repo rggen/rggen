@@ -2,7 +2,7 @@
 
 RgGen.define_simple_feature(:bit_field, :name) do
   register_map do
-    property :name, body: -> { @name ||= register.name }
+    property :name, initial: -> { register.name }
     property :full_name, forward_to: :get_full_name
 
     input_pattern variable_name

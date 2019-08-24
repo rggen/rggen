@@ -3,7 +3,7 @@
 RgGen.define_simple_feature(:global, :bus_width) do
   configuration do
     property :bus_width, default: 32
-    property :byte_width, body: -> { bus_width / 8 }
+    property :byte_width, initial: -> { bus_width / 8 }
 
     build do |value|
       @bus_width =
