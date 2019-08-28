@@ -1,8 +1,0 @@
-function new(string name);
-  super.new(name, <%= register.width%>, 0);
-endfunction
-function void build();
-<% field_model_constructors.each do |constructor| %>
-  <%= constructor %>
-<% end%>
-endfunction
