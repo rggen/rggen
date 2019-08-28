@@ -32,7 +32,15 @@ RgGen is written in the [Ruby](https://www.ruby-lang.org/en/about/) programing l
 
 ### Installatin Command
 
-RgGen depends on [RgGen::Core](https://github.com/rggen/rggen-core), [RgGen::SystemVerilog](https://github.com/rggen/rggen-systemverilog), [RgGen::SpreadsheetLoader](https://github.com/rggen/rggen-spreadsheet-loader) and other Ruby libraries. To install RgGen and dependencies, use the command below:
+RgGen depends on following sub components and other Ruby libraries.
+
+* [rggen-core](https://github.com/rggen/rggen-core)
+* [rggen-default-register-map](https://github.com/rggen/rggen-default-register-map)
+* [rggen-systemverilog](https://github.com/rggen/rggen-systemverilog)
+* [rggen-markdown](https://github.com/rggen/rggen-markdown)
+* [rggen-spreadsheet-loader](https://github.com/rggen/rggen-spreadsheet-loader)
+
+To install RgGen and the dependencies, use the command below:
 
 ```
 $ gem install rggen
@@ -68,12 +76,6 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * [Chat Room](https://gitter.im/rggen/rggen)
 * [Mailing List](https://groups.google.com/d/forum/rggen)
 * [Mail](mailto:rggen@googlegroups.com)
-
-## See Also
-
-* https://github.com/rggen/rggen-core
-* https://github.com/rggen/rggen-systemverilog
-* https://github.com/rggen/rggen-spreadsheet-loader
 
 ## Copyright & License
 
