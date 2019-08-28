@@ -13,23 +13,6 @@ Layout/EndOfLine:
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented_relative_to_receiver
 
-Lint/AmbiguousRegexpLiteral:
-  Enabled: false
-
-Metrics/BlockLength:
-  ExcludedMethods:
-    - base_feature
-    - build
-    - configuration
-    - define_helpers
-    - define_list_feature
-    - define_list_item_feature
-    - define_simple_feature
-    - factory
-    - register_map
-    - sv_ral
-    - sv_rtl
-
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 

@@ -2,4 +2,3 @@
 
 require_relative 'rggen/version'
 require_relative 'rggen/default_setup_file'
-require_relative 'rggen/built_in'

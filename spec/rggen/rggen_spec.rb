@@ -1,66 +1,47 @@
 # frozen_string_literal: true
 
 RSpec.describe RgGen do
-  include_context 'clean-up builder'
+  let(:cli) { RgGen::Core::CLI.new }
 
-  describe '規定セットアップファイル' do
-    before(:all) do
-      @original_stdout = $stdout
-      $stdout = File.open(File::NULL, 'w')
+  let(:configuration) do
+    file = ['config.yml', 'config.json'].sample
+    File.join(RGGEN_SAMPLE_DIRECTORY, file)
+  end
+
+  let(:block_0) do
+    file = ['block_0.rb', 'block_0.yml', 'block_0.xlsx'].sample
+    File.join(RGGEN_SAMPLE_DIRECTORY, file)
+  end
+
+  let(:block_1) do
+    file = ['block_1.rb', 'block_1.yml', 'block_1.xlsx'].sample
+    File.join(RGGEN_SAMPLE_DIRECTORY, file)
+  end
+
+  let(:expectations) do
+    [
+      'block_0.sv',
+      'block_1.sv',
+      'block_0_ral_pkg.sv',
+      'block_1_ral_pkg.sv',
+      'block_0.md',
+      'block_1.md'
+    ].map { |file| ["./#{file}", read_sample(file)] }.to_h
+  end
+
+  def read_sample(file)
+    File.binread(File.join(RGGEN_SAMPLE_DIRECTORY, file))
+  end
+
+  it 'コンフィグレーション/レジスタマップを読み込み、RTL/RAL/Markdownを書き出す' do
+    actual = {}
+    allow(File).to receive(:binwrite) do |path, content|
+      actual[path.to_s] = content.to_s
     end
 
-    after(:all) do
-      $stdout = @original_stdout
-    end
-
-    let(:builder) { RgGen.builder }
-
-    describe RgGen::DEFAULT_SETUP_FILE do
-      it '規定セットアップファイルのパスを示す' do
-        path = File.expand_path('../../lib/rggen/setup/default.rb', __dir__)
-        expect(RgGen::DEFAULT_SETUP_FILE).to eq path
-      end
-    end
-
-    specify 'セットアップファイルが未指定の場合、規定セットアップファイルが読み込まれる' do
-      RgGen::BuiltIn.module_eval do
-        const_defined?(:BUILT_IN_FILES) && remove_const(:BUILT_IN_FILES)
-      end
-
-      $LOADED_FEATURES.delete_if do |file|
-        [
-          %r{rggen/systemverilog\.rb},
-          %r{rggen/built_in\.rb},
-          %r{rggen/spreadsheet_loader\.rb}
-        ].any? do |pattern|
-          pattern.match(file)
-        end
-      end
-
-      expect(builder).to receive(:setup).with(:systemverilog, equal(RgGen::SystemVerilog))
-      expect(builder).to receive(:setup).with(:'built-in', equal(RgGen::BuiltIn))
-      expect(builder).to receive(:setup).with(:'spreadsheet-loader', equal(RgGen::SpreadsheetLoader))
-
-      expect(builder).to receive(:enable).with(:global, match([:bus_width, :address_width, :array_port_format, :fold_sv_interface_port])).and_call_original
-
-      expect(builder).to receive(:enable).with(:register_block, match([:name, :byte_size])).and_call_original
-      expect(builder).to receive(:enable).with(:register, match([:name, :offset_address, :size, :type])).and_call_original
-      expect(builder).to receive(:enable).with(:register, :type, match([:external, :indirect])).and_call_original
-      expect(builder).to receive(:enable).with(:bit_field, match([:name, :bit_assignment, :type, :initial_value, :reference, :comment])).and_call_original
-      expect(builder).to receive(:enable).with(:bit_field, :type, match([:rc, :reserved, :ro, :rof, :rs, :rw, :rwc, :rwe, :rwl, :w0c, :w1c, :w0s, :w1s, :w0trg, :w1trg, :wo])).and_call_original
-
-      expect(builder).to receive(:enable).with(:register_block, match([:sv_rtl_top, :protocol])).and_call_original
-      expect(builder).to receive(:enable).with(:register_block, :protocol, match([:apb, :axi4lite])).and_call_original
-      expect(builder).to receive(:enable).with(:register, match([:sv_rtl_top])).and_call_original
-      expect(builder).to receive(:enable).with(:bit_field, match([:sv_rtl_top])).and_call_original
-
-      expect(builder).to receive(:enable).with(:register_block, match([:sv_ral_package])).and_call_original
-
-      expect(builder).to receive(:enable).with(:register_block, match([:markdown])).and_call_original
-      expect(builder).to receive(:enable).with(:register, match([:markdown])).and_call_original
-
-      cli = RgGen::Core::CLI.new(builder)
-      cli.run(['--verbose-version'])
+    cli.run(['-c', configuration, block_0, block_1])
+    actual.each do |path, content|
+      expect(content).to eq expectations[path]
     end
   end
 end
