@@ -77,6 +77,15 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * [Mailing List](https://groups.google.com/d/forum/rggen)
 * [Mail](mailto:rggen@googlegroups.com)
 
+## See Also
+
+* https://github.com/rggen/rggen-core
+* https://github.com/rggen/rggen-default-register-map
+* https://github.com/rggen/rggen-systemverilog
+* https://github.com/rggen/rggen-markdown
+* https://github.com/rggen/rggen-spreadsheet-loader
+
+
 ## Copyright & License
 
 Copyright &copy; 2019 Taichi Ishitani. RgGen is licensed unther the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.
