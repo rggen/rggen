@@ -8,6 +8,7 @@ gemspec
 [
   'rggen-devtools',
   'rggen-core',
+  'rggen-default-register-map',
   'rggen-markdown',
   'rggen-spreadsheet-loader',
   'rggen-systemverilog'

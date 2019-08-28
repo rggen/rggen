@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'built_in/version'
-
 module RgGen
-  VERSION = BuiltIn::VERSION
+  VERSION = '0.12.0'
 end

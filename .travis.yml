@@ -11,6 +11,7 @@ git:
 env:
   global:
     - secure: "CIQmQ2cpWNrcbvwFx3t0qWwyM+F4T79C+zABxCSW5Ogi94AmOZi+BufZKoSVSpXMqk3zNER9pCtm2Tzdzw3LHPQXsGzsV6Bn/tyselGDy+S7bzxWymdaEGyZNPN1lBsAJzKnH0kxo4QJoRetVgdpQ1yBsNOqEtbPIsVuAe9dqn1snMl5srm1Y4sQp5LSfcvanjAw3uJEcNpKNzF4HqlxcPio5DY6+SQlUX5h9jfrTZkNFGKT1ySf3u88h9iL3JhsUBiCpOI7zcUJxYRQfp0yz+jNXtiArAxyLwTwI2hD7dKk1E004CHvPKWboFULRvzbob9q0+I+ctGFOc8SMjNeXNTaOVjwuEM+ybNZRdI4XR6tVDskG1+ovs/+c0s6if+HK0sMLySsALVkSTGRCVIcUK46eyg0e+x2g91sh39xwiiqdOnvgqVWQnBax79XknLArT48p2M5clAn1GE/PhyQDgmQZsNxiJEcexvoSuN3s/LhkR+ygcPopkUOoo0QKqsOXxDSjONER5ycX3TBbTLQydk1OY9q91LtFAMqniRxoIKdkj7z0tDu6YvrEBFpVSTuTdI5VK0WJdL5IUbe4ZhKZT9W8dxuYr28xBILzknC++umpZ7bdhohG3E77tZyYZi27Crf6CyLJuZ0vaB7KY+tM0pgNtTW3Z8q3MV3n8XpTRs="
+    - RGGEN_SAMPLE_DIRECTORY=$TRAVIS_BUILD_DIR/rggen-sample
 
 cache:
   bundler
@@ -36,6 +37,7 @@ addons:
       secure: "nZKuVsXthhWOhPPLKnahBw9pN/KUBggBh6hnA3Ho53ZLT6ng/aQ5uU+KihDRDrCIk7b3dOAoITzk06HNbPJLgW0EzfQMw+f3ER4fEB9T6cEJzCTFDs0FaWLypr25lIs/YRp5zQH0VG+KcfZ8bnret0XE8yWZn8XK9L0AbwkV3XI+lnaKY4j0dJqkTvFiyBY5rGYE5LvLJ5fKi5QnpuZuUBDEHMXdpy/z91JBym8V6oJUglrnA3mPo3nxMgl3Xo1PbQ8x871SOQrsk8kzb78dCVNLlH/0p0FNDixnr3d+JDTdWwxF5rNsJ1NIgm1/RGGhmfN7vSqJcAVu2hgBQvt1H1Vrn54nTEXTuiRydvG9Fm5Be+gpm+ThwnBFtBvOb8gyEJjSO1/rmzTQkOhvVwlz2B5nTkn49/qfN+ApzuffyPCPv7HGsvLZGljA7E3nSfuPtIuND03LR2ln9MWp4zcL2l9zvcjpy1Ix91Dl2uRJEW5w2m2RqGqLBhCJ6uND4Os3mprfCiFJyPMyOu6xxLynS9snmmSBj6hLNs6LPWQDnVRVfqK+0MTDd+v1qodI5SfSXWZW6uGlZpJisKNEWs7fSknV1Jvo2VhRzNBo1HhSIuxJF4OwGq4NfeQnbMXUCZtW1n7vwudS4lirl7Q2QxddKzTu5ehvIrWCVce7mSnZgv4="
 
 before_install:
+  - "git clone https://github.com/rggen/rggen-sample.git"
   - "env -u RUBYOPT gem update --system"
   - "env -u RUBYOPT gem install bundler"
 
