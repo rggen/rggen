@@ -68,6 +68,39 @@ To resolve the above error, there are three solutions. See [this page](https://g
 
 See [Wiki documents](https://github.com/rggen/rggen/wiki).
 
+## Example
+
+You can get example configuration file and register map specification listed below:
+
+* Configuration file
+    * https://github.com/rggen/rggen-sample/blob/master/config.yml
+* Register map specifications
+    * https://github.com/rggen/rggen-sample/blob/master/block_0.yml
+    * https://github.com/rggen/rggen-sample/blob/master/block_1.yml
+
+By using these example files, you can try to use RgGen. Hit command below:
+
+```
+$ rggen -c config.yml -o out block_0.yml block_1.yml
+```
+
+* `-c`
+    * Specify path to your configuration file
+* `-o`
+    * Specify path to the directory where generated files will be written to
+
+Then, generated files listed below will be written to `out` directory.
+
+* SystemVerilog RTL
+    * https://github.com/rggen/rggen-sample/blob/master/block_0.sv
+    * https://github.com/rggen/rggen-sample/blob/master/block_1.sv
+* UVM RAL model
+    * https://github.com/rggen/rggen-sample/blob/master/block_0_ral_pkg.sv
+    * https://github.com/rggen/rggen-sample/blob/master/block_1_ral_pkg.sv
+* Markdown document
+    * https://github.com/rggen/rggen-sample/blob/master/block_0.md
+    * https://github.com/rggen/rggen-sample/blob/master/block_1.md
+
 ## Contact
 
 Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
