@@ -10,10 +10,10 @@ Gem::Specification.new do |spec|
   spec.authors = ['Taichi Ishitani']
   spec.email = ['rggen@googlegroups.com']
 
-  spec.summary = 'Code generation tool for control/status registers'
+  spec.summary = 'Code generation tool for configuration and status registers'
   spec.description = <<~'DESCRIPTION'
     RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers.
-    It will automatically generate soruce code related to control/status registers (CSR),
+    It will automatically generate soruce code related to configuration and status registers (CSR),
     e.g. SytemVerilog RTL, UVM RAL model, Wiki documents, from human readable register map specifications.
   DESCRIPTION
   spec.homepage = 'https://github.com/rggen/rggen'
