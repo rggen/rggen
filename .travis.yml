@@ -22,11 +22,13 @@ language:
 matrix:
   include:
     - rvm: 2.3.8
-    - rvm: 2.4.6
+    - rvm: 2.4.9
       env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
-    - rvm: 2.5.5
+    - rvm: 2.5.7
       env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
-    - rvm: 2.6.3
+    - rvm: 2.6.5
+      env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
+    - rvm: 2.7.0
       env: RUBYOPT=--enable-frozen-string-literal USE_FIXED_GEMS=yes
 
 addons:
