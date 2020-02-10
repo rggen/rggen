@@ -68,6 +68,23 @@ To resolve the above error, there are three solutions. See [this page](https://g
 
 See [Wiki documents](https://github.com/rggen/rggen/wiki).
 
+## Supported Tools
+
+Following EDA tools can accept the generated source files.
+
+* Simulation tools
+    * Synopsys VCS
+    * Cadence Xcelium
+    * Xilinx Vivado Simulator
+        * Confirmed RTL only
+        * Not sure if RAL models are accepted
+    * Verilator
+        * Need `-Wno-fatal` switch
+* Synthesis tools
+    * Synopsys Design Compiler
+    * Intel Quartus
+    * Xilinx Vivado
+
 ## Example
 
 You can get example configuration file and register map specification listed below:
