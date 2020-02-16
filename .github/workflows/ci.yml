@@ -1,0 +1,99 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ['2.7', '2.6', '2.5', '2.4']
+        frozen_string_literal: ['yes', 'no']
+        exclude:
+          - ruby: '2.5'
+            frozen_string_literal: 'yes'
+          - ruby: '2.4'
+            frozen_string_literal: 'yes'
+
+    env:
+      RUBYOPT: ${{ (matrix.frozen_string_literal == 'yes' && '--enable-frozen-string-literal') || '' }}
+      USE_FIXED_GEMS: ${{ matrix.frozen_string_literal }}
+      RGGEN_SAMPLE_DIRECTORY: ${{ github.workspace }}/rggen-sample
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Cache gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: gems-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-${{ github.sha }}
+          restore-keys: |
+            gems-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-
+
+      - name: Install gems
+        run: |
+          gem install -N bundler
+          bundle config path vendor/bundle
+          bundle install
+
+      - name: Cache samples
+        uses: actions/cache@v1
+        with:
+          path: rggen-sample
+          key: samples-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-${{ github.sha }}
+          restore-keys: |
+            samples-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-
+
+      - name: Get samples
+        run: |
+          [ -d rggen-sample ] || git clone https://github.com/rggen/rggen-sample.git
+          cd rggen-sample; git pull
+
+      - name: Run RSpec
+        run: |
+          bundle exec rake coverage
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Cache gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: gems-${{ runner.os }}-static-analysis-${{ github.sha }}
+          restore-keys: |
+            gems-${{ runner.os }}-static-analysis-
+
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle config set with develop
+          bundle install
+
+      - name: Run Rubocop
+        run: |
+          bundle exec rubocop --format json --out rubocop.json --config .rubocop.yml lib || :
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v1.1
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

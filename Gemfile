@@ -44,5 +44,5 @@ group :test do
   gem 'codecov', require: false
   gem 'regexp-examples', RUBY_VERSION >= '2.4.0' ? '~> 1.5.1' : '< 1.5.0', require: false
   gem 'rspec', '>= 3.8'
-  gem 'simplecov', '~> 0.17.0', require: false
+  gem 'simplecov', require: false
 end
