@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/rggen.svg)](https://badge.fury.io/rb/rggen)
-[![Build Status](https://travis-ci.com/rggen/rggen.svg?branch=master)](https://travis-ci.com/rggen/rggen)
+[![CI](https://github.com/rggen/rggen/workflows/CI/badge.svg)](https://github.com/rggen/rggen/actions?query=workflow%3ACI)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5ee2248300ec0517e597/maintainability)](https://codeclimate.com/github/rggen/rggen/maintainability)
 [![codecov](https://codecov.io/gh/rggen/rggen/branch/master/graph/badge.svg)](https://codecov.io/gh/rggen/rggen)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rggen_rggen&metric=alert_status)](https://sonarcloud.io/dashboard?id=rggen_rggen)
