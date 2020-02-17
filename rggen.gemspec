@@ -32,11 +32,11 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.4'
 
-  spec.add_runtime_dependency 'rggen-core', '~> 0.18.0'
-  spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.18.0'
-  spec.add_runtime_dependency 'rggen-markdown', '~> 0.15.0'
-  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.14.0'
-  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.18.0'
+  spec.add_runtime_dependency 'rggen-core', '~> 0.19.0'
+  spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.19.0'
+  spec.add_runtime_dependency 'rggen-markdown', '~> 0.16.0'
+  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.15.0'
+  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.19.0'
 
   spec.add_development_dependency 'bundler'
 end
