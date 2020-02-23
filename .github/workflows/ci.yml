@@ -17,9 +17,9 @@ jobs:
             frozen_string_literal: 'yes'
 
     env:
+      RGGEN_ROOT: ${{ github.workspace }}
       RUBYOPT: ${{ (matrix.frozen_string_literal == 'yes' && '--enable-frozen-string-literal') || '' }}
       USE_FIXED_GEMS: ${{ matrix.frozen_string_literal }}
-      RGGEN_SAMPLE_DIRECTORY: ${{ github.workspace }}/rggen-sample
 
     steps:
       - uses: actions/checkout@v2
@@ -28,6 +28,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+
+      - name: Checkout RgGen library list
+        uses: actions/checkout@v2
+        with:
+          repository: rggen/rggen-checkout
+          path: rggen-checkout
+
+      - name: Checkout RgGen libraries
+        run: |
+          ${RGGEN_ROOT}/rggen-checkout/bin/checkout
 
       - name: Cache gems
         uses: actions/cache@v1
@@ -42,19 +52,6 @@ jobs:
           gem install -N bundler
           bundle config path vendor/bundle
           bundle install
-
-      - name: Cache samples
-        uses: actions/cache@v1
-        with:
-          path: rggen-sample
-          key: samples-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-${{ github.sha }}
-          restore-keys: |
-            samples-${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}-
-
-      - name: Get samples
-        run: |
-          [ -d rggen-sample ] || git clone https://github.com/rggen/rggen-sample.git
-          cd rggen-sample; git pull
 
       - name: Run RSpec
         run: |
@@ -86,7 +83,7 @@ jobs:
       - name: Install gems
         run: |
           bundle config path vendor/bundle
-          bundle config set with develop
+          bundle config set without rggen test
           bundle install
 
       - name: Run Rubocop

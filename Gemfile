@@ -5,34 +5,25 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in rggen.gemspec
 gemspec
 
-[
-  'rggen-devtools',
-  'rggen-core',
-  'rggen-default-register-map',
-  'rggen-markdown',
-  'rggen-spreadsheet-loader',
-  'rggen-systemverilog'
-].each do |rggen_library|
-  library_path = File.expand_path("../#{rggen_library}", __dir__)
-  if Dir.exist?(library_path) && !ENV['USE_GITHUB_REPOSITORY']
-    gem rggen_library, path: library_path
-  else
-    gem rggen_library, git: "https://github.com/rggen/#{rggen_library}.git"
-  end
-end
+group :rggen do
+  rggen_root = ENV['RGGEN_ROOT'] || File.expand_path('..', __dir__)
+  gemfile_path = File.join(rggen_root, 'rggen-checkout', 'Gemfile')
+  File.exist?(gemfile_path) &&
+    instance_eval(File.read(gemfile_path), gemfile_path, 1)
 
-if ENV['USE_FIXED_GEMS']
-  ['facets', 'rubyzip'].each do |library|
-    library_path = File.expand_path("../#{library}", __dir__)
-    if Dir.exist?(library_path) && !ENV['USE_GITHUB_REPOSITORY']
-      gem library, path: library_path
-    else
-      gem library, git: "https://github.com/taichi-ishitani/#{library}.git"
+  if ENV['USE_FIXED_GEMS'] == 'yes'
+    ['facets', 'rubyzip'].each do |library|
+      library_path = File.expand_path("../#{library}", __dir__)
+      if Dir.exist?(library_path) && !ENV['USE_GITHUB_REPOSITORY']
+        gem library, path: library_path
+      else
+        gem library, git: "https://github.com/taichi-ishitani/#{library}.git"
+      end
     end
-  end
 
-  gem 'ruby-ole', '>= 1.2.12.2'
-  gem 'spreadsheet', '>= 1.2.1'
+    gem 'ruby-ole', '>= 1.2.12.2'
+    gem 'spreadsheet', '>= 1.2.1'
+  end
 end
 
 group :develop do

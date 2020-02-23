@@ -6,8 +6,14 @@ require 'rggen/core'
 require 'rggen/devtools/spec_helper'
 
 RSpec.configure do |config|
-  RgGen::Devtools::SpecHelper.setup(config)
+  RgGen::Devtools::SpecHelper.setup(
+    config,
+    coverage_filter: [/rggen-/]
+  )
 end
 
 RGGEN_SAMPLE_DIRECTORY =
-  ENV['RGGEN_SAMPLE_DIRECTORY'] || '../rggen-sample'
+  File.join(
+    ENV['RGGEN_ROOT'] || File.expand_path('../..', __dir__),
+    'rggen-sample'
+  )
