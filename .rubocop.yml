@@ -1,7 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
-    - sample/**/*
     - spec/**/*
 
 Layout/EmptyLineAfterGuardClause:
@@ -19,14 +18,20 @@ Layout/MultilineMethodCallIndentation:
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
-Style/BracesAroundHashParameters:
-  Enabled: false
-
 Style/EmptyMethod:
   EnforcedStyle: expanded
 
 Style/FormatStringToken:
   EnforcedStyle: unannotated
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: false
 
 Style/RaiseArgs:
   EnforcedStyle: compact
