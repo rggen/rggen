@@ -28,7 +28,7 @@ end
 
 group :develop do
   gem 'rake'
-  gem 'rubocop', '>= 0.80.0', require: false
+  gem 'rubocop', '>= 0.80.1', require: false
 end
 
 group :test do
