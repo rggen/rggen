@@ -14,7 +14,7 @@ RSpec.describe RgGen do
   end
 
   let(:block_1) do
-    file = ['block_1.rb', 'block_1.yml', 'block_1.xlsx'].sample
+    file = ['block_1.rb', 'block_1.yml'].sample
     File.join(RGGEN_SAMPLE_DIRECTORY, file)
   end
 
