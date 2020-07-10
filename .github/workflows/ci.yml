@@ -56,43 +56,10 @@ jobs:
       - name: Run RSpec
         run: |
           bundle exec rake coverage
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  static-analysis:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v1
         with:
-          fetch-depth: 0
-
-      - name: Set up Ruby
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
-
-      - name: Cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: gems-${{ runner.os }}-static-analysis-${{ github.sha }}
-          restore-keys: |
-            gems-${{ runner.os }}-static-analysis-
-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle config set without rggen test
-          bundle install
-
-      - name: Run Rubocop
-        run: |
-          bundle exec rubocop --format json --out rubocop.json --config .rubocop.yml lib || :
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v1.1
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          name: ${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}
+          file: ./coverage/coverage.xml
+          fail_ci_if_error: true
