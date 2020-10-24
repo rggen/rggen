@@ -13,16 +13,17 @@ RgGen has following features:
 
 * Generate source files related to CSR from register map specifications
     * SystemVerilog RTL
+    * Verilog RTL
+        * Need [rggen-verilog](https://github.com/rggen/rggen-verilog) plugin
     * UVM RAL model
     * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
-    * Supported formats are listed below:
-        * Ruby with APIs to describe register map information
-        * YAML
-        * JSON
-        * Spreadsheet (XLSX, XLS, OSD, CSV)
-        * [SiFive DUH](https://github.com/sifive/duh)
-            * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
+    * Ruby with APIs to describe register map information
+    * YAML
+    * JSON
+    * Spreadsheet (XLSX, XLS, OSD, CSV)
+    * [SiFive DUH](https://github.com/sifive/duh)
+        * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
 * Costomize RgGen for you environment
     * E.g. add special bit field types
 
@@ -103,10 +104,8 @@ By using these example files, you can try to use RgGen. Hit command below:
 $ rggen -c config.yml -o out block_0.yml block_1.yml
 ```
 
-* `-c`
-    * Specify path to your configuration file
-* `-o`
-    * Specify path to the directory where generated files will be written to
+* `-c`: Specify path to your configuration file
+* `-o`: Specify path to the directory where generated files will be written to
 
 Then, generated files listed below will be written to `out` directory.
 
