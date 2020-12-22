@@ -8,8 +8,7 @@ gemspec
 group :rggen do
   rggen_root = ENV['RGGEN_ROOT'] || File.expand_path('..', __dir__)
   gemfile_path = File.join(rggen_root, 'rggen-checkout', 'Gemfile')
-  File.exist?(gemfile_path) &&
-    instance_eval(File.read(gemfile_path), gemfile_path, 1)
+  File.exist?(gemfile_path) && eval_gemfile(gemfile_path)
 
   if ENV['USE_FIXED_GEMS'] == 'yes'
     ['facets'].each do |library|
