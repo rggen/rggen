@@ -10,30 +10,20 @@ on:
 jobs:
   static-analysis:
     runs-on: ubuntu-latest
-    steps:
 
+    env:
+      BUNDLE_WITHOUT: rggen:test
+
+    steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
       - name: Set up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7'
-
-      - name: Cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: gems-${{ runner.os }}-static-analysis-${{ github.sha }}
-          restore-keys: |
-            gems-${{ runner.os }}-static-analysis-
-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle config set without rggen test
-          bundle install
+          bundler-cache: true
 
       - name: Run Rubocop
         run: |
