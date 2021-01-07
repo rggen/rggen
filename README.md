@@ -127,6 +127,7 @@ Then, generated files listed below will be written to `out` directory.
 Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
 
 * [GitHub Issue Tracker](https://github.com/rggen/rggen/issues)
+* [GitHub Discussions](https://github.com/rggen/rggen/discussions)
 * [Chat Room](https://gitter.im/rggen/rggen)
 * [Mailing List](https://groups.google.com/d/forum/rggen)
 * [Mail](mailto:rggen@googlegroups.com)
