@@ -1,4 +1,8 @@
 version: "2"
+prepare:
+  fetch:
+    - url: https://raw.githubusercontent.com/rggen/rggen-devtools/master/config/rubocop_common.yml
+      path: rubocop_common.yml
 plugins:
   duplication:
     enabled: true
@@ -9,6 +13,6 @@ plugins:
     enabled: true
   rubocop:
     enabled: true
-    channel: rubocop-0-80
+    channel: rubocop-1-70
 exclude_patterns:
   - "spec/"
