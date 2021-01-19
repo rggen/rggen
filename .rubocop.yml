@@ -1,43 +1,11 @@
-AllCops:
-  TargetRubyVersion: 2.4
-  Exclude:
-    - spec/**/*
+<% if File.exist?('rubocop_common.yml') %>
+inherit_from:
+  - rubocop_common.yml
+  - .rubocop_todo.yml
+<% else %>
+inherit_gem:
+  rggen-devtools: config/rubocop_common.yml
 
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Layout/EndOfLine:
-  EnforcedStyle: lf
-
-Layout/LineLength:
-  Max: 90
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented_relative_to_receiver
-
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Style/EmptyMethod:
-  EnforcedStyle: expanded
-
-Style/FormatStringToken:
-  EnforcedStyle: unannotated
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
-Style/RaiseArgs:
-  EnforcedStyle: compact
-
-Style/SymbolArray:
-  EnforcedStyle: brackets
-
-Style/WordArray:
-  EnforcedStyle: brackets
+inherit_from:
+  - .rubocop_todo.yml
+<% end %>
