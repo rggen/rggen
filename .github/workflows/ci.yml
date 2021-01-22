@@ -17,13 +17,25 @@ jobs:
             frozen_string_literal: 'yes'
 
     env:
-      RGGEN_ROOT: ${{ github.workspace }}
       RUBYOPT: ${{ (matrix.frozen_string_literal == 'yes' && '--enable-frozen-string-literal') || '' }}
-      USE_FIXED_GEMS: ${{ matrix.frozen_string_literal }}
+      USE_GEM_PATCHED_LOCALLY: ${{ matrix.frozen_string_literal }}
 
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 0
+
+      - name: Setup RgGen env variables
+        run: |
+          echo "RGGEN_ROOT=${GITHUB_WORKSPACE}" >> ${GITHUB_ENV}
+          echo "RGGEN_REPOSITORY=${GITHUB_REPOSITORY#rggen/}" >> ${GITHUB_ENV}
+          echo "RGGEN_BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
+
+      - name: Checkout RgGen devtools
+        uses: actions/checkout@v2
+        with:
+          repository: rggen/rggen-devtools
+          path: rggen-devtools
           fetch-depth: 0
 
       - name: Checkout RgGen library list
@@ -35,7 +47,7 @@ jobs:
 
       - name: Checkout RgGen libraries
         run: |
-          ${RGGEN_ROOT}/rggen-checkout/bin/checkout.sh
+          ${RGGEN_ROOT}/rggen-devtools/bin/checkout.rb
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
