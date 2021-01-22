@@ -11,12 +11,29 @@ jobs:
   static-analysis:
     runs-on: ubuntu-latest
 
-    env:
-      BUNDLE_WITHOUT: rggen:test
-
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 0
+
+      - name: Setup RgGen env variables
+        run: |
+          echo "RGGEN_ROOT=${GITHUB_WORKSPACE}" >> ${GITHUB_ENV}
+          echo "RGGEN_REPOSITORY=${GITHUB_REPOSITORY#rggen/}" >> ${GITHUB_ENV}
+          echo "RGGEN_BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
+
+      - name: Checkout RgGen devtools
+        uses: actions/checkout@v2
+        with:
+          repository: rggen/rggen-devtools
+          path: rggen-devtools
+          fetch-depth: 0
+
+      - name: Checkout RgGen library list
+        uses: actions/checkout@v2
+        with:
+          repository: rggen/rggen-checkout
+          path: rggen-checkout
           fetch-depth: 0
 
       - name: Set up Ruby
@@ -24,6 +41,8 @@ jobs:
         with:
           ruby-version: '2.7'
           bundler-cache: true
+        env:
+          BUNDLE_WITHOUT: rggen:test
 
       - name: Run Rubocop
         run: |
