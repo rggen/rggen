@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
     `git ls-files lib LICENSE CODE_OF_CONDUCT.md README.md`.split($RS)
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.4'
+  spec.required_ruby_version = '>= 2.5'
 
   spec.add_runtime_dependency 'rggen-core', '~> 0.24.0'
   spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.24.0'
