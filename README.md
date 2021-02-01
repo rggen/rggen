@@ -34,7 +34,7 @@ RgGen has following features:
 
 ### Ruby
 
-RgGen is written in the [Ruby](https://www.ruby-lang.org/en/about/) programing language and its required version is 2.4 or later. You need to install  any of these versions of Ruby before installing RgGen tool. To install Ruby, see [this page](https://www.ruby-lang.org/en/downloads/).
+RgGen is written in the [Ruby](https://www.ruby-lang.org/en/about/) programing language and its required version is 2.5 or later. You need to install  any of these versions of Ruby before installing RgGen tool. To install Ruby, see [this page](https://www.ruby-lang.org/en/downloads/).
 
 ### Installatin Command
 
