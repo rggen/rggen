@@ -122,6 +122,10 @@ Then, generated files listed below will be written to `out` directory.
     * https://github.com/rggen/rggen-sample/blob/master/block_0.md
     * https://github.com/rggen/rggen-sample/blob/master/block_1.md
 
+## Contributing
+
+See [Contributing Guide](CONTRIBUTING.md).
+
 ## Contact
 
 Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
@@ -148,4 +152,4 @@ Copyright &copy; 2019-2021 Taichi Ishitani. RgGen is licensed under the [MIT Lic
 
 ## Code of Conduct
 
-Everyone interacting in the RgGen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/rggen/rggen/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the RgGen project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
