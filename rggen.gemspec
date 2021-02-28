@@ -25,16 +25,16 @@ Gem::Specification.new do |spec|
   }
 
   spec.files =
-    `git ls-files lib LICENSE CODE_OF_CONDUCT.md README.md`.split($RS)
+    `git ls-files lib LICENSE CODE_OF_CONDUCT.md CONTRIBUTING.md README.md`.split($RS)
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.5'
 
-  spec.add_runtime_dependency 'rggen-core', '~> 0.24.0'
-  spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.24.0'
-  spec.add_runtime_dependency 'rggen-markdown', '~> 0.20.0'
-  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.19.0'
-  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.24.0'
+  spec.add_runtime_dependency 'rggen-core', '~> 0.25.0'
+  spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.25.0'
+  spec.add_runtime_dependency 'rggen-markdown', '~> 0.21.0'
+  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.20.0'
+  spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.25.0'
 
   spec.add_development_dependency 'bundler'
 end
