@@ -68,11 +68,17 @@ ERROR:  Error installing rggen:
         "rggen" from rggen-core conflicts with installed executable from rggen
 ```
 
-To resolve the above error, there are three solutions. See [this page](https://github.com/rggen/rggen/wiki/Resolve-Confliction-of-Installed-Executable)
+To resolve the above error, there are three solutions.
+See [this page](https://github.com/rggen/rggen/wiki/Resolve-Confliction-of-Installed-Executable)
 
 ## Usage
 
 See [Wiki documents](https://github.com/rggen/rggen/wiki).
+
+## Plugin
+
+RgGen has `plugin` feature to allow your cusomization.
+See [this Wiki document](https://github.com/rggen/rggen/wiki/Create-Your-Own-Plugin) for futher detals.
 
 ## Supported Tools
 
