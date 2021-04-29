@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.files =
-    `git ls-files lib LICENSE CODE_OF_CONDUCT.md CONTRIBUTING.md README.md`.split($RS)
+    `git ls-files lib logo LICENSE CODE_OF_CONDUCT.md CONTRIBUTING.md README.md`.split($RS)
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = '>= 2.5'
