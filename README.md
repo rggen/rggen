@@ -19,6 +19,8 @@ RgGen has following features:
     * SystemVerilog RTL
     * Verilog RTL
         * Need [rggen-verilog](https://github.com/rggen/rggen-verilog) plugin
+    * VHDL RTL
+        * Need [rggen-vhdl](https://github.com/rggen/rggen-vhdl) plugin
     * UVM register model (UVM RAL)
     * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
@@ -153,6 +155,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-spreadsheet-loader
 * https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
+* https://github.com/rggen/rggen-vhdl
 
 ## Copyright & License
 
