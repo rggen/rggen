@@ -96,6 +96,8 @@ Following EDA tools can accept the generated source files.
         * Not sure if UVM register models are accepted
     * Verilator
         * Need `-Wno-fatal` switch
+    * Icarus Verilog
+        * Verilog RTL only
 * Synthesis tools
     * Synopsys Design Compiler
     * Intel Quartus
