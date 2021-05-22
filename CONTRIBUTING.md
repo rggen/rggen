@@ -49,7 +49,7 @@ to fix the bug which you found or implement enhancements which you want.
 
 1. Create a working directory
 2. Clone your forked version of the repositories to the working directory
-3. Clone folloiwng repositories for development tools to the working directory
+3. Clone following repositories for development tools to the working directory
     * https://github.com/rggen/rggen-devtools
     * https://github.com/rggen/rggen-checkout
 4. Clone other RgGen's repositories
