@@ -31,7 +31,7 @@ RgGen has following features:
     * Spreadsheet (XLSX, XLS, OSD, CSV)
     * [SiFive DUH](https://github.com/sifive/duh)
         * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
-* Costomize RgGen for you environment
+* Customize RgGen for you environment
     * E.g. add special bit field types
 
 ## Installation
