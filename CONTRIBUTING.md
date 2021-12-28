@@ -54,7 +54,7 @@ to fix the bug which you found or implement enhancements which you want.
     * https://github.com/rggen/rggen-checkout
 4. Clone other RgGen's repositories
     * Invoke commnad below on to the working directory
-        * `./rggen-devtools/bin/checkout --list ./rggen-checkout/all.yml --dir .`
+        * `./rggen-devtools/bin/checkout.rb --list ./rggen-checkout/all.yml --dir .`
 
 ```
 $ mkdir work
