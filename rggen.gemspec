@@ -20,15 +20,17 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/rggen/rggen/issues',
     'mailing_list_uri' => 'https://groups.google.com/d/forum/rggen',
+    'rubygems_mfa_required' => 'true',
     'source_code_uri' => 'https://github.com/rggen/rggen',
     'wiki_uri' => 'https://github.com/rggen/rggen/wiki'
   }
 
   spec.files =
-    `git ls-files lib logo LICENSE CODE_OF_CONDUCT.md CONTRIBUTING.md README.md`.split($RS)
+    `git ls-files lib logo LICENSE CODE_OF_CONDUCT.md CONTRIBUTING.md README.md`
+      .split($RS)
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.6'
 
   spec.add_runtime_dependency 'rggen-core', '~> 0.25.1'
   spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.25.1'
