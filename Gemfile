@@ -12,5 +12,4 @@ eval_gemfile(gemfile)
 group :rggen do
   gem_patched 'facets'
   gem_patched 'rubyzip'
-  gem_patched 'spreadbase', branch: 'for_rggen'
 end
