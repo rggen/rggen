@@ -25,7 +25,11 @@ RSpec.describe RgGen do
       'block_0_ral_pkg.sv',
       'block_1_ral_pkg.sv',
       'block_0.md',
-      'block_1.md'
+      'block_1.md',
+      'block_0.v',
+      'block_1.v',
+      'block_0.vhd',
+      'block_1.vhd'
     ].map { |file| ["./#{file}", read_sample(file)] }.to_h
   end
 
@@ -39,7 +43,12 @@ RSpec.describe RgGen do
       actual[path.to_s] = content.to_s
     end
 
-    cli.run(['-c', configuration, block_0, block_1])
+    cli.run([
+      '-c', configuration,
+      '--plugin', 'rggen-verilog',
+      '--plugin', 'rggen-vhdl',
+      block_0, block_1
+    ])
     actual.each do |path, content|
       expect(content).to eq expectations[path]
     end
