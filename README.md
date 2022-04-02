@@ -16,11 +16,16 @@ RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automati
 RgGen has following features:
 
 * Generate source files related to CSR from register map specifications
-    * SystemVerilog RTL
-    * Verilog RTL
-        * Need [rggen-verilog](https://github.com/rggen/rggen-verilog) plugin
-    * VHDL RTL
-        * Need [rggen-vhdl](https://github.com/rggen/rggen-vhdl) plugin
+    * RTL module
+        * SystemVerilog
+        * Verilog
+            * Need [rggen-verilog](https://github.com/rggen/rggen-verilog) plugin
+        * VHDL
+            * Need [rggen-vhdl](https://github.com/rggen/rggen-vhdl) plugin
+        * Supports standard bus protocols
+            * AMBA APB
+            * AMBA AXI4-Lite
+            * Wishbone
     * UVM register model (UVM RAL)
     * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
