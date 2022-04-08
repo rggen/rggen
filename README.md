@@ -11,7 +11,7 @@
 
 # RgGen
 
-RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automatically generate soruce code related to configuration and status registers (CSR), e.g. SytemVerilog RTL, UVM register model (UVM RAL), Wiki documents, from human readable register map specifications.
+RgGen is a code generation tool for ASIC/IP/FPGA/RTL engineers. It will automatically generate soruce code related to configuration and status registers (CSR), e.g. SytemVerilog RTL, UVM register model (UVM RAL/uvm_reg), Wiki documents, from human readable register map specifications.
 
 RgGen has following features:
 
@@ -26,7 +26,7 @@ RgGen has following features:
             * AMBA APB
             * AMBA AXI4-Lite
             * Wishbone
-    * UVM register model (UVM RAL)
+    * UVM register model (UVM RAL/uvm_reg)
     * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
     * Ruby with APIs to describe register map information
