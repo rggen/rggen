@@ -97,8 +97,6 @@ Following EDA tools can accept the generated source files.
     * Synopsys VCS
     * Cadence Xcelium
     * Xilinx Vivado Simulator
-        * Confirmed RTL only
-        * Not sure if UVM register models are accepted
     * Verilator
         * Need `-Wno-fatal` switch
     * Icarus Verilog
