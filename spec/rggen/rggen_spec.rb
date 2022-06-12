@@ -29,7 +29,9 @@ RSpec.describe RgGen do
       'block_0.v',
       'block_1.v',
       'block_0.vhd',
-      'block_1.vhd'
+      'block_1.vhd',
+      'block_0.h',
+      'block_1.h'
     ].map { |file| ["./#{file}", read_sample(file)] }.to_h
   end
 
@@ -37,7 +39,7 @@ RSpec.describe RgGen do
     File.binread(File.join(RGGEN_SAMPLE_DIRECTORY, file))
   end
 
-  it 'コンフィグレーション/レジスタマップを読み込み、RTL/RAL/Markdownを書き出す' do
+  it 'コンフィグレーション/レジスタマップを読み込み、RTL/RAL/Markdown/C Headerを書き出す' do
     actual = {}
     allow(File).to receive(:binwrite) do |path, content|
       actual[path.to_s] = content.to_s
@@ -47,6 +49,7 @@ RSpec.describe RgGen do
       '-c', configuration,
       '--plugin', 'rggen-verilog',
       '--plugin', 'rggen-vhdl',
+      '--plugin', 'rggen-c-header',
       block_0, block_1
     ])
     actual.each do |path, content|
