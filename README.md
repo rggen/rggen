@@ -28,6 +28,8 @@ RgGen has following features:
             * Wishbone
     * UVM register model (UVM RAL/uvm_reg)
     * Register map documents written in Markdown
+    * C header file
+        * Need [rggen-c-header](https://github.com/rggen/rggen-c-header) plugin
 * Register map specifications can be written in human readable format
     * Ruby with APIs to describe register map information
     * YAML
@@ -163,6 +165,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
 * https://github.com/rggen/rggen-vhdl
+* https://github.com/rggen/rggen-c-header
 
 ## Copyright & License
 
