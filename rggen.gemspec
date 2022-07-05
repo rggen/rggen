@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.6'
 
+  spec.add_runtime_dependency 'rggen-c-header', '~> 0.1.0'
   spec.add_runtime_dependency 'rggen-core', '~> 0.26.0'
   spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.26.0'
   spec.add_runtime_dependency 'rggen-markdown', '~> 0.22.0'

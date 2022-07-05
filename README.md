@@ -27,9 +27,8 @@ RgGen has following features:
             * AMBA AXI4-Lite
             * Wishbone
     * UVM register model (UVM RAL/uvm_reg)
-    * Register map documents written in Markdown
     * C header file
-        * Need [rggen-c-header](https://github.com/rggen/rggen-c-header) plugin
+    * Register map documents written in Markdown
 * Register map specifications can be written in human readable format
     * Ruby with APIs to describe register map information
     * YAML
@@ -54,6 +53,7 @@ RgGen depends on following sub components and other Ruby libraries.
 * [rggen-core](https://github.com/rggen/rggen-core)
 * [rggen-default-register-map](https://github.com/rggen/rggen-default-register-map)
 * [rggen-systemverilog](https://github.com/rggen/rggen-systemverilog)
+* [rggen-c-header](https://github.com/rggen/rggen-c-header)
 * [rggen-markdown](https://github.com/rggen/rggen-markdown)
 * [rggen-spreadsheet-loader](https://github.com/rggen/rggen-spreadsheet-loader)
 
@@ -112,7 +112,7 @@ Following EDA tools can accept the generated source files.
 
 ## Example
 
-You can get example configuration file and register map specification listed below:
+You can get an example configuration file and register map specifications listed below:
 
 * Configuration file
     * https://github.com/rggen/rggen-sample/blob/master/config.yml
@@ -120,7 +120,7 @@ You can get example configuration file and register map specification listed bel
     * https://github.com/rggen/rggen-sample/blob/master/block_0.yml
     * https://github.com/rggen/rggen-sample/blob/master/block_1.yml
 
-By using these example files, you can try to use RgGen. Hit command below:
+You can try to use RgGen by uisng these example files. Hit command below:
 
 ```
 $ rggen -c config.yml -o out block_0.yml block_1.yml
@@ -137,6 +137,9 @@ Then, generated files listed below will be written to `out` directory.
 * UVM register model
     * https://github.com/rggen/rggen-sample/blob/master/block_0_ral_pkg.sv
     * https://github.com/rggen/rggen-sample/blob/master/block_1_ral_pkg.sv
+* C header file
+    * https://github.com/rggen/rggen-sample/blob/master/block_0.h
+    * https://github.com/rggen/rggen-sample/blob/master/block_1.h
 * Markdown document
     * https://github.com/rggen/rggen-sample/blob/master/block_0.md
     * https://github.com/rggen/rggen-sample/blob/master/block_1.md
@@ -160,12 +163,12 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-core
 * https://github.com/rggen/rggen-default-register-map
 * https://github.com/rggen/rggen-systemverilog
+* https://github.com/rggen/rggen-c-header
 * https://github.com/rggen/rggen-markdown
 * https://github.com/rggen/rggen-spreadsheet-loader
 * https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
 * https://github.com/rggen/rggen-vhdl
-* https://github.com/rggen/rggen-c-header
 
 ## Copyright & License
 
