@@ -102,12 +102,12 @@ Following EDA tools can accept the generated source files.
     * Verilator
         * Need `-Wno-fatal` switch
         * Need to define `RGGEN_NAIVE_MUX_IMPLEMENTATION` macro
-            * `+define+RGGEN_NAIVE_MUX_IMPLEMENTATION`
     * Icarus Verilog
         * Verilog RTL only
 * Synthesis tools
     * Synopsys Design Compiler
     * Intel Quartus
+        * Need to define `RGGEN_NAIVE_MUX_IMPLEMENTATION` macro
     * Xilinx Vivado
     * [Yosys](http://www.clifford.at/yosys/)
         * Verilog RTL
