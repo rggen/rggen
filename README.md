@@ -111,6 +111,7 @@ Following EDA tools can accept the generated source files.
     * Xilinx Vivado
     * [Yosys](http://www.clifford.at/yosys/)
         * Verilog RTL
+        * Need to define RGGEN_NAIVE_MUX_IMPLEMENTATION macro
 
 ## Example
 
