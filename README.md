@@ -101,17 +101,14 @@ Following EDA tools can accept the generated source files.
     * Xilinx Vivado Simulator
     * Verilator
         * Need `-Wno-fatal` switch
-        * Need to define `RGGEN_NAIVE_MUX_IMPLEMENTATION` macro
     * Icarus Verilog
         * Verilog RTL only
 * Synthesis tools
     * Synopsys Design Compiler
     * Intel Quartus
-        * Need to define `RGGEN_NAIVE_MUX_IMPLEMENTATION` macro
     * Xilinx Vivado
     * [Yosys](http://www.clifford.at/yosys/)
         * Verilog RTL
-        * Need to define `RGGEN_NAIVE_MUX_IMPLEMENTATION` macro
 
 ## Example
 
