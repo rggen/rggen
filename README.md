@@ -133,7 +133,9 @@ Then, generated files listed below will be written to `out` directory.
 
 * SystemVerilog RTL
     * https://github.com/rggen/rggen-sample/blob/master/block_0.sv
+    * https://github.com/rggen/rggen-sample/blob/master/block_0_rtl_pkg.sv
     * https://github.com/rggen/rggen-sample/blob/master/block_1.sv
+    * https://github.com/rggen/rggen-sample/blob/master/block_1_rtl_pkg.sv
 * UVM register model
     * https://github.com/rggen/rggen-sample/blob/master/block_0_ral_pkg.sv
     * https://github.com/rggen/rggen-sample/blob/master/block_1_ral_pkg.sv
