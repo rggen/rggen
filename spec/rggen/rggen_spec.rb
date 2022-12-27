@@ -22,6 +22,8 @@ RSpec.describe RgGen do
     [
       'block_0.sv',
       'block_1.sv',
+      'block_0_rtl_pkg.sv',
+      'block_1_rtl_pkg.sv',
       'block_0_ral_pkg.sv',
       'block_1_ral_pkg.sv',
       'block_0.h',
@@ -30,6 +32,8 @@ RSpec.describe RgGen do
       'block_1.md',
       'block_0.v',
       'block_1.v',
+      'block_0.vh',
+      'block_1.vh',
       'block_0.vhd',
       'block_1.vhd'
     ].map { |file| ["./#{file}", read_sample(file)] }.to_h
