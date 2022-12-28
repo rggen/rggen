@@ -13,6 +13,6 @@ plugins:
     enabled: true
   rubocop:
     enabled: true
-    channel: rubocop-1-70
+    channel: rubocop-1-39-0
 exclude_patterns:
   - "spec/"
