@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
       .split($RS)
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '>= 2.6'
+  spec.required_ruby_version = '>= 2.7'
 
   spec.add_runtime_dependency 'rggen-c-header', '~> 0.2.0'
   spec.add_runtime_dependency 'rggen-core', '~> 0.28.0'
