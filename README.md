@@ -100,7 +100,7 @@ Following EDA tools can accept the generated source files.
     * Cadence Xcelium
     * Xilinx Vivado Simulator
     * Verilator
-        * Need `-Wno-fatal` switch
+        * Need `-Wno-unoptflat` switch for Verilog RTL
     * Icarus Verilog
         * Verilog RTL only
 * Synthesis tools
