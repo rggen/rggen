@@ -82,6 +82,17 @@ ERROR:  Error installing rggen:
 To resolve the above error, there are three solutions.
 See [this page](https://github.com/rggen/rggen/wiki/Resolve-Confliction-of-Installed-Executable)
 
+### Docker Image
+
+The [rggen-docker](https://hub.docker.com/r/rggendev/rggen-docker) is a Docker image to simplify installation and use of RgGen.
+You can also execute RgGen by using this image:
+
+```
+$ docker run -ti --rm -v ${PWD}:/work --user $(id -u):$(id -g) rggendev/rggen-docker:latest -c config.yml -o out block_0.yml
+```
+
+See the [rggen-docker repository](https://github.com/rggen/rggen-docker) for further details.
+
 ## Usage
 
 See [Wiki documents](https://github.com/rggen/rggen/wiki).
@@ -171,6 +182,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
 * https://github.com/rggen/rggen-vhdl
+* https://github.com/rggen/rggen-docker
 
 ## Copyright & License
 
