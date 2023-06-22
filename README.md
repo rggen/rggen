@@ -123,39 +123,57 @@ Following EDA tools can accept the generated source files.
 
 ## Example
 
-You can get an example configuration file and register map specifications listed below:
+You can get sample configuration file and register map specification from the [rggen-sample](https://github.com/rggen/rggen-sample) repository.
+This register map specification is for a UART IP.
 
 * Configuration file
     * https://github.com/rggen/rggen-sample/blob/master/config.yml
-* Register map specifications
-    * https://github.com/rggen/rggen-sample/blob/master/block_0.yml
-    * https://github.com/rggen/rggen-sample/blob/master/block_1.yml
+* Register map specification
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.yml
 
 You can try to use RgGen by uisng these example files. Hit command below:
 
 ```
-$ rggen -c config.yml -o out block_0.yml block_1.yml
+$ rggen -c config.yml -o out uart_csr.yml
 ```
 
 * `-c`: Specify path to your configuration file
 * `-o`: Specify path to the directory where generated files will be written to
 
-Then, generated files listed below will be written to `out` directory.
+Then, generated files will be written to the `out` directory.
+
+If you want to generate Verilog RTL and/or VHDL RTL then you need to instll optional plugins listed below.
+
+* Verilog writer plugin: [rggen-verilog](https://github.com/rggen/rggen-verilog)
+* VHDL writer plugin: [rggen-vhdl](https://github.com/rggen/rggen-vhdl)
+
+```
+$ gem install rggen-verilog
+$ gem install rggen-vhdl
+```
+
+In addition, you need to tell RgGen to use these plugins by using the `--plugin` option switch:
+
+```
+rggen -c config.yml --plugin rggen-verilog --plugin rggen-vhdl uart_csr.yml
+```
+
+RgGen will generate following source files from the [`uart_csr.yml`](https://github.com/rggen/rggen-sample/blob/master/uart_csr.yml) register map specification:
 
 * SystemVerilog RTL
-    * https://github.com/rggen/rggen-sample/blob/master/block_0.sv
-    * https://github.com/rggen/rggen-sample/blob/master/block_0_rtl_pkg.sv
-    * https://github.com/rggen/rggen-sample/blob/master/block_1.sv
-    * https://github.com/rggen/rggen-sample/blob/master/block_1_rtl_pkg.sv
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.sv
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr_rtl_pkg.sv
+* Verilog RTL
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.v
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vh 
+* VHDL RTL
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vhd 
 * UVM register model
-    * https://github.com/rggen/rggen-sample/blob/master/block_0_ral_pkg.sv
-    * https://github.com/rggen/rggen-sample/blob/master/block_1_ral_pkg.sv
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr_ral_pkg.sv
 * C header file
-    * https://github.com/rggen/rggen-sample/blob/master/block_0.h
-    * https://github.com/rggen/rggen-sample/blob/master/block_1.h
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.h
 * Markdown document
-    * https://github.com/rggen/rggen-sample/blob/master/block_0.md
-    * https://github.com/rggen/rggen-sample/blob/master/block_1.md
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.md
 
 ## Contributing
 
