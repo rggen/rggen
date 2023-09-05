@@ -16,7 +16,7 @@ jobs:
       USE_GEM_PATCHED_LOCALLY: ${{ matrix.frozen_string_literal }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -27,14 +27,14 @@ jobs:
           echo "RGGEN_BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
 
       - name: Checkout RgGen devtools
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: rggen/rggen-devtools
           path: rggen-devtools
           fetch-depth: 0
 
       - name: Checkout RgGen library list
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: rggen/rggen-checkout
           path: rggen-checkout
