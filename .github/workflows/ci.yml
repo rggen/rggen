@@ -35,6 +35,7 @@ jobs:
           repository: rggen/rggen-devtools
           path: rggen-devtools
           fetch-depth: 0
+          ref: backport_0p25
 
       - name: Checkout RgGen library list
         uses: actions/checkout@v2
