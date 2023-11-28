@@ -34,7 +34,7 @@ RgGen has following features:
     * YAML
     * JSON
     * TOML
-    * Spreadsheet (XLSX, XLS, OSD, CSV)
+    * Spreadsheet (XLSX, XLS, ODS, CSV)
     * [SiFive DUH](https://github.com/sifive/duh)
         * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
 * Customize RgGen for you environment
