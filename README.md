@@ -4,7 +4,6 @@
 [![CI](https://github.com/rggen/rggen/workflows/CI/badge.svg)](https://github.com/rggen/rggen/actions?query=workflow%3ACI)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5ee2248300ec0517e597/maintainability)](https://codeclimate.com/github/rggen/rggen/maintainability)
 [![codecov](https://codecov.io/gh/rggen/rggen/branch/master/graph/badge.svg)](https://codecov.io/gh/rggen/rggen)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rggen_rggen&metric=alert_status)](https://sonarcloud.io/dashboard?id=rggen_rggen)
 [![Gitter](https://badges.gitter.im/rggen/rggen.svg)](https://gitter.im/rggen/rggen?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/A0A231E3I)
@@ -165,9 +164,9 @@ RgGen will generate following source files from the [`uart_csr.yml`](https://git
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr_rtl_pkg.sv
 * Verilog RTL
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr.v
-    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vh 
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vh
 * VHDL RTL
-    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vhd 
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vhd
 * UVM register model
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr_ral_pkg.sv
 * C header file
