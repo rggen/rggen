@@ -203,7 +203,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 
 ## Copyright & License
 
-Copyright &copy; 2019-2023 Taichi Ishitani. RgGen is licensed under the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.
+Copyright &copy; 2019-2024 Taichi Ishitani. RgGen is licensed under the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](LICENSE) for futher detils.
 
 ## Code of Conduct
 
