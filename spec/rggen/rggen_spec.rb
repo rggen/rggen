@@ -9,7 +9,7 @@ RSpec.describe RgGen do
   end
 
   let(:block_0) do
-    file = ['block_0.rb', 'block_0.yml', 'block_0.toml', 'block_0.xlsx'].sample
+    file = ['block_0.rb', 'block_0.yml', 'block_0.toml', 'block_0.xlsx', 'block_0.ods'].sample
     File.join(RGGEN_SAMPLE_DIRECTORY, file)
   end
 
