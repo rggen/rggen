@@ -36,6 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rggen-core', '~> 0.33.0'
   spec.add_runtime_dependency 'rggen-default-register-map', '~> 0.33.0'
   spec.add_runtime_dependency 'rggen-markdown', '~> 0.26.0'
-  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.25.1'
+  spec.add_runtime_dependency 'rggen-spreadsheet-loader', '~> 0.25.2'
   spec.add_runtime_dependency 'rggen-systemverilog', '~> 0.33.0'
 end
