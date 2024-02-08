@@ -36,8 +36,10 @@ RgGen has following features:
     * Spreadsheet (XLSX, ODS, CSV)
     * [SiFive DUH](https://github.com/sifive/duh)
         * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
-* Customize RgGen for you environment
-    * E.g. add special bit field types
+* Plugin feature
+    * Allow you to customize RgGen for your environment
+        * Add your own special bit field types
+        * Add your own host bus protocol
 
 ## Installation
 
@@ -64,11 +66,12 @@ $ gem install rggen
 
 RgGen and dependencies will be installed on your system root.
 
-If you want to install them on other location, you need to specify install path and set the `GEM_PATH` environment variable:
+If you want to install them on other location, you need to specify install path and set `GEM_PATH` and `PATH` environment variables:
 
 ```
-$ gem install --install-dir YOUR_INSTALL_DIRECTORY rggen
-$ export GEM_PATH=YOUR_INSTALL_DIRECTORY
+$ gem install --install-dir /path/to/your/install/directory rggen
+$ export GEM_PATH=/path/to/your/install/directory
+$ export PATH=$GEM_PATH/bin:$PATH
 ```
 
 You would get the following error message duaring installation if you have the old RgGen (version < 0.9).
