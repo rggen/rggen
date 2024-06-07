@@ -13,3 +13,7 @@ group :rggen do
   gem_patched 'facets'
   gem_patched 'rubyzip'
 end
+
+for_ci do
+  gem_bundled 'racc'
+end

@@ -12,6 +12,8 @@ jobs:
         frozen_string_literal: ['yes', 'no']
 
     env:
+      BUNDLE_WITH: 'development_common development_test'
+      BUNDLE_WITHOUT: 'development_lint development_local'
       RUBYOPT: ${{ (matrix.frozen_string_literal == 'yes' && '--enable-frozen-string-literal') || '' }}
       USE_GEM_PATCHED_LOCALLY: ${{ matrix.frozen_string_literal }}
 
@@ -43,6 +45,14 @@ jobs:
       - name: Checkout RgGen libraries
         run: |
           ${RGGEN_ROOT}/rggen-devtools/bin/checkout.rb
+
+      - name: Checkout stdgems-version gem
+        uses: actions/checkout@v4
+        with:
+          repository: taichi-ishitani/stdgems-version
+          path: stdgems-version
+          fetch-depth: 0
+          submodules: true
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
