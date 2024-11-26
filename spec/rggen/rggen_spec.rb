@@ -49,6 +49,9 @@ RSpec.describe RgGen do
       'block_0.vhd',
       'block_1.vhd',
       'uart_csr.vhd',
+      'block_0.veryl',
+      'block_1.veryl',
+      'uart_csr.veryl',
     ].map { |file| ["./#{file}", read_sample(file)] }.to_h
   end
 
@@ -66,6 +69,7 @@ RSpec.describe RgGen do
       '-c', configuration,
       '--plugin', 'rggen-verilog',
       '--plugin', 'rggen-vhdl',
+      '--plugin', 'rggen-veryl',
       block_0, block_1, uart_csr
     ])
     actual.each do |path, content|
