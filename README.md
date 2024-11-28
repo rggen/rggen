@@ -19,6 +19,8 @@ RgGen has following features:
         * SystemVerilog
         * Verilog
             * Need [rggen-verilog](https://github.com/rggen/rggen-verilog) plugin
+        * [Veryl](https://veryl-lang.org)
+            * Need [rggen-veryl](https://github.com/rggen/rggen-veryl) plugin
         * VHDL
             * Need [rggen-vhdl](https://github.com/rggen/rggen-vhdl) plugin
         * Supports standard bus protocols
@@ -112,7 +114,7 @@ Following EDA tools can accept the generated source files.
     * Synopsys VCS
     * Cadence Xcelium
     * Metrics DSim
-    * Xilinx Vivado Simulator
+    * AMD Vivado Simulator
     * Verilator
         * Need `-Wno-unoptflat` switch for Verilog RTL
     * Icarus Verilog
@@ -120,7 +122,7 @@ Following EDA tools can accept the generated source files.
 * Synthesis tools
     * Synopsys Design Compiler
     * Intel Quartus
-    * Xilinx Vivado
+    * AMD Vivado
     * [Yosys](http://www.clifford.at/yosys/)
         * Verilog RTL
 
@@ -145,20 +147,22 @@ $ rggen -c config.yml -o out uart_csr.yml
 
 Then, generated files will be written to the `out` directory.
 
-If you want to generate Verilog RTL and/or VHDL RTL then you need to instll optional plugins listed below.
+If you want to generate Verilog RTL, Veryl RTL and VHDL RTL then you need to instll optional plugins listed below.
 
 * Verilog writer plugin: [rggen-verilog](https://github.com/rggen/rggen-verilog)
+* Veryl writer plugin: [rggen-veryl](https://github.com/rggen/rggen-veryl)
 * VHDL writer plugin: [rggen-vhdl](https://github.com/rggen/rggen-vhdl)
 
 ```
 $ gem install rggen-verilog
+$ gem install rggen-veryl
 $ gem install rggen-vhdl
 ```
 
 In addition, you need to tell RgGen to use these plugins by using the `--plugin` option switch:
 
 ```
-rggen -c config.yml --plugin rggen-verilog --plugin rggen-vhdl uart_csr.yml
+$ rggen -c config.yml --plugin rggen-verilog --plugin rggen-veryl --plugin rggen-vhdl uart_csr.yml
 ```
 
 RgGen will generate following source files from the [`uart_csr.yml`](https://github.com/rggen/rggen-sample/blob/master/uart_csr.yml) register map specification:
@@ -169,6 +173,8 @@ RgGen will generate following source files from the [`uart_csr.yml`](https://git
 * Verilog RTL
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr.v
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vh
+* Veryl RTL
+    * https://github.com/rggen/rggen-sample/blob/master/uart_csr.veryl
 * VHDL RTL
     * https://github.com/rggen/rggen-sample/blob/master/uart_csr.vhd
 * UVM register model
@@ -202,6 +208,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-spreadsheet-loader
 * https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
+* https://github.com/rggen/rggen-veryl
 * https://github.com/rggen/rggen-vhdl
 * https://github.com/rggen/rggen-docker
 
