@@ -26,6 +26,7 @@ RgGen has following features:
         * Supports standard bus protocols
             * AMBA APB
             * AMBA AXI4-Lite
+            * Avalon-MM
             * Wishbone
     * UVM register model (UVM RAL/uvm_reg)
     * C header file
