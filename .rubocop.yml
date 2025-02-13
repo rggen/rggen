@@ -1,6 +1,6 @@
-<% if File.exist?('rubocop_common.yml') %>
+<% if Gem::Specification.find_all_by_name('rggen-devtools').empty? %>
 inherit_from:
-  - rubocop_common.yml
+  - https://raw.githubusercontent.com/rggen/rggen-devtools/master/config/rubocop_common.yml
   - .rubocop_todo.yml
 <% else %>
 inherit_gem:

@@ -1,0 +1,21 @@
+config_version = "0"
+
+exclude_patterns = [
+  "**/.github/**",
+  "**/spec/**"
+]
+
+test_patterns = [
+  "**/spec/**"
+]
+
+[[source]]
+name = "default"
+default = true
+
+[smells]
+mode = "comment"
+
+[[plugin]]
+name = "rubocop"
+version = "1.64.0"
