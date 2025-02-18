@@ -37,8 +37,6 @@ RgGen has following features:
     * JSON
     * TOML
     * Spreadsheet (XLSX, ODS, CSV)
-    * [SiFive DUH](https://github.com/sifive/duh)
-        * Need [rggen-duh](https://github.com/rggen/rggen-duh) plugin
 * Plugin feature
     * Allow you to customize RgGen for your environment
         * Add your own special bit field types
@@ -207,7 +205,6 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-c-header
 * https://github.com/rggen/rggen-markdown
 * https://github.com/rggen/rggen-spreadsheet-loader
-* https://github.com/rggen/rggen-duh
 * https://github.com/rggen/rggen-verilog
 * https://github.com/rggen/rggen-veryl
 * https://github.com/rggen/rggen-vhdl
