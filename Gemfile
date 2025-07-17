@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gemspec
 
 root = ENV['RGGEN_ROOT'] || File.expand_path('..', __dir__)
-gemfile = File.join(root, 'rggen-devtools', 'gemfile', 'common.gemfile')
+gemfile = File.join(root, 'rggen-devtools', 'Gemfile')
 eval_gemfile(gemfile)
 
 group :rggen do
