@@ -18,4 +18,4 @@ mode = "comment"
 
 [[plugin]]
 name = "rubocop"
-version = "1.64.0"
+version = "1.78.0"
