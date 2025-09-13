@@ -1,8 +1,8 @@
 ![RgGen](logo/rggen.png)
 
 [![Gem Version](https://badge.fury.io/rb/rggen.svg)](https://badge.fury.io/rb/rggen)
-![Docker Pulls](https://img.shields.io/docker/pulls/rggendev/rggen-docker?logo=docker)
-![Homebrew Formula Downloads](https://img.shields.io/homebrew/installs/dy/rggen?logo=homebrew)
+[![Docker Pulls](https://img.shields.io/docker/pulls/rggendev/rggen-docker?logo=docker)](https://hub.docker.com/r/rggendev/rggen-docker)
+[![Homebrew Formula Downloads](https://img.shields.io/homebrew/installs/dy/rggen?logo=homebrew)](https://formulae.brew.sh/formula/rggen)
 
 [![CI](https://github.com/rggen/rggen/workflows/CI/badge.svg)](https://github.com/rggen/rggen/actions?query=workflow%3ACI)
 [![Maintainability](https://qlty.sh/badges/a82c7d7a-e35c-4425-8d7e-26b3d09f587a/maintainability.svg)](https://qlty.sh/gh/rggen/projects/rggen)
