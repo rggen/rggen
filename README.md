@@ -125,7 +125,7 @@ Following EDA tools can accept the generated source files.
 * Simulation tools
     * Synopsys VCS
     * Cadence Xcelium
-    * Metrics DSim
+    * Altair DSim
     * AMD Vivado Simulator
     * Verilator
         * Need `-Wno-unoptflat` switch for Verilog RTL
