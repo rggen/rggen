@@ -31,7 +31,11 @@ jobs:
         run: |
           echo "RGGEN_ROOT=${GITHUB_WORKSPACE}" >> ${GITHUB_ENV}
           echo "RGGEN_REPOSITORY=${GITHUB_REPOSITORY#rggen/}" >> ${GITHUB_ENV}
-          echo "RGGEN_BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "RGGEN_BRANCH=${{ github.event.pull_request.head.ref }}" >> ${GITHUB_ENV}
+          else
+            echo "RGGEN_BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
+          fi
 
       - name: Checkout RgGen devtools
         uses: actions/checkout@v6
