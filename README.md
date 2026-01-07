@@ -133,7 +133,7 @@ Following EDA tools can accept the generated source files.
         * Verilog RTL only
 * Synthesis tools
     * Synopsys Design Compiler
-    * Intel Quartus
+    * Altera Quartus
     * AMD Vivado
     * [Yosys](http://www.clifford.at/yosys/)
         * Verilog RTL
