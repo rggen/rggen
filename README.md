@@ -8,6 +8,7 @@
 [![Maintainability](https://qlty.sh/badges/a82c7d7a-e35c-4425-8d7e-26b3d09f587a/maintainability.svg)](https://qlty.sh/gh/rggen/projects/rggen)
 [![codecov](https://codecov.io/gh/rggen/rggen/branch/master/graph/badge.svg)](https://codecov.io/gh/rggen/rggen)
 [![Discord](https://img.shields.io/discord/1406572699467124806?style=flat&logo=discord)](https://discord.com/invite/KWya83ZZxr)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rggen/rggen)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/A0A231E3I)
 
