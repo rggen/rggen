@@ -74,7 +74,7 @@ jobs:
           bundle exec rake coverage
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         with:
           name: ${{ runner.os }}-${{ matrix.ruby }}-frozen_string_literal-${{ matrix.frozen_string_literal }}
           files: ./coverage/coverage.xml
