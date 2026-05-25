@@ -45,6 +45,7 @@ RgGen has following features:
     * Allow you to customize RgGen for your environment
         * Add your own special bit field types
         * Add your own host bus protocol
+* Browser-based Web UI is available at https://rggen.github.io/rggen-webui/
 
 ## Installation
 
@@ -109,6 +110,16 @@ brew install rggen
 ```
 
 This will automatically install Ruby if needed, and will provide RgGen itself as well as the [VHDL](https://github.com/rggen/rggen-vhdl), [Verilog](https://github.com/rggen/rggen-verilog), and [Veryl](https://github.com/rggen/rggen-very) plugins.
+
+## Web UI
+
+ A browser-based interface is available at **https://rggen.github.io/rggen-webui/**.
+ No installation required — RgGen runs entirely in the browser.
+ 
+ * Define register blocks, registers, and bit fields in an interactive table UI
+ * Generate RTL (SystemVerilog, Verilog, Veryl, VHDL), UVM RAL (uvm_reg), C header, and Markdown documents
+ * Download all outputs as a ZIP archive
+ * Export and import register map definitions as YAML files
 
 ## Usage
 
@@ -223,6 +234,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-veryl
 * https://github.com/rggen/rggen-vhdl
 * https://github.com/rggen/rggen-docker
+* https://github.com/rggen/rggen-webui
 
 ## Copyright & License
 
