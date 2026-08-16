@@ -23,35 +23,49 @@ RSpec.describe RgGen do
     File.join(RGGEN_SAMPLE_DIRECTORY, file)
   end
 
+  let(:gpio) do
+    file = ['gpio.rb', 'gpio.rdl', 'gpio.yml'].sample
+    File.join(RGGEN_SAMPLE_DIRECTORY, file)
+  end
+
   let(:expectations) do
     [
       'block_0.sv',
       'block_1.sv',
       'uart_csr.sv',
+      'gpio.sv',
       'block_0_rtl_pkg.sv',
       'block_1_rtl_pkg.sv',
       'uart_csr_rtl_pkg.sv',
+      'gpio_rtl_pkg.sv',
       'block_0_ral_pkg.sv',
       'block_1_ral_pkg.sv',
       'uart_csr_ral_pkg.sv',
+      'gpio_ral_pkg.sv',
       'block_0.h',
       'block_1.h',
       'uart_csr.h',
+      'gpio.h',
       'block_0.md',
       'block_1.md',
       'uart_csr.md',
+      'gpio.md',
       'block_0.v',
       'block_1.v',
       'uart_csr.v',
+      'gpio.v',
       'block_0.vh',
       'block_1.vh',
       'uart_csr.vh',
+      'gpio.vh',
       'block_0.vhd',
       'block_1.vhd',
       'uart_csr.vhd',
+      'gpio.vhd',
       'block_0.veryl',
       'block_1.veryl',
       'uart_csr.veryl',
+      'gpio.veryl'
     ].map { |file| ["./#{file}", read_sample(file)] }.to_h
   end
 
@@ -70,7 +84,8 @@ RSpec.describe RgGen do
       '--plugin', 'rggen-verilog',
       '--plugin', 'rggen-vhdl',
       '--plugin', 'rggen-veryl',
-      block_0, block_1, uart_csr
+      '--plugin', 'rggen-systemrdl',
+      block_0, block_1, uart_csr, gpio
     ])
     actual.each do |path, content|
       expect(content).to eq expectations[path]

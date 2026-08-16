@@ -40,6 +40,8 @@ RgGen has following features:
     * JSON
     * TOML
     * Spreadsheet (XLSX, ODS, CSV)
+    * SystemRDL
+        * Need [rggen-systemrdl](https://github.com/rggen/rggen-systemrdl) plugin
 * Plugin feature
     * Allow you to customize RgGen for your environment
         * Add your own special bit field types
@@ -114,7 +116,7 @@ This will automatically install Ruby if needed, and will provide RgGen itself as
 
  A browser-based interface is available at **https://rggen.github.io/rggen-webui/**.
  No installation required — RgGen runs entirely in the browser.
- 
+
  * Define register blocks, registers, and bit fields in an interactive table UI
  * Generate RTL (SystemVerilog, Verilog, Veryl, VHDL), UVM RAL (uvm_reg), C header, and Markdown documents
  * Download all outputs as a ZIP archive
@@ -229,6 +231,7 @@ Feedbacks, bug reports, questions and etc. are wellcome! You can post them by us
 * https://github.com/rggen/rggen-c-header
 * https://github.com/rggen/rggen-markdown
 * https://github.com/rggen/rggen-spreadsheet-loader
+* https://github.com/rggen/rggen-systemrdl
 * https://github.com/rggen/rggen-verilog
 * https://github.com/rggen/rggen-veryl
 * https://github.com/rggen/rggen-vhdl
