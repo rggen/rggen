@@ -213,6 +213,12 @@ RgGen will generate following source files from the [`uart_csr.yml`](https://git
 
 See [Contributing Guide](CONTRIBUTING.md).
 
+## Publications
+
+* Taichi Ishitani. RgGen: An Open-Source CSR Automation Tool. September 2026. In Design & Verification Conference & Exhibition (DVCon) Japan 2026.
+    * [Paper](https://raw.githubusercontent.com/rggen/publications/master/rggen_dvcon_paper.pdf)
+    * [Slide](https://raw.githubusercontent.com/rggen/publications/master/rggen_dvcon_slide.pdf)
+
 ## Contact
 
 Feedbacks, bug reports, questions and etc. are wellcome! You can post them by using following ways:
